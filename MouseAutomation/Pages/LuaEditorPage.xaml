@@ -1,0 +1,48 @@
+﻿<ui:UiPage x:Class="MouseAutomation.Pages.LuaEditorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:controls="clr-namespace:MouseAutomation.Controls"
+      mc:Ignorable="d"
+      IsVisibleChanged="LuaEditorPage_OnIsVisibleChanged"
+      Title="Lua Editor">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+
+        <controls:AvalonLuaEditor x:Name="LuaEditor" Grid.Row="1" />
+
+        <StatusBar Grid.Row="2" Foreground="White" Background="#006CBF" BorderBrush="#444444" 
+                   BorderThickness="0,.9,0,0" 
+                   Padding="0">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Status:"></TextBlock>
+                    <TextBlock Text="{Binding Path=StatusText}" Margin="5,0,0,0"></TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem DockPanel.Dock="Right">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Mouse Polling:" Margin="5,0,0,0"></TextBlock>
+                    <TextBlock Text="{Binding Path=AppSettings.PollingInterval}" Margin="5,0,0,0"></TextBlock>
+                    <TextBlock Text="ms" Margin="0,0,0,0"></TextBlock>
+
+                    <TextBlock Text="x:" Margin="10,0,0,0"></TextBlock>
+                    <TextBlock Text="{Binding Path=X}" Margin="5,0,0,0"></TextBlock>
+
+                    <TextBlock Text="y:" Margin="5,0,0,0"></TextBlock>
+                    <TextBlock Text="{Binding Path=Y}" Margin="5,0,10,0"></TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <!-- This empty StatusBarItem pulls the previous item to the right -->
+            <StatusBarItem>
+                <TextBlock></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</ui:UiPage>
