@@ -26,6 +26,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
+using System.Diagnostics;
 
 namespace MouseAutomation.Controls
 {
@@ -100,14 +101,21 @@ namespace MouseAutomation.Controls
             var luaPage = AppServices.GetRequiredService<LuaEditorPage>();
             _executionControlToken = new();
 
+            var sw = new Stopwatch();
+
             try
             {
+                sw.Start();
                 _ = await this.Script.DoStringAsync(_executionControlToken, this.Editor.Text);
+                sw.Stop();
+                luaPage.StatusText = $"Completed => Runtime {sw.ElapsedMilliseconds / 1000}s";
             }
             catch (Exception ex)
             {
-                luaPage.StatusText = $"Error: {ex.Message}";
+                sw.Stop();
+                luaPage.StatusText = $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
             }
+
         }
 
         /// <summary>
