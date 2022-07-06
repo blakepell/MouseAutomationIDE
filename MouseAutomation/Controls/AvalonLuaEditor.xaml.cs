@@ -65,6 +65,18 @@ namespace MouseAutomation.Controls
             set => SetValue(PlayButtonEnabledProperty, value);
         }
 
+        public static readonly DependencyProperty PlayButtonBrushProperty = DependencyProperty.Register(
+            "PlayButtonBrush", typeof(SolidColorBrush), typeof(AvalonLuaEditor), new PropertyMetadata(Brushes.Green));
+
+        /// <summary>
+        /// The color of the play button.
+        /// </summary>
+        public SolidColorBrush PlayButtonBrush
+        {
+            get => (SolidColorBrush)GetValue(PlayButtonBrushProperty);
+            set => SetValue(PlayButtonBrushProperty, value);
+        }
+
         public AvalonLuaEditor()
         {
             InitializeComponent();
@@ -117,6 +129,7 @@ namespace MouseAutomation.Controls
             _executionControlToken = new();
 
             this.PlayButtonEnabled = false;
+            this.PlayButtonBrush = Brushes.Gray;
 
             var sw = new Stopwatch();
 
@@ -135,6 +148,7 @@ namespace MouseAutomation.Controls
             finally
             {
                 this.PlayButtonEnabled = true;
+                this.PlayButtonBrush = Brushes.Green;
             }
         }
 
