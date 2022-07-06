@@ -134,6 +134,40 @@ namespace MouseAutomation.Lua
         }
 
         /// <summary>
+        /// Hides the IDE window.
+        /// </summary>
+        [Description("Hides the IDE window.")]
+        public void HideWindow()
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(this.HideWindow));
+                return;
+            }
+
+            var win = AppServices.GetRequiredService<MainWindow>();
+            win.Hide();
+        }
+
+        /// <summary>
+        /// Shows the IDE window.
+        /// </summary>
+        [Description("Shows the IDE window.")]
+        public void ShowWindow()
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(this.ShowWindow));
+                return;
+            }
+
+            var win = AppServices.GetRequiredService<MainWindow>();
+            win.Show();
+        }
+
+        /// <summary>
         /// Pauses the lua script for a designated amount of milliseconds.  This should work with both
         /// sync and not sync Lua calls.
         /// </summary>
