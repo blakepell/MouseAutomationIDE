@@ -159,7 +159,7 @@ namespace MouseAutomation.Controls
         /// <param name="e"></param>
         private void ButtonStop_OnClick(object sender, RoutedEventArgs e)
         {
-            _executionControlToken.Terminate();
+            _executionControlToken?.Terminate();
         }
 
         /// <summary>
