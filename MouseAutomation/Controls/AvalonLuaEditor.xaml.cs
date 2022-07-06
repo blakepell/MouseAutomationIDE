@@ -41,12 +41,29 @@ namespace MouseAutomation.Controls
         CompletionWindow _completionWindow;
 
         /// <summary>
+        /// Used to cancel scripts.
+        /// </summary>
+        private ExecutionControlToken _executionControlToken;
+
+        /// <summary>
         /// Whether or not the syntax highlighting has been loaded, for use if Loaded is called multiple
         /// times which seems to be happening when the control is made visible.
         /// </summary>
         private bool _isSyntaxLoaded = false;
 
         private Script Script { get; set; }
+
+        public static readonly DependencyProperty PlayButtonEnabledProperty = DependencyProperty.Register(
+            nameof(PlayButtonEnabled), typeof(bool), typeof(AvalonLuaEditor), new PropertyMetadata(true));
+
+        /// <summary>
+        /// If a Lua script is currently running.
+        /// </summary>
+        public bool PlayButtonEnabled
+        {
+            get => (bool)GetValue(PlayButtonEnabledProperty);
+            set => SetValue(PlayButtonEnabledProperty, value);
+        }
 
         public AvalonLuaEditor()
         {
@@ -89,8 +106,6 @@ namespace MouseAutomation.Controls
             Editor.TextArea.TextEntered += AvalonLuaEditor_TextEntered;
         }
 
-        private ExecutionControlToken _executionControlToken;
-
         /// <summary>
         /// Runs a Lua script in the control.
         /// </summary>
@@ -100,6 +115,8 @@ namespace MouseAutomation.Controls
         {
             var luaPage = AppServices.GetRequiredService<LuaEditorPage>();
             _executionControlToken = new();
+
+            this.PlayButtonEnabled = false;
 
             var sw = new Stopwatch();
 
@@ -115,7 +132,10 @@ namespace MouseAutomation.Controls
                 sw.Stop();
                 luaPage.StatusText = $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
             }
-
+            finally
+            {
+                this.PlayButtonEnabled = true;
+            }
         }
 
         /// <summary>

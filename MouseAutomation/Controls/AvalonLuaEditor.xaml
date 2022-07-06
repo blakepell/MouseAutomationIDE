@@ -17,7 +17,7 @@
 
         <ToolBarTray Grid.Row="0" Margin="0,0,0,0">
             <ToolBar>
-                <Button Click="ButtonRunLua_OnClick">
+                <Button Click="ButtonRunLua_OnClick" IsEnabled="{Binding Path=PlayButtonEnabled}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <iconPacks:PackIconMaterial Kind="Play" Foreground="Green" Margin="0,2,0,0" />
