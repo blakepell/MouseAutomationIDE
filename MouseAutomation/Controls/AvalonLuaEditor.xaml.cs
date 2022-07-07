@@ -19,15 +19,17 @@ using MouseAutomation.Lua;
 using MouseAutomation.Pages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
-using System.Diagnostics;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace MouseAutomation.Controls
 {
@@ -86,7 +88,7 @@ namespace MouseAutomation.Controls
 
         public static readonly DependencyProperty PlayButtonBrushProperty = DependencyProperty.Register(
             "PlayButtonBrush", typeof(SolidColorBrush), typeof(AvalonLuaEditor), new PropertyMetadata(Brushes.Green));
-        
+
         /// <summary>
         /// The color of the play button.
         /// </summary>
@@ -95,6 +97,10 @@ namespace MouseAutomation.Controls
             get => (SolidColorBrush)GetValue(PlayButtonBrushProperty);
             set => SetValue(PlayButtonBrushProperty, value);
         }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetCursorPos(out System.Drawing.Point point);
 
         public AvalonLuaEditor()
         {
@@ -402,6 +408,7 @@ namespace MouseAutomation.Controls
                 {
                     break;
                 }
+
                 if (Regex.IsMatch(text, @".*[^A-Za-z\. ]"))
                 {
                     break;
@@ -509,20 +516,24 @@ namespace MouseAutomation.Controls
 
         private void MouseHookOnMouseMove(MouseHook.MSLLHOOKSTRUCT mouse)
         {
+            // So we're using the mouse hook to only get the info when the mouse moves
+            // but also, it's wrong with DPI stuff.. so we'll then just make the call (knowing
+            // the coordinates are different) to GetCursorPos which will correctly return
+            // the values.
+            GetCursorPos(out System.Drawing.Point p);
+
             this.LuaEditorPage ??= AppServices.GetRequiredService<LuaEditorPage>();
-            this.LuaEditorPage.X = mouse.pt.x;
-            this.LuaEditorPage.Y = mouse.pt.y;
+            this.LuaEditorPage.X = p.X;
+            this.LuaEditorPage.Y = p.Y;
 
             var e = new MouseEvent
             {
-                X = mouse.pt.x,
-                Y = mouse.pt.y,
+                X = p.X,
+                Y = p.Y,
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this.RecorderStopwatch.ElapsedMilliseconds)
             };
 
             this.MouseEvents.Add(e);
-
-            //_scriptBuilder.Append("mouse.SetPosition(").Append(mouse.pt.x).Append(", ").Append(mouse.pt.y).Append(")\r\n");
         }
     }
 }
