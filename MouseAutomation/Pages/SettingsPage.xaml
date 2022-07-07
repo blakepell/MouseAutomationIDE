@@ -34,6 +34,11 @@
                     TickFrequency="10"
                     ValueChanged="PollingInterval_OnValueChanged"
                     Value="{Binding PollingInterval}" />
+
+            <CheckBox IsChecked="{Binding AutoSaveOnExit}"
+                Grid.Column="0"
+                Margin="0,8,0,0"
+                Content="Auto Save on Exit" />
         </StackPanel>
     </Grid>
 </ui:UiPage>

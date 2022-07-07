@@ -19,5 +19,15 @@ namespace MouseAutomation.Common
             get => (int)GetValue(PollingIntervalProperty);
             set => SetValue(PollingIntervalProperty, value);
         }
+
+        [JsonIgnore]
+        public static readonly DependencyProperty AutoSaveOnExitProperty = DependencyProperty.Register(
+            nameof(AutoSaveOnExit), typeof(bool), typeof(AppSettings), new PropertyMetadata(true));
+
+        public bool AutoSaveOnExit
+        {
+            get => (bool)GetValue(AutoSaveOnExitProperty);
+            set => SetValue(AutoSaveOnExitProperty, value);
+        }
     }
 }

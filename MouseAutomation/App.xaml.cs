@@ -43,9 +43,15 @@ namespace MouseAutomation
             // Make sure to show the mouse when we exit in case a script hid it.
             Mouse.MouseShow();
 
-            // Save the settings.
-            var file = new Argus.IO.JsonFileService(Environment.SpecialFolder.LocalApplicationData, APP_FOLDER);
             var appSettings = AppServices.GetRequiredService<AppSettings>() ?? new AppSettings();
+
+            // Save the settings.
+            if (!appSettings.AutoSaveOnExit)
+            {
+                appSettings.AutoSaveText = null;
+            }
+
+            var file = new Argus.IO.JsonFileService(Environment.SpecialFolder.LocalApplicationData, APP_FOLDER);
             await file.SaveAsync(appSettings, "AppSettings.json");
         }
     }
