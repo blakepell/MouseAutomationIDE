@@ -149,6 +149,7 @@ namespace MouseAutomation.Lua
             // the parameters as an overload.
             if (string.IsNullOrWhiteSpace((string)lcd.Description))
             {
+                sb.AppendLine("Function");
                 sb.AppendLine($"{method.Name} => Returns {method.ReturnType}");
                 sb.Replace("System.Void", "nothing");
 
