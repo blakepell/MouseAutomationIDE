@@ -21,6 +21,11 @@ namespace MouseAutomation
     {
         private const string APP_FOLDER = "MouseAutomation";
 
+        /// <summary>
+        /// MouseHook class for use with recording mouse macros.
+        /// </summary>
+        internal static MouseHook MouseHook = new();
+
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
             try
@@ -35,6 +40,15 @@ namespace MouseAutomation
             catch
             {
                 AppServices.AddSingleton(new AppSettings());
+            }
+
+            try
+            {
+                MouseHook.Install();
+            }
+            catch (Exception ex)
+            {
+                // TODO: Logging
             }
         }
 
@@ -53,6 +67,15 @@ namespace MouseAutomation
 
             var file = new Argus.IO.JsonFileService(Environment.SpecialFolder.LocalApplicationData, APP_FOLDER);
             await file.SaveAsync(appSettings, "AppSettings.json");
+
+            try
+            {
+                MouseHook.Uninstall();
+            }
+            catch (Exception exception)
+            {
+                // TODO: Logging
+            }
         }
     }
 }
