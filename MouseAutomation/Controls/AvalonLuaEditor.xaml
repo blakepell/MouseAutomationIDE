@@ -18,6 +18,7 @@
         <ToolBarTray Grid.Row="0" Margin="0,0,0,0" Height="30"  VerticalAlignment="Top">
             <ToolBar>
                 <Button Click="ButtonRunLua_OnClick" IsEnabled="{Binding Path=PlayButtonEnabled}"
+                        ToolTip="Stop HotKey: F5"
                         Margin="0,0,0,0"
                         BorderThickness="0">
                     <Button.Content>
@@ -32,6 +33,7 @@
                     </Button.Content>
                 </Button>
                 <Button Click="ButtonStop_OnClick"
+                        ToolTip="Stop HotKey: F6"
                         Margin="0,0,0,0"
                         BorderThickness="0">
                     <Button.Content>
@@ -42,6 +44,22 @@
                                                         Width="14"
                                                         Margin="0,-13,0,0" />
                             <TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="#DDDDDD" Margin="8,-14,0,0">Stop</TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </ToolBar>
+            <ToolBar>
+                <Button Click="ButtonStop_OnClick"
+                        Margin="0,0,0,0"
+                        BorderThickness="0">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Margin="0">
+                            <iconPacks:PackIconMaterial Kind="Record" 
+                                                        Foreground="#C04048" 
+                                                        Height="14"
+                                                        Width="14"
+                                                        Margin="0,-13,0,0" />
+                            <TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="#DDDDDD" Margin="8,-14,0,0">Record</TextBlock>
                         </StackPanel>
                     </Button.Content>
                 </Button>

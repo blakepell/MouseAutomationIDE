@@ -125,6 +125,11 @@ namespace MouseAutomation.Controls
         /// <param name="e"></param>
         private async void ButtonRunLua_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!this.PlayButtonEnabled)
+            {
+                return;
+            }
+
             var luaPage = AppServices.GetRequiredService<LuaEditorPage>();
             _executionControlToken = new();
 
@@ -296,7 +301,14 @@ namespace MouseAutomation.Controls
 
                 _completionWindow.Show();
                 _completionWindow.Closed += (sender, args) => _completionWindow = null;
-
+            }
+            else if (e.Key == Key.F5)
+            {
+                ButtonRunLua_OnClick(sender, e);
+            }
+            else if (Keyboard.IsKeyDown(Key.F6))
+            {
+                ButtonStop_OnClick(sender, e);
             }
         }
 

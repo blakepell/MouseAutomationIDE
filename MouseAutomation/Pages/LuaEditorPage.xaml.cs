@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Argus.Memory;
 using Argus.Windows;
+using MouseAutomation.Controls;
 
 namespace MouseAutomation.Pages
 {
@@ -63,24 +64,23 @@ namespace MouseAutomation.Pages
 
         public LuaEditorPage()
         {
-            // Initialize the timer before the components.
-            this.Timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(10)
-            };
-
-            this.StatusText = $"Mouse polling at {this.Timer.Interval.Milliseconds}ms";
-
             this.InitializeComponent();
             this.AppSettings = AppServices.GetRequiredService<AppSettings>();
             this.DataContext = this;
             this.LuaEditor.Editor.Text = this.AppSettings.AutoSaveText;
 
             // Setup the mouse polling event.
+            this.Timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(this.AppSettings.PollingInterval)
+            };
+
             this.Timer.Tick += this.Timer_Tick;
             this.Timer.Start();
 
             AppServices.AddSingleton(this);
+
+            this.StatusText = "Idle";
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -96,6 +96,10 @@ namespace MouseAutomation.Pages
 
             this.X = Mouse.X();
             this.Y = Mouse.Y();
+
+            //var editor = AppServices.GetRequiredService<AvalonLuaEditor>();
+            //editor.Editor.AppendText($"mouse.SetPosition({this.X}, {this.Y})\r\n");
+            //editor.Editor.AppendText($"ui.Pause({this.AppSettings.PollingInterval})\r\n");
         }
 
         private void LuaEditorPage_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

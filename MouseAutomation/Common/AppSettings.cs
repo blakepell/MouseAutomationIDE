@@ -12,7 +12,7 @@ namespace MouseAutomation.Common
 
         [JsonIgnore]
         public static readonly DependencyProperty PollingIntervalProperty = DependencyProperty.Register(
-            nameof(PollingInterval), typeof(int), typeof(AppSettings), new PropertyMetadata(10));
+            nameof(PollingInterval), typeof(int), typeof(AppSettings), new PropertyMetadata(100));
 
         public int PollingInterval
         {
