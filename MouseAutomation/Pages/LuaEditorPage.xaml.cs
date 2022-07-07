@@ -7,13 +7,11 @@
  * @license           : Closed Source
  */
 
-using System;
+using Argus.Memory;
 using MouseAutomation.Common;
+using System;
 using System.Windows;
 using System.Windows.Threading;
-using Argus.Memory;
-using Argus.Windows;
-using MouseAutomation.Controls;
 
 namespace MouseAutomation.Pages
 {
@@ -85,17 +83,6 @@ namespace MouseAutomation.Pages
 
         private void Timer_Tick(object? sender, EventArgs e)
         {
-            int x = Mouse.X();
-            int y = Mouse.Y();
-
-            // If there is no change ditch out early.
-            if (this.X == x || this.Y == y)
-            {
-                return;
-            }
-
-            this.X = Mouse.X();
-            this.Y = Mouse.Y();
 
             //var editor = AppServices.GetRequiredService<AvalonLuaEditor>();
             //editor.Editor.AppendText($"mouse.SetPosition({this.X}, {this.Y})\r\n");
