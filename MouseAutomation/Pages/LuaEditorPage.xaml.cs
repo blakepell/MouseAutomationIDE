@@ -11,7 +11,6 @@ using Argus.Memory;
 using MouseAutomation.Common;
 using System;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace MouseAutomation.Pages
 {
@@ -19,10 +18,10 @@ namespace MouseAutomation.Pages
     {
         public AppSettings AppSettings { get; set; }
 
-        /// <summary>
-        /// The dispatch timer responsible for polling the mouse coordinates.
-        /// </summary>
-        public DispatcherTimer Timer { get; set; }
+        ///// <summary>
+        ///// The dispatch timer responsible for polling the mouse coordinates.
+        ///// </summary>
+        //public DispatcherTimer Timer { get; set; }
 
         public static readonly DependencyProperty XProperty = DependencyProperty.Register(
             nameof(X), typeof(int), typeof(LuaEditorPage), new PropertyMetadata(default(int)));
@@ -68,13 +67,13 @@ namespace MouseAutomation.Pages
             this.LuaEditor.Editor.Text = this.AppSettings.AutoSaveText;
 
             // Setup the mouse polling event.
-            this.Timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(this.AppSettings.PollingInterval)
-            };
+            //this.Timer = new DispatcherTimer
+            //{
+            //    Interval = TimeSpan.FromMilliseconds(this.AppSettings.PollingInterval)
+            //};
 
-            this.Timer.Tick += this.Timer_Tick;
-            this.Timer.Start();
+            //this.Timer.Tick += this.Timer_Tick;
+            //this.Timer.Start();
 
             AppServices.AddSingleton(this);
 

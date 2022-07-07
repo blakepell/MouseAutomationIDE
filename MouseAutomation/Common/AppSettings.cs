@@ -1,4 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿/*
+ * Mouse Automation IDE
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2022 All rights reserved.
+ * @license           : Closed Source
+ */
+
+using System.Text.Json.Serialization;
 using System.Windows;
 
 namespace MouseAutomation.Common

@@ -29,7 +29,7 @@ namespace MouseAutomation.Pages
         private void PollingInterval_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var page = AppServices.GetRequiredService<LuaEditorPage>();
-            page.Timer.Interval = TimeSpan.FromMilliseconds(e.NewValue);
+            //page.Timer.Interval = TimeSpan.FromMilliseconds(e.NewValue);
         }
     }
 }

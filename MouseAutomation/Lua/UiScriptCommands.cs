@@ -11,8 +11,10 @@ using Argus.Memory;
 using MouseAutomation.Pages;
 using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace MouseAutomation.Lua
 {
@@ -168,14 +170,42 @@ namespace MouseAutomation.Lua
         }
 
         /// <summary>
-        /// Pauses the lua script for a designated amount of milliseconds.  This should work with both
-        /// sync and not sync Lua calls.
+        /// Will pause the Lua script for the designated amount of milliseconds.  This is not async
+        /// so it will block the Lua (but since Lua is called async the rest of the program continues
+        /// to work).  This will be an incredibly useful and powerful command for those crafting Lua scripts.
         /// </summary>
         /// <param name="milliseconds"></param>
         [Description("Pauses a Lua script for the designated amount of milliseconds.")]
         public void Pause(int milliseconds)
         {
+            // ReSharper disable once AsyncConverter.AsyncWait
             Task.Delay(milliseconds).Wait();
+        }
+
+        /// <summary>
+        /// Pauses the lua script for a designated amount of milliseconds.  This should work with both
+        /// sync and not sync Lua calls.
+        /// </summary>
+        /// <param name="milliseconds"></param>
+        [Description("Pauses a Lua script for the designated amount of milliseconds.")]
+        public void PauseAsync(int milliseconds)
+        {
+            DispatcherFrame df = new DispatcherFrame();
+
+            new Thread(() =>
+            {
+                Thread.Sleep(TimeSpan.FromMilliseconds(milliseconds));
+                df.Continue = false;
+
+            }).Start();
+
+            Dispatcher.PushFrame(df);
+        }
+
+        [Description("Calls Thread.Sleep for the specified number of milliseconds.")]
+        public void Sleep(int milliseconds)
+        {
+            Thread.Sleep(milliseconds);
         }
     }
 }

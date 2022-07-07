@@ -18,6 +18,7 @@ using MouseAutomation.Common;
 using MouseAutomation.Lua;
 using MouseAutomation.Pages;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -57,6 +58,16 @@ namespace MouseAutomation.Controls
         private LuaEditorPage? LuaEditorPage;
 
         /// <summary>
+        /// A list of recorded mouse events.
+        /// </summary>
+        public List<MouseEvent> MouseEvents = new();
+
+        /// <summary>
+        /// A <see cref="Stopwatch"/> used to record the time a mouse event occurred.
+        /// </summary>
+        private Stopwatch RecorderStopwatch = new();
+
+        /// <summary>
         /// Lua Interpreter
         /// </summary>
         private Script Script { get; set; }
@@ -75,7 +86,7 @@ namespace MouseAutomation.Controls
 
         public static readonly DependencyProperty PlayButtonBrushProperty = DependencyProperty.Register(
             "PlayButtonBrush", typeof(SolidColorBrush), typeof(AvalonLuaEditor), new PropertyMetadata(Brushes.Green));
-
+        
         /// <summary>
         /// The color of the play button.
         /// </summary>
@@ -174,8 +185,37 @@ namespace MouseAutomation.Controls
         {
             _executionControlToken?.Terminate();
 
+            if (!this.RecorderStopwatch.IsRunning)
+            {
+                return;
+            }
+
+            this.RecorderStopwatch.Stop();
+
             // Unwire any mouse hooks that might exist.
             App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
+
+            this.LuaEditorPage.StatusText = $"{this.MouseEvents.Count} events recorded.";
+
+            for (int i = this.MouseEvents.Count - 1; i > 0; i--)
+            {
+                var ts = this.MouseEvents[i].TimeSpan - this.MouseEvents[i - 1].TimeSpan;
+                this.MouseEvents[i].DelayMilliseconds = Convert.ToInt32(ts.Value.TotalMilliseconds);
+            }
+
+            var sb = new StringBuilder();
+
+            foreach (var ev in this.MouseEvents)
+            {
+                sb.Append($"mouse.SetPosition({ev.X}, {ev.Y})\r\n");
+
+                if (ev.DelayMilliseconds > 0)
+                {
+                    sb.Append($"ui.Sleep({ev.DelayMilliseconds})\r\n");
+                }
+            }
+
+            this.Editor.Text = sb.ToString();
         }
 
         /// <summary>
@@ -462,6 +502,8 @@ namespace MouseAutomation.Controls
 
         private void ButtonRecord_OnClick(object sender, RoutedEventArgs e)
         {
+            this.MouseEvents.Clear();
+            RecorderStopwatch.Restart();
             App.MouseHook.MouseMove += MouseHookOnMouseMove;
         }
 
@@ -470,6 +512,15 @@ namespace MouseAutomation.Controls
             this.LuaEditorPage ??= AppServices.GetRequiredService<LuaEditorPage>();
             this.LuaEditorPage.X = mouse.pt.x;
             this.LuaEditorPage.Y = mouse.pt.y;
+
+            var e = new MouseEvent
+            {
+                X = mouse.pt.x,
+                Y = mouse.pt.y,
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this.RecorderStopwatch.ElapsedMilliseconds)
+            };
+
+            this.MouseEvents.Add(e);
 
             //_scriptBuilder.Append("mouse.SetPosition(").Append(mouse.pt.x).Append(", ").Append(mouse.pt.y).Append(")\r\n");
         }
