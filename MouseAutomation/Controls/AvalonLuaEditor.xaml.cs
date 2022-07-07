@@ -51,6 +51,14 @@ namespace MouseAutomation.Controls
         /// </summary>
         private bool _isSyntaxLoaded = false;
 
+        /// <summary>
+        /// A reference to the LuaEditorPage this control resides on.
+        /// </summary>
+        private LuaEditorPage? LuaEditorPage;
+
+        /// <summary>
+        /// Lua Interpreter
+        /// </summary>
         private Script Script { get; set; }
 
         public static readonly DependencyProperty PlayButtonEnabledProperty = DependencyProperty.Register(
@@ -113,7 +121,7 @@ namespace MouseAutomation.Controls
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
         {
             this.SetupLuaEditor();
-            
+
             Editor.TextArea.TextEntering += AvalonLuaEditor_TextEntering;
             Editor.TextArea.TextEntered += AvalonLuaEditor_TextEntered;
         }
@@ -165,6 +173,9 @@ namespace MouseAutomation.Controls
         private void ButtonStop_OnClick(object sender, RoutedEventArgs e)
         {
             _executionControlToken?.Terminate();
+
+            // Unwire any mouse hooks that might exist.
+            App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
         }
 
         /// <summary>
@@ -215,7 +226,7 @@ namespace MouseAutomation.Controls
                     {
                         Color = new HighlightingColor()
                         {
-                            Foreground = new CustomizedBrush((Color) ColorConverter.ConvertFromString(("#DCDCAA")))
+                            Foreground = new CustomizedBrush((Color)ColorConverter.ConvertFromString(("#DCDCAA")))
                         }
                     };
 
@@ -279,7 +290,7 @@ namespace MouseAutomation.Controls
             {
                 // Open code completion after the user has pressed dot
                 _completionWindow = new CompletionWindow(Editor.TextArea);
-                var data = _completionWindow.CompletionList.CompletionData;                
+                var data = _completionWindow.CompletionList.CompletionData;
                 LuaCompletion.LoadCompletionData(data, word);
             }
 
@@ -426,7 +437,7 @@ namespace MouseAutomation.Controls
                 return;
             }
 
-            var sb = Argus.Memory.StringBuilderPool.Take();
+            var sb = StringBuilderPool.Take();
             string code = this.Editor.SelectedText;
             var lines = this.Editor.SelectedText.Split('\n');
 
@@ -446,7 +457,21 @@ namespace MouseAutomation.Controls
 
             this.Editor.SelectedText = sb.ToString();
 
-            Argus.Memory.StringBuilderPool.Return(sb);
+            StringBuilderPool.Return(sb);
+        }
+
+        private void ButtonRecord_OnClick(object sender, RoutedEventArgs e)
+        {
+            App.MouseHook.MouseMove += MouseHookOnMouseMove;
+        }
+
+        private void MouseHookOnMouseMove(MouseHook.MSLLHOOKSTRUCT mouse)
+        {
+            this.LuaEditorPage ??= AppServices.GetRequiredService<LuaEditorPage>();
+            this.LuaEditorPage.X = mouse.pt.x;
+            this.LuaEditorPage.Y = mouse.pt.y;
+
+            //_scriptBuilder.Append("mouse.SetPosition(").Append(mouse.pt.x).Append(", ").Append(mouse.pt.y).Append(")\r\n");
         }
     }
 }

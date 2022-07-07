@@ -49,7 +49,7 @@
                 </Button>
             </ToolBar>
             <ToolBar>
-                <Button Click="ButtonStop_OnClick"
+                <Button Click="ButtonRecord_OnClick"
                         Margin="0,0,0,0"
                         BorderThickness="0">
                     <Button.Content>
