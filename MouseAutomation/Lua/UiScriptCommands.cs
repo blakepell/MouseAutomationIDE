@@ -11,6 +11,7 @@ using Argus.Memory;
 using MouseAutomation.Pages;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,6 +22,7 @@ namespace MouseAutomation.Lua
     /// <summary>
     /// UI Script Commands
     /// </summary>
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class UIScriptCommands
     {
         /// <summary>

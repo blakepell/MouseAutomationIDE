@@ -57,7 +57,7 @@ namespace MouseAutomation.Controls
         /// <summary>
         /// A reference to the LuaEditorPage this control resides on.
         /// </summary>
-        private LuaEditorPage? LuaEditorPage;
+        private LuaEditorPage? _luaEditorPage;
 
         /// <summary>
         /// A list of recorded mouse events.
@@ -67,7 +67,7 @@ namespace MouseAutomation.Controls
         /// <summary>
         /// A <see cref="Stopwatch"/> used to record the time a mouse event occurred.
         /// </summary>
-        private Stopwatch RecorderStopwatch = new();
+        private Stopwatch _recorderStopwatch = new();
 
         /// <summary>
         /// Lua Interpreter
@@ -191,17 +191,17 @@ namespace MouseAutomation.Controls
         {
             _executionControlToken?.Terminate();
 
-            if (!this.RecorderStopwatch.IsRunning)
+            if (!this._recorderStopwatch.IsRunning)
             {
                 return;
             }
 
-            this.RecorderStopwatch.Stop();
+            this._recorderStopwatch.Stop();
 
             // Unwire any mouse hooks that might exist.
             App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
 
-            this.LuaEditorPage.StatusText = $"{this.MouseEvents.Count} events recorded.";
+            this._luaEditorPage.StatusText = $"{this.MouseEvents.Count} events recorded.";
 
             for (int i = this.MouseEvents.Count - 1; i > 0; i--)
             {
@@ -449,8 +449,7 @@ namespace MouseAutomation.Controls
                 return;
             }
 
-            var sb = Argus.Memory.StringBuilderPool.Take();
-            string code = this.Editor.SelectedText;
+            var sb = StringBuilderPool.Take();
             var lines = this.Editor.SelectedText.Split('\n');
 
             foreach (var line in lines)
@@ -469,7 +468,7 @@ namespace MouseAutomation.Controls
 
             this.Editor.SelectedText = sb.ToString();
 
-            Argus.Memory.StringBuilderPool.Return(sb);
+            StringBuilderPool.Return(sb);
         }
 
         /// <summary>
@@ -485,7 +484,6 @@ namespace MouseAutomation.Controls
             }
 
             var sb = StringBuilderPool.Take();
-            string code = this.Editor.SelectedText;
             var lines = this.Editor.SelectedText.Split('\n');
 
             foreach (var line in lines)
@@ -510,7 +508,7 @@ namespace MouseAutomation.Controls
         private void ButtonRecord_OnClick(object sender, RoutedEventArgs e)
         {
             this.MouseEvents.Clear();
-            RecorderStopwatch.Restart();
+            _recorderStopwatch.Restart();
             App.MouseHook.MouseMove += MouseHookOnMouseMove;
         }
 
@@ -522,15 +520,15 @@ namespace MouseAutomation.Controls
             // the values.
             GetCursorPos(out System.Drawing.Point p);
 
-            this.LuaEditorPage ??= AppServices.GetRequiredService<LuaEditorPage>();
-            this.LuaEditorPage.X = p.X;
-            this.LuaEditorPage.Y = p.Y;
+            this._luaEditorPage ??= AppServices.GetRequiredService<LuaEditorPage>();
+            this._luaEditorPage.X = p.X;
+            this._luaEditorPage.Y = p.Y;
 
             var e = new MouseEvent
             {
                 X = p.X,
                 Y = p.Y,
-                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this.RecorderStopwatch.ElapsedMilliseconds)
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 
             this.MouseEvents.Add(e);

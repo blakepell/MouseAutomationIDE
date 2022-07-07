@@ -29,7 +29,6 @@
         </ui:TitleBar>
 
         <Grid
-            x:Name="RootMainGrid"
             Grid.Row="1"
             Margin="0">
             <Grid.ColumnDefinitions>

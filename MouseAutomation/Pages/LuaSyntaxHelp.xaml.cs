@@ -7,8 +7,6 @@
  * @license           : Closed Source
  */
 
-using System;
-using System.Windows;
 using Argus.Memory;
 using MouseAutomation.Common;
 

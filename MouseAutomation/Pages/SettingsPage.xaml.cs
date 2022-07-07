@@ -7,10 +7,9 @@
  * @license           : Closed Source
  */
 
-using System;
-using System.Windows;
 using Argus.Memory;
 using MouseAutomation.Common;
+using System.Windows;
 
 namespace MouseAutomation.Pages
 {
@@ -29,7 +28,6 @@ namespace MouseAutomation.Pages
         private void PollingInterval_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var page = AppServices.GetRequiredService<LuaEditorPage>();
-            //page.Timer.Interval = TimeSpan.FromMilliseconds(e.NewValue);
         }
     }
 }

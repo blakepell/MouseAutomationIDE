@@ -66,26 +66,9 @@ namespace MouseAutomation.Pages
             this.DataContext = this;
             this.LuaEditor.Editor.Text = this.AppSettings.AutoSaveText;
 
-            // Setup the mouse polling event.
-            //this.Timer = new DispatcherTimer
-            //{
-            //    Interval = TimeSpan.FromMilliseconds(this.AppSettings.PollingInterval)
-            //};
-
-            //this.Timer.Tick += this.Timer_Tick;
-            //this.Timer.Start();
-
             AppServices.AddSingleton(this);
 
             this.StatusText = "Idle";
-        }
-
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-
-            //var editor = AppServices.GetRequiredService<AvalonLuaEditor>();
-            //editor.Editor.AppendText($"mouse.SetPosition({this.X}, {this.Y})\r\n");
-            //editor.Editor.AppendText($"ui.Pause({this.AppSettings.PollingInterval})\r\n");
         }
 
         private void LuaEditorPage_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

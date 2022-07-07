@@ -10,12 +10,14 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MouseAutomation.Common
 {
     /// <summary>
     /// Class for intercepting low level Windows mouse hooks.
     /// </summary>
+    [SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global")]
     public class MouseHook
     {
         /// <summary>
