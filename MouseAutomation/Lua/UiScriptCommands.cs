@@ -209,5 +209,13 @@ namespace MouseAutomation.Lua
         {
             Thread.Sleep(milliseconds);
         }
+
+        [Description("Simulates keystrokes.")]
+        public void SendKeys(string keys)
+        {
+            System.Windows.Forms.SendKeys.SendWait(keys);
+            System.Windows.Forms.SendKeys.Flush();
+        }
+
     }
 }
