@@ -7,7 +7,7 @@
  * @license           : Closed Source
  */
 
-using MouseAutomation.Pages;
+using MouseAutomation.Common;
 using System.Windows;
 using System.Windows.Media;
 
@@ -40,7 +40,7 @@ namespace MouseAutomation.ViewModels
         }
 
         public static readonly DependencyProperty StatusTextProperty = DependencyProperty.Register(
-            nameof(StatusText), typeof(string), typeof(LuaEditorPage), new PropertyMetadata(default(string)));
+            nameof(StatusText), typeof(string), typeof(LuaEditorViewModel), new PropertyMetadata(default(string)));
 
         /// <summary>
         /// Status text at the bottom of the code window.
@@ -52,7 +52,7 @@ namespace MouseAutomation.ViewModels
         }
 
         public static readonly DependencyProperty PlayButtonEnabledProperty = DependencyProperty.Register(
-            nameof(PlayButtonEnabled), typeof(bool), typeof(LuaEditorPage), new PropertyMetadata(true));
+            nameof(PlayButtonEnabled), typeof(bool), typeof(LuaEditorViewModel), new PropertyMetadata(true));
 
         /// <summary>
         /// If a Lua script is currently running.
@@ -64,7 +64,7 @@ namespace MouseAutomation.ViewModels
         }
 
         public static readonly DependencyProperty PlayButtonBrushProperty = DependencyProperty.Register(
-            "PlayButtonBrush", typeof(SolidColorBrush), typeof(LuaEditorPage), new PropertyMetadata(Brushes.Green));
+            "PlayButtonBrush", typeof(SolidColorBrush), typeof(LuaEditorViewModel), new PropertyMetadata(UIBrushes.GreenBrush));
 
         /// <summary>
         /// The color of the play button.
@@ -74,5 +74,72 @@ namespace MouseAutomation.ViewModels
             get => (SolidColorBrush)GetValue(PlayButtonBrushProperty);
             set => SetValue(PlayButtonBrushProperty, value);
         }
+
+        public static readonly DependencyProperty RecordButtonEnabledProperty = DependencyProperty.Register(
+            nameof(RecordButtonEnabled), typeof(bool), typeof(LuaEditorViewModel), new PropertyMetadata(true));
+
+        public bool RecordButtonEnabled
+        {
+            get => (bool)GetValue(RecordButtonEnabledProperty);
+            set => SetValue(RecordButtonEnabledProperty, value);
+        }
+
+        public static readonly DependencyProperty RecordButtonBrushProperty = DependencyProperty.Register(
+            "RecordButtonBrush", typeof(SolidColorBrush), typeof(LuaEditorViewModel), new PropertyMetadata(UIBrushes.RedBrush));
+
+        /// <summary>
+        /// The color of the Record button.
+        /// </summary>
+        public SolidColorBrush RecordButtonBrush
+        {
+            get => (SolidColorBrush)GetValue(RecordButtonBrushProperty);
+            set => SetValue(RecordButtonBrushProperty, value);
+        }
+
+        public static readonly DependencyProperty StopButtonEnabledProperty = DependencyProperty.Register(
+            nameof(StopButtonEnabled), typeof(bool), typeof(LuaEditorViewModel), new PropertyMetadata(true));
+
+        public bool StopButtonEnabled
+        {
+            get => (bool)GetValue(StopButtonEnabledProperty);
+            set => SetValue(StopButtonEnabledProperty, value);
+        }
+
+        public static readonly DependencyProperty StopButtonBrushProperty = DependencyProperty.Register(
+            "StopButtonBrush", typeof(SolidColorBrush), typeof(LuaEditorViewModel), new PropertyMetadata(UIBrushes.RedBrush));
+
+        /// <summary>
+        /// The color of the Stop button.
+        /// </summary>
+        public SolidColorBrush StopButtonBrush
+        {
+            get => (SolidColorBrush)GetValue(StopButtonBrushProperty);
+            set => SetValue(StopButtonBrushProperty, value);
+        }
+
+        public static readonly DependencyProperty StatusBarBackgroundBrushProperty = DependencyProperty.Register(
+            "StatusBarBackgroundBrush", typeof(SolidColorBrush), typeof(LuaEditorViewModel), new PropertyMetadata(UIBrushes.LightBlueBrush));
+
+        /// <summary>
+        /// The background color of the status bar.
+        /// </summary>
+        public SolidColorBrush StatusBarBackgroundBrush
+        {
+            get => (SolidColorBrush)GetValue(StatusBarBackgroundBrushProperty);
+            set => SetValue(StatusBarBackgroundBrushProperty, value);
+        }
+
+        public static readonly DependencyProperty StatusBarForegroundBrushProperty = DependencyProperty.Register(
+            "StatusBarForegroundBrush", typeof(SolidColorBrush), typeof(LuaEditorViewModel), new PropertyMetadata(UIBrushes.WhiteBrush));
+
+        /// <summary>
+        /// The foreground color of the status bar.
+        /// </summary>
+        public SolidColorBrush StatusBarForegroundBrush
+        {
+            get => (SolidColorBrush)GetValue(StatusBarForegroundBrushProperty);
+            set => SetValue(StatusBarForegroundBrushProperty, value);
+        }
+
     }
 }

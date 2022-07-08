@@ -20,6 +20,16 @@ namespace MouseAutomation.Common
 
         public static SolidColorBrush GreenBrush;
 
+        public static SolidColorBrush GrayBrush;
+
+        public static SolidColorBrush LightBlueBrush;
+
+        public static SolidColorBrush WhiteBrush;
+
+        public static SolidColorBrush OrangeBrush;
+
+        public static SolidColorBrush BlackBrush;
+
         public static void Init()
         {
             RedBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#C04048");
@@ -27,6 +37,21 @@ namespace MouseAutomation.Common
 
             GreenBrush = Brushes.Green;
             GreenBrush.Freeze();
+
+            GrayBrush = Brushes.Gray;
+            GrayBrush.Freeze();
+
+            LightBlueBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#006CBF");
+            LightBlueBrush?.Freeze();
+
+            WhiteBrush = Brushes.White;
+            WhiteBrush.Freeze();
+
+            OrangeBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF8C00");
+            OrangeBrush?.Freeze();
+
+            BlackBrush = Brushes.Black;
+            BlackBrush.Freeze();
         }
     }
 }

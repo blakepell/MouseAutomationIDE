@@ -170,6 +170,15 @@ namespace MouseAutomation.Pages
             this.ViewModel.PlayButtonEnabled = false;
             this.ViewModel.PlayButtonBrush = Brushes.Gray;
 
+            this.ViewModel.RecordButtonEnabled = false;
+            this.ViewModel.RecordButtonBrush = Brushes.Gray;
+
+            this.ViewModel.StopButtonEnabled = true;
+            this.ViewModel.StopButtonBrush = UIBrushes.RedBrush;
+
+            this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
+            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.OrangeBrush;
+
             var sw = new Stopwatch();
 
             try
@@ -187,7 +196,16 @@ namespace MouseAutomation.Pages
             finally
             {
                 this.ViewModel.PlayButtonEnabled = true;
-                this.ViewModel.PlayButtonBrush = Brushes.Green;
+                this.ViewModel.PlayButtonBrush = UIBrushes.GreenBrush;
+
+                this.ViewModel.RecordButtonEnabled = true;
+                this.ViewModel.RecordButtonBrush = UIBrushes.RedBrush;
+
+                this.ViewModel.StopButtonEnabled = false;
+                this.ViewModel.StopButtonBrush = UIBrushes.GrayBrush;
+
+                this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
+                this.ViewModel.StatusBarBackgroundBrush = UIBrushes.LightBlueBrush;
             }
         }
 
@@ -199,6 +217,18 @@ namespace MouseAutomation.Pages
         private void ButtonStop_OnClick(object sender, RoutedEventArgs e)
         {
             _executionControlToken?.Terminate();
+
+            this.ViewModel.PlayButtonEnabled = true;
+            this.ViewModel.PlayButtonBrush = UIBrushes.GreenBrush;
+
+            this.ViewModel.RecordButtonEnabled = true;
+            this.ViewModel.RecordButtonBrush = UIBrushes.RedBrush;
+
+            this.ViewModel.StopButtonEnabled = false;
+            this.ViewModel.StopButtonBrush = UIBrushes.GrayBrush;
+
+            this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
+            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.LightBlueBrush;
 
             if (!this._recorderStopwatch.IsRunning)
             {
@@ -514,6 +544,18 @@ namespace MouseAutomation.Pages
 
         private void ButtonRecord_OnClick(object sender, RoutedEventArgs e)
         {
+            this.ViewModel.PlayButtonEnabled = false;
+            this.ViewModel.PlayButtonBrush = Brushes.Gray;
+
+            this.ViewModel.RecordButtonEnabled = false;
+            this.ViewModel.RecordButtonBrush = Brushes.Gray;
+
+            this.ViewModel.StopButtonEnabled = true;
+            this.ViewModel.StopButtonBrush = UIBrushes.RedBrush;
+
+            this.ViewModel.StatusBarForegroundBrush = UIBrushes.LightBlueBrush;
+            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.OrangeBrush;
+
             this.MouseEvents.Clear();
             _recorderStopwatch.Restart();
         }
