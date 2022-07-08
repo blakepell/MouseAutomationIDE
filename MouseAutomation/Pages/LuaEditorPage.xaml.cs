@@ -132,6 +132,8 @@ namespace MouseAutomation.Pages
             this.Editor.Text = this.AppSettings.AutoSaveText;
 
             this.ViewModel.StatusText = "Idle";
+
+            App.MouseHook.MouseMove += MouseHookOnMouseMove;
         }
 
         private void LuaEditorPage_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -204,9 +206,6 @@ namespace MouseAutomation.Pages
             }
 
             this._recorderStopwatch.Stop();
-
-            // Unwire any mouse hooks that might exist.
-            App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
 
             this.ViewModel.StatusText = $"{this.MouseEvents.Count} events recorded.";
 
@@ -321,6 +320,7 @@ namespace MouseAutomation.Pages
         {
             Editor.TextArea.TextEntering -= AvalonLuaEditor_TextEntering;
             Editor.TextArea.TextEntered -= AvalonLuaEditor_TextEntered;
+            App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
         }
 
         private void AvalonLuaEditor_TextEntered(object sender, TextCompositionEventArgs e)
@@ -516,7 +516,6 @@ namespace MouseAutomation.Pages
         {
             this.MouseEvents.Clear();
             _recorderStopwatch.Restart();
-            App.MouseHook.MouseMove += MouseHookOnMouseMove;
         }
 
         private void MouseHookOnMouseMove(MouseHook.MSLLHOOKSTRUCT mouse)
@@ -529,6 +528,12 @@ namespace MouseAutomation.Pages
 
             this.ViewModel.X = p.X;
             this.ViewModel.Y = p.Y;
+
+            // If we're not recording, ditch out.
+            if (!this._recorderStopwatch.IsRunning)
+            {
+                return;
+            }
 
             var e = new MouseEvent
             {
