@@ -16,6 +16,7 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using MoonSharp.Interpreter;
 using MouseAutomation.Common;
 using MouseAutomation.Lua;
+using MouseAutomation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,43 +34,15 @@ namespace MouseAutomation.Pages
 {
     public partial class LuaEditorPage
     {
+        /// <summary>
+        /// Application Settings
+        /// </summary>
         public AppSettings AppSettings { get; set; }
 
-        public static readonly DependencyProperty XProperty = DependencyProperty.Register(
-            nameof(X), typeof(int), typeof(LuaEditorPage), new PropertyMetadata(default(int)));
-
         /// <summary>
-        /// The current Y coordinate the mouse is at.
+        /// The view model for the <see cref="LuaEditorPage"/>.
         /// </summary>
-        public int X
-        {
-            get => (int)GetValue(XProperty);
-            set => SetValue(XProperty, value);
-        }
-
-        public static readonly DependencyProperty YProperty = DependencyProperty.Register(
-            nameof(Y), typeof(int), typeof(LuaEditorPage), new PropertyMetadata(default(int)));
-
-        /// <summary>
-        /// The current Y coordinate the mouse is at.
-        /// </summary>
-        public int Y
-        {
-            get => (int)GetValue(YProperty);
-            set => SetValue(YProperty, value);
-        }
-
-        public static readonly DependencyProperty StatusTextProperty = DependencyProperty.Register(
-            nameof(StatusText), typeof(string), typeof(LuaEditorPage), new PropertyMetadata(default(string)));
-
-        /// <summary>
-        /// Status text at the bottom of the code window.
-        /// </summary>
-        public string StatusText
-        {
-            get => (string)GetValue(StatusTextProperty);
-            set => SetValue(StatusTextProperty, value);
-        }
+        public LuaEditorViewModel ViewModel { get; set; }
 
         /// <summary>
         /// Used for auto completion with Lua.
@@ -107,30 +80,6 @@ namespace MouseAutomation.Pages
         /// </summary>
         private Script Script { get; set; }
 
-        public static readonly DependencyProperty PlayButtonEnabledProperty = DependencyProperty.Register(
-            nameof(PlayButtonEnabled), typeof(bool), typeof(LuaEditorPage), new PropertyMetadata(true));
-
-        /// <summary>
-        /// If a Lua script is currently running.
-        /// </summary>
-        public bool PlayButtonEnabled
-        {
-            get => (bool)GetValue(PlayButtonEnabledProperty);
-            set => SetValue(PlayButtonEnabledProperty, value);
-        }
-
-        public static readonly DependencyProperty PlayButtonBrushProperty = DependencyProperty.Register(
-            "PlayButtonBrush", typeof(SolidColorBrush), typeof(LuaEditorPage), new PropertyMetadata(Brushes.Green));
-
-        /// <summary>
-        /// The color of the play button.
-        /// </summary>
-        public SolidColorBrush PlayButtonBrush
-        {
-            get => (SolidColorBrush)GetValue(PlayButtonBrushProperty);
-            set => SetValue(PlayButtonBrushProperty, value);
-        }
-
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool GetCursorPos(out System.Drawing.Point point);
@@ -138,10 +87,20 @@ namespace MouseAutomation.Pages
         public LuaEditorPage()
         {
             InitializeComponent();
-            this.DataContext = this;
-            this.AppSettings = AppServices.GetRequiredService<AppSettings>();
-            AppServices.AddSingleton(this);
 
+            // Register our shared objects with the DI container.
+            this.ViewModel = new();
+            AppServices.AddSingleton(this);
+            AppServices.AddSingleton(this.ViewModel);
+
+            // Retrieve DI objects we need.
+            this.AppSettings = AppServices.GetRequiredService<AppSettings>();
+
+            // Set the data context to the view model.
+            this.DataContext = this.ViewModel;
+
+            // Setup Lua, we're going to create instances of our CLR objects that
+            // extend Lua.
             UserData.RegisterType<MouseScriptCommands>();
 
             var mouseCommands = new MouseScriptCommands();
@@ -160,16 +119,19 @@ namespace MouseAutomation.Pages
                 UserData.RegisterType(uiCommands.GetType());
             }
 
+            // Create the Lua Interpreter.
             this.Script = new();
             this.Script.Options.CheckThreadAccess = false;
             this.Script.Globals.Set("mouse", UserData.Create(mouseCommands));
             this.Script.Globals.Set("ui", UserData.Create(uiCommands));
 
+            // Warmup the script engine.
             Script.WarmUp();
 
+            // Was there any text was auto saved?
             this.Editor.Text = this.AppSettings.AutoSaveText;
 
-            this.StatusText = "Idle";
+            this.ViewModel.StatusText = "Idle";
         }
 
         private void LuaEditorPage_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -195,7 +157,7 @@ namespace MouseAutomation.Pages
         /// <param name="e"></param>
         private async void ButtonRunLua_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!this.PlayButtonEnabled)
+            if (!this.ViewModel.PlayButtonEnabled)
             {
                 return;
             }
@@ -203,8 +165,8 @@ namespace MouseAutomation.Pages
             var luaPage = AppServices.GetRequiredService<LuaEditorPage>();
             _executionControlToken = new();
 
-            this.PlayButtonEnabled = false;
-            this.PlayButtonBrush = Brushes.Gray;
+            this.ViewModel.PlayButtonEnabled = false;
+            this.ViewModel.PlayButtonBrush = Brushes.Gray;
 
             var sw = new Stopwatch();
 
@@ -213,17 +175,17 @@ namespace MouseAutomation.Pages
                 sw.Start();
                 _ = await this.Script.DoStringAsync(_executionControlToken, this.Editor.Text);
                 sw.Stop();
-                luaPage.StatusText = $"Completed => Runtime {sw.ElapsedMilliseconds / 1000}s";
+                luaPage.ViewModel.StatusText = $"Completed => Runtime {sw.ElapsedMilliseconds / 1000}s";
             }
             catch (Exception ex)
             {
                 sw.Stop();
-                luaPage.StatusText = $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
+                luaPage.ViewModel.StatusText = $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
             }
             finally
             {
-                this.PlayButtonEnabled = true;
-                this.PlayButtonBrush = Brushes.Green;
+                this.ViewModel.PlayButtonEnabled = true;
+                this.ViewModel.PlayButtonBrush = Brushes.Green;
             }
         }
 
@@ -246,7 +208,7 @@ namespace MouseAutomation.Pages
             // Unwire any mouse hooks that might exist.
             App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
 
-            this._luaEditorPage.StatusText = $"{this.MouseEvents.Count} events recorded.";
+            this.ViewModel.StatusText = $"{this.MouseEvents.Count} events recorded.";
 
             for (int i = this.MouseEvents.Count - 1; i > 0; i--)
             {
@@ -565,9 +527,8 @@ namespace MouseAutomation.Pages
             // the values.
             GetCursorPos(out System.Drawing.Point p);
 
-            this._luaEditorPage ??= AppServices.GetRequiredService<LuaEditorPage>();
-            this._luaEditorPage.X = p.X;
-            this._luaEditorPage.Y = p.Y;
+            this.ViewModel.X = p.X;
+            this.ViewModel.Y = p.Y;
 
             var e = new MouseEvent
             {

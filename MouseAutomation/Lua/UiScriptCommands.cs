@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using MouseAutomation.ViewModels;
 
 namespace MouseAutomation.Lua
 {
@@ -36,7 +37,7 @@ namespace MouseAutomation.Lua
                 // If it has access directly return it.
                 if (Application.Current.Dispatcher.CheckAccess())
                 {
-                    var editor = AppServices.GetRequiredService<LuaEditorPage>();
+                    var editor = AppServices.GetRequiredService<LuaEditorViewModel>();
                     return editor.StatusText;
                 }
 
@@ -44,7 +45,7 @@ namespace MouseAutomation.Lua
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var editor = AppServices.GetRequiredService<LuaEditorPage>();
+                    var editor = AppServices.GetRequiredService<LuaEditorViewModel>();
                     text = editor.StatusText;
                 });
 
@@ -55,14 +56,14 @@ namespace MouseAutomation.Lua
                 // If it has access directly set it.
                 if (Application.Current.Dispatcher.CheckAccess())
                 {
-                    var editor = AppServices.GetRequiredService<LuaEditorPage>();
+                    var editor = AppServices.GetRequiredService<LuaEditorViewModel>();
                     editor.StatusText = value;
                     return;
                 }
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var editor = AppServices.GetRequiredService<LuaEditorPage>();
+                    var editor = AppServices.GetRequiredService<LuaEditorViewModel>();
                     editor.StatusText = value;
                 });
             }
