@@ -9,7 +9,6 @@
 
 using Argus.Memory;
 using MouseAutomation.Common;
-using System;
 using System.Windows;
 
 namespace MouseAutomation.Pages
@@ -17,11 +16,6 @@ namespace MouseAutomation.Pages
     public partial class LuaEditorPage
     {
         public AppSettings AppSettings { get; set; }
-
-        ///// <summary>
-        ///// The dispatch timer responsible for polling the mouse coordinates.
-        ///// </summary>
-        //public DispatcherTimer Timer { get; set; }
 
         public static readonly DependencyProperty XProperty = DependencyProperty.Register(
             nameof(X), typeof(int), typeof(LuaEditorPage), new PropertyMetadata(default(int)));
