@@ -42,6 +42,9 @@ namespace MouseAutomation
                 AppServices.AddSingleton(new AppSettings());
             }
 
+            // Initialize and freeze the dynamic UI brushes.
+            UIBrushes.Init();
+
             try
             {
                 MouseHook.Install();

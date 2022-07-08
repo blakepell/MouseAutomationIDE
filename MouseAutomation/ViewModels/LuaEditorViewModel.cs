@@ -74,6 +74,5 @@ namespace MouseAutomation.ViewModels
             get => (SolidColorBrush)GetValue(PlayButtonBrushProperty);
             set => SetValue(PlayButtonBrushProperty, value);
         }
-
     }
 }
