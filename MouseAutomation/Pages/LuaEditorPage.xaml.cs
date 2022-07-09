@@ -553,7 +553,7 @@ namespace MouseAutomation.Pages
             this.ViewModel.StopButtonEnabled = true;
             this.ViewModel.StopButtonBrush = UIBrushes.RedBrush;
 
-            this.ViewModel.StatusBarForegroundBrush = UIBrushes.LightBlueBrush;
+            this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
             this.ViewModel.StatusBarBackgroundBrush = UIBrushes.OrangeBrush;
 
             this.MouseEvents.Clear();
