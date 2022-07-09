@@ -119,6 +119,10 @@ namespace MouseAutomation.Pages
                 UserData.RegisterType(uiCommands.GetType());
             }
 
+            // Setup the initial state of button that is not the default.
+            this.ViewModel.StopButtonBrush = UIBrushes.GrayBrush;
+            this.ViewModel.StopButtonEnabled = false;
+
             // Create the Lua Interpreter.
             this.Script = new();
             this.Script.Options.CheckThreadAccess = false;
@@ -177,7 +181,7 @@ namespace MouseAutomation.Pages
             this.ViewModel.StopButtonBrush = UIBrushes.RedBrush;
 
             this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
-            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.OrangeBrush;
+            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.GreenBrush;
 
             var sw = new Stopwatch();
 
@@ -554,7 +558,7 @@ namespace MouseAutomation.Pages
             this.ViewModel.StopButtonBrush = UIBrushes.RedBrush;
 
             this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
-            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.OrangeBrush;
+            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.RedBrush;
 
             this.MouseEvents.Clear();
             _recorderStopwatch.Restart();
