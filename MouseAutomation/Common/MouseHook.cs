@@ -18,6 +18,7 @@ namespace MouseAutomation.Common
     /// Class for intercepting low level Windows mouse hooks.
     /// </summary>
     [SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class MouseHook
     {
         /// <summary>
@@ -42,6 +43,8 @@ namespace MouseAutomation.Common
         public event MouseHookCallback? DoubleClick;
         public event MouseHookCallback? MiddleButtonDown;
         public event MouseHookCallback? MiddleButtonUp;
+        public event MouseHookCallback? XButtonDown;
+        public event MouseHookCallback? XButtonUp;
         #endregion
 
         /// <summary>
@@ -88,7 +91,9 @@ namespace MouseAutomation.Common
         private IntPtr SetHook(MouseHookHandler proc)
         {
             using (ProcessModule module = Process.GetCurrentProcess().MainModule)
+            {
                 return SetWindowsHookEx(WH_MOUSE_LL, proc, GetModuleHandle(module.ModuleName), 0);
+            }
         }
 
         /// <summary>
@@ -143,6 +148,16 @@ namespace MouseAutomation.Common
                 {
                     this.MiddleButtonUp?.Invoke((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
                 }
+
+                if (MouseMessages.WM_XBUTTONDOWN == (MouseMessages)wParam)
+                {
+                    this.XButtonDown?.Invoke((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
+                }
+
+                if (MouseMessages.WM_XBUTTONUP == (MouseMessages)wParam)
+                {
+                    this.XButtonUp?.Invoke((MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT)));
+                }
             }
             return CallNextHookEx(hookID, nCode, wParam, lParam);
         }
@@ -160,7 +175,9 @@ namespace MouseAutomation.Common
             WM_RBUTTONUP = 0x0205,
             WM_LBUTTONDBLCLK = 0x0203,
             WM_MBUTTONDOWN = 0x0207,
-            WM_MBUTTONUP = 0x0208
+            WM_MBUTTONUP = 0x0208,
+            WM_XBUTTONDOWN = 0x020B,
+            WM_XBUTTONUP = 0x020C
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -181,8 +198,7 @@ namespace MouseAutomation.Common
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr SetWindowsHookEx(int idHook,
-            MouseHookHandler lpfn, IntPtr hMod, uint dwThreadId);
+        private static extern IntPtr SetWindowsHookEx(int idHook, MouseHookHandler lpfn, IntPtr hMod, uint dwThreadId);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
