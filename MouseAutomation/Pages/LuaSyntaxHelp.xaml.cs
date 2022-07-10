@@ -27,7 +27,7 @@ namespace MouseAutomation.Pages
 
         private void LuaSyntaxHelpPage_OnLoaded(object sender, RoutedEventArgs e)
         {
-            WebBrowser.NavigateToString(@"<html><body style='background: #1E1E1E; color: White; font-family: Consolas;'><h2>Lua Extensions</h2><hr /></body></html>");
+            WebBrowser.NavigateToString(@"<html><body style='background: #272F33; color: White; font-family: Segoe UI; padding-top: 10px;'><h2>Lua Syntax Documentation</h2><hr /></body></html>");
         }
     }
 }

@@ -8,7 +8,9 @@
       Loaded="LuaSyntaxHelpPage_OnLoaded"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Lua Syntax Help">
-    <Grid>
-        <WebBrowser x:Name="WebBrowser"></WebBrowser>
-    </Grid>
+    <Border>
+        <Border Margin="10,0,0,0">
+            <WebBrowser x:Name="WebBrowser"></WebBrowser>
+        </Border>
+    </Border>
 </ui:UiPage>

@@ -64,7 +64,12 @@
                 </ui:NavigationFluent.Footer>
             </ui:NavigationFluent>
 
-            <Frame x:Name="RootFrame" Grid.Column="1" />
+            <Border
+                Grid.Column="1"
+                Background="#272F33"
+                CornerRadius="8,0,0,0">
+                    <Frame x:Name="RootFrame" />
+            </Border>
         </Grid>
     </Grid>
 </ui:UiWindow>

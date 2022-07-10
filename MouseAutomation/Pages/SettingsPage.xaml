@@ -7,27 +7,28 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Settings" >
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0,10,0,5"
+    <Border>
+        <Border Margin="20,10,0,0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,10,0,5"
                            Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
                            Text="Polling Interval: "
                            FontWeight="Bold"
                            FontSize="16"/>
-                <TextBlock Margin="0,10,0,5"
+                    <TextBlock Margin="0,10,0,5"
                            Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
                            Text="{Binding PollingInterval, Mode=OneWay}"
                            FontWeight="Bold"
                            FontSize="16"/>
-                <TextBlock Margin="0,10,0,5"
+                    <TextBlock Margin="0,10,0,5"
                            Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
                            Text="ms"
                            FontWeight="Bold"
                            FontSize="16"/>
-            </StackPanel>
+                </StackPanel>
 
-            <Slider Margin="0,0,15,0"
+                <Slider Margin="0,0,15,0"
                     IsSnapToTickEnabled="True"
                     Maximum="100"
                     Minimum="10"
@@ -35,9 +36,10 @@
                     ValueChanged="PollingInterval_OnValueChanged"
                     Value="{Binding PollingInterval}" />
 
-            <CheckBox IsChecked="{Binding AutoSaveOnExit}"
+                <CheckBox IsChecked="{Binding AutoSaveOnExit}"
                 Margin="0,8,0,0"
                 Content="Auto Save on Exit" />
-        </StackPanel>
-    </Grid>
+            </StackPanel>
+        </Border>
+    </Border>
 </ui:UiPage>
