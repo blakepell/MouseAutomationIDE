@@ -29,6 +29,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
+using System.IO;
+using Microsoft.Win32;
 
 namespace MouseAutomation.Pages
 {
@@ -731,6 +733,50 @@ namespace MouseAutomation.Pages
             };
 
             this.MouseEvents.Add(e);
+        }
+
+        private async void ButtonOpen_OnClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "Lua files (*.lua)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*",
+                Title = "Open Lua Script"
+            };
+
+            try
+            {
+                if (dialog.ShowDialog() == true)
+                {
+                    Editor.Text = await File.ReadAllTextAsync(dialog.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+
+        private async void ButtonSave_OnClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "Lua files (*.lua)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*",
+                Title = "Save Lua Script"
+            };
+
+            try
+            {
+                if (dialog.ShowDialog() == true)
+                {
+                    await File.WriteAllTextAsync(dialog.FileName, Editor.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
         }
     }
 }

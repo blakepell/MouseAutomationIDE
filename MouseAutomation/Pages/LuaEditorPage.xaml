@@ -20,6 +20,38 @@
 
         <ToolBarTray Grid.Row="0" Margin="0,0,0,0" Height="30"  VerticalAlignment="Top">
             <ToolBar>
+                <Button Click="ButtonOpen_OnClick"
+                        ToolTip="Open"
+                        Margin="0,0,0,0"
+                        BorderThickness="0">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Margin="0">
+                            <iconPacks:PackIconMaterial Kind="FolderOpen"
+                                                        Height="14"
+                                                        Width="14"
+                                                        Foreground="DarkKhaki" 
+                                                        Margin="0,0,0,0" />
+                            <TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="#DDDDDD" Margin="5,-1,0,0" Height="29">Open</TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button Click="ButtonSave_OnClick"
+                    ToolTip="Open"
+                    Margin="0,0,0,0"
+                    BorderThickness="0">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Margin="0">
+                            <iconPacks:PackIconMaterial Kind="ContentSave"
+                                                        Height="14"
+                                                        Width="14"
+                                                        Foreground="CornflowerBlue" 
+                                                        Margin="0,0,0,0" />
+                            <TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="#DDDDDD" Margin="5,-1,0,0" Height="29">Save</TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </ToolBar>
+            <ToolBar>
                 <Button Click="ButtonRunLua_OnClick" IsEnabled="{Binding Path=PlayButtonEnabled}"
                         ToolTip="Stop HotKey: F5"
                         Margin="0,0,0,0"
