@@ -7,6 +7,7 @@
  * @license           : Closed Source
  */
 
+using System.Windows;
 using Argus.Memory;
 using MouseAutomation.Common;
 
@@ -24,5 +25,9 @@ namespace MouseAutomation.Pages
             AppServices.AddSingleton(this);
         }
 
+        private void LuaSyntaxHelpPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            WebBrowser.NavigateToString(@"<html><body style='background: #1E1E1E; color: White; font-family: Consolas;'><h2>Lua Extensions</h2><hr /></body></html>");
+        }
     }
 }
