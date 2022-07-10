@@ -138,14 +138,12 @@ namespace MouseAutomation.Pages
             this.ViewModel.StatusText = "Idle";
 
             App.MouseHook.MouseMove += MouseHookOnMouseMove;
-        }
-
-        private void LuaEditorPage_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue == false)
-            {
-                this.AppSettings.AutoSaveText = this.Editor.Text;
-            }
+            App.MouseHook.LeftButtonDown += MouseHookOnLeftButtonDown;
+            App.MouseHook.LeftButtonUp += MouseHookOnLeftButtonUp;
+            App.MouseHook.RightButtonDown += MouseHookOnRightButtonDown;
+            App.MouseHook.RightButtonUp += MouseHookOnRightButtonUp;
+            App.MouseHook.MiddleButtonDown += MouseHookOnMiddleButtonDown;
+            App.MouseHook.MiddleButtonUp += MouseHookOnMiddleButtonUp;
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
@@ -154,6 +152,34 @@ namespace MouseAutomation.Pages
 
             Editor.TextArea.TextEntering += AvalonLuaEditor_TextEntering;
             Editor.TextArea.TextEntered += AvalonLuaEditor_TextEntered;
+        }
+
+        /// <summary>
+        /// Fired when the UserControl is unloaded.  Cleanup any resources including removing EventHandlers
+        /// so this memory can be properly disposed of.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AvalonLuaEditor_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            Editor.TextArea.TextEntering -= AvalonLuaEditor_TextEntering;
+            Editor.TextArea.TextEntered -= AvalonLuaEditor_TextEntered;
+            App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
+            App.MouseHook.LeftButtonDown -= this.MouseHookOnLeftButtonDown;
+            App.MouseHook.LeftButtonUp -= this.MouseHookOnLeftButtonUp;
+        }
+
+        /// <summary>
+        /// Event that fires when the page is shown like during a navigation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LuaEditorPage_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue == false)
+            {
+                this.AppSettings.AutoSaveText = this.Editor.Text;
+            }
         }
 
         /// <summary>
@@ -253,8 +279,35 @@ namespace MouseAutomation.Pages
 
             foreach (var ev in this.MouseEvents)
             {
-                sb.Append($"mouse.SetPosition({ev.X}, {ev.Y})\r\n");
+                switch (ev.EventType)
+                {
+                    case MouseEventType.MouseMove:
+                        sb.Append($"mouse.SetPosition({ev.X}, {ev.Y})\r\n");
+                        break;
+                    case MouseEventType.LeftDown:
+                        sb.Append($"mouse.LeftDown()\r\n");
+                        break;
+                    case MouseEventType.LeftUp:
+                        sb.Append($"mouse.LeftUp()\r\n");
+                        break;
+                    case MouseEventType.RightDown:
+                        sb.Append($"mouse.RightDown()\r\n");
+                        break;
+                    case MouseEventType.RightUp:
+                        sb.Append($"mouse.RightUp()\r\n");
+                        break;
+                    case MouseEventType.MiddleDown:
+                        sb.Append($"mouse.MiddleDown()\r\n");
+                        break;
+                    case MouseEventType.MiddleUp:
+                        sb.Append($"mouse.MiddleUp()\r\n");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
+                // Put the delay so it simulates close to the time frame the user used
+                // when recording it.
                 if (ev.DelayMilliseconds > 0)
                 {
                     sb.Append($"ui.Sleep({ev.DelayMilliseconds})\r\n");
@@ -342,19 +395,6 @@ namespace MouseAutomation.Pages
                     rules.Add(rule);
                 }
             }
-        }
-
-        /// <summary>
-        /// Fired when the UserControl is unloaded.  Cleanup any resources including removing EventHandlers
-        /// so this memory can be properly disposed of.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AvalonLuaEditor_OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            Editor.TextArea.TextEntering -= AvalonLuaEditor_TextEntering;
-            Editor.TextArea.TextEntered -= AvalonLuaEditor_TextEntered;
-            App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
         }
 
         private void AvalonLuaEditor_TextEntered(object sender, TextCompositionEventArgs e)
@@ -585,6 +625,108 @@ namespace MouseAutomation.Pages
             {
                 X = p.X,
                 Y = p.Y,
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
+            };
+
+            this.MouseEvents.Add(e);
+        }
+
+        private void MouseHookOnLeftButtonUp(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        {
+            // If we're not recording, ditch out.
+            if (!this._recorderStopwatch.IsRunning)
+            {
+                return;
+            }
+
+            var e = new MouseEvent
+            {
+                EventType = MouseEventType.LeftUp,
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
+            };
+
+            this.MouseEvents.Add(e);
+        }
+
+        private void MouseHookOnLeftButtonDown(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        {
+            // If we're not recording, ditch out.
+            if (!this._recorderStopwatch.IsRunning)
+            {
+                return;
+            }
+
+            var e = new MouseEvent
+            {
+                EventType = MouseEventType.LeftDown,
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
+            };
+
+            this.MouseEvents.Add(e);
+        }
+
+        private void MouseHookOnRightButtonDown(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        {
+            // If we're not recording, ditch out.
+            if (!this._recorderStopwatch.IsRunning)
+            {
+                return;
+            }
+
+            var e = new MouseEvent
+            {
+                EventType = MouseEventType.RightDown,
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
+            };
+
+            this.MouseEvents.Add(e);
+        }
+
+        private void MouseHookOnRightButtonUp(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        {
+            // If we're not recording, ditch out.
+            if (!this._recorderStopwatch.IsRunning)
+            {
+                return;
+            }
+
+            var e = new MouseEvent
+            {
+                EventType = MouseEventType.RightUp,
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
+            };
+
+            this.MouseEvents.Add(e);
+        }
+
+        private void MouseHookOnMiddleButtonUp(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        {
+            // If we're not recording, ditch out.
+            if (!this._recorderStopwatch.IsRunning)
+            {
+                return;
+            }
+
+            var e = new MouseEvent
+            {
+                EventType = MouseEventType.MiddleUp,
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
+            };
+
+            this.MouseEvents.Add(e);
+        }
+
+        private void MouseHookOnMiddleButtonDown(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        {
+            // If we're not recording, ditch out.
+            if (!this._recorderStopwatch.IsRunning)
+            {
+                return;
+            }
+
+            var e = new MouseEvent
+            {
+                EventType = MouseEventType.MiddleDown,
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 

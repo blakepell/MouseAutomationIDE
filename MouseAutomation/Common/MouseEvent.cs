@@ -15,7 +15,11 @@ namespace MouseAutomation.Common
     {
         MouseMove = 0,
         LeftDown = 1,
-        LeftUp = 2
+        LeftUp = 2,
+        RightDown = 3,
+        RightUp = 4,
+        MiddleDown = 5,
+        MiddleUp = 6,
     }
 
     public class MouseEvent
