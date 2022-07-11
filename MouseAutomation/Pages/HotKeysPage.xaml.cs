@@ -46,6 +46,7 @@ namespace MouseAutomation.Pages
             sb.Append("<h2>Hot Keys</h2><hr />");
 
             sb.Append("<table style='width: 100%;'>");
+            sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">F1</span></td><td class='cell'>Show Snippets</td></tr>");
             sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">F5</span></td><td class='cell'>Runs Program</td></tr>");
             sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">Shift+F5</span></td><td class='cell'>Stops Running Program</td></tr>");
             sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">Ctrl+K</span></td><td class='cell'>Comments out selection</td></tr>");
