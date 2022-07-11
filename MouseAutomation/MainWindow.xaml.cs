@@ -7,10 +7,6 @@
  * @license           : Closed Source
  */
 
-using Argus.Memory;
-using System;
-using System.Windows.Controls;
-using MouseAutomation.ViewModels;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 

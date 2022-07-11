@@ -7,9 +7,6 @@
  * @license           : Closed Source
  */
 
-using System.Diagnostics.CodeAnalysis;
-using System.Windows.Media;
-
 namespace MouseAutomation.Common
 {
     /// <summary>

@@ -7,11 +7,6 @@
  * @license           : Closed Source
  */
 
-using Argus.Memory;
-using MouseAutomation.Common;
-using MouseAutomation.Lua;
-using System.Windows;
-
 namespace MouseAutomation.Pages
 {
     public partial class LuaSyntaxHelpPage

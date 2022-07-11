@@ -7,9 +7,6 @@
  * @license           : Closed Source
  */
 
-using System.Text.Json.Serialization;
-using System.Windows;
-
 namespace MouseAutomation.Common
 {
     /// <summary>

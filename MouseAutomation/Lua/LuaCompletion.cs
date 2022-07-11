@@ -7,10 +7,6 @@
  * @license           : Closed Source
  */
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Argus.Extensions;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 
 namespace MouseAutomation.Lua

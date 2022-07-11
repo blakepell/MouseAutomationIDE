@@ -7,11 +7,6 @@
  * @license           : Closed Source
  */
 
-using System;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-
 namespace MouseAutomation.Common
 {
     /// <summary>

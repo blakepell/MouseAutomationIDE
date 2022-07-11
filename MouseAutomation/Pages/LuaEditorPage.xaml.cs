@@ -7,30 +7,12 @@
  * @license           : Closed Source
  */
 
-using Argus.Extensions;
-using Argus.Memory;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using MoonSharp.Interpreter;
-using MouseAutomation.Common;
-using MouseAutomation.Lua;
-using MouseAutomation.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Xml;
-using System.IO;
 using Microsoft.Win32;
+using MoonSharp.Interpreter;
 
 namespace MouseAutomation.Pages
 {

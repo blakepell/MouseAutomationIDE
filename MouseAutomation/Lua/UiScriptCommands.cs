@@ -7,16 +7,7 @@
  * @license           : Closed Source
  */
 
-using Argus.Memory;
-using MouseAutomation.Pages;
-using System;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Threading;
-using MouseAutomation.ViewModels;
 
 namespace MouseAutomation.Lua
 {

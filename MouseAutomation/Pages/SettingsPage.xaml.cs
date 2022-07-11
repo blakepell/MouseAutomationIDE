@@ -7,10 +7,6 @@
  * @license           : Closed Source
  */
 
-using Argus.Memory;
-using MouseAutomation.Common;
-using System.Windows;
-
 namespace MouseAutomation.Pages
 {
     public partial class SettingsPage

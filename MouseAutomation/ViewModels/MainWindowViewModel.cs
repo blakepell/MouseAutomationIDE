@@ -7,8 +7,6 @@
  * @license           : Closed Source
  */
 
-using System.Windows;
-
 namespace MouseAutomation.ViewModels
 {
     public class MainWindowViewModel : DependencyObject

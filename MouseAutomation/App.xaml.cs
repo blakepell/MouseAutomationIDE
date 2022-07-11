@@ -7,12 +7,7 @@
  * @license           : Closed Source
  */
 
-using Argus.Memory;
-using Argus.Windows;
-using MouseAutomation.Common;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Windows;
+using Mouse = Argus.Windows.Mouse;
 
 namespace MouseAutomation
 {

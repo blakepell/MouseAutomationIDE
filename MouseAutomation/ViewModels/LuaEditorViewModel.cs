@@ -7,10 +7,6 @@
  * @license           : Closed Source
  */
 
-using MouseAutomation.Common;
-using System.Windows;
-using System.Windows.Media;
-
 namespace MouseAutomation.ViewModels
 {
     public class LuaEditorViewModel : DependencyObject

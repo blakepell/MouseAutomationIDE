@@ -7,8 +7,6 @@
  * @license           : Closed Source
  */
 
-using System;
-
 namespace MouseAutomation.Common
 {
     public enum MouseEventType

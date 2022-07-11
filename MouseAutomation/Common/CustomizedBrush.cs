@@ -9,7 +9,7 @@
 
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Rendering;
-using System.Windows.Media;
+
 // ReSharper disable UnusedMember.Global
 
 namespace MouseAutomation.Common

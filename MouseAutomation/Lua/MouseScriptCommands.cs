@@ -7,12 +7,8 @@
  * @license           : Closed Source
  */
 
-using Argus.Windows;
-using System;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
 using Application = System.Windows.Application;
+using Mouse = Argus.Windows.Mouse;
 
 namespace MouseAutomation.Lua
 {
