@@ -8,6 +8,7 @@
  */
 
 using System.Windows.Threading;
+using MouseAutomation.Pages;
 
 namespace MouseAutomation.Lua
 {
@@ -253,5 +254,40 @@ namespace MouseAutomation.Lua
             System.Windows.Forms.SendKeys.Flush();
         }
 
+        [Description("Writes a log entry to the console.")]
+        public void ConsoleLog(string text)
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ConsoleLog(text)));
+                return;
+            }
+
+            var editor = AppServices.GetRequiredService<LuaEditorPage>();
+            var appSettings = AppServices.GetRequiredService<AppSettings>();
+
+            if (appSettings.ShowTimestampOnConsole)
+            {
+                editor.Console.AppendText($"{DateTime.Now.ToShortDateString()} {DateTime.Now.ToLongTimeString()} :: ");
+            }
+
+            editor.Console.AppendText(text);
+            editor.Console.AppendText(Environment.NewLine);
+        }
+
+        [Description("Clears all of the text in the console.")]
+        public void ConsoleClear()
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(this.ConsoleClear));
+                return;
+            }
+
+            var editor = AppServices.GetRequiredService<LuaEditorPage>();
+            editor.Console.Text = "";
+        }
     }
 }

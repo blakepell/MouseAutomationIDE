@@ -14,17 +14,15 @@ namespace MouseAutomation.Common
     /// </summary>
     public class AppSettings : DependencyObject
     {
+        /// <summary>
+        /// The text that's in the editor when the app closes.
+        /// </summary>
         public string? AutoSaveText { get; set; }
 
-        [JsonIgnore]
-        public static readonly DependencyProperty PollingIntervalProperty = DependencyProperty.Register(
-            nameof(PollingInterval), typeof(int), typeof(AppSettings), new PropertyMetadata(100));
-
-        public int PollingInterval
-        {
-            get => (int)GetValue(PollingIntervalProperty);
-            set => SetValue(PollingIntervalProperty, value);
-        }
+        /// <summary>
+        /// The last directory a file was open or saved in.
+        /// </summary>
+        public string? LastSaveDirectory { get; set; }
 
         [JsonIgnore]
         public static readonly DependencyProperty AutoSaveOnExitProperty = DependencyProperty.Register(
@@ -46,9 +44,25 @@ namespace MouseAutomation.Common
             set => SetValue(ConvertTabsToSpacesProperty, value);
         }
 
-        /// <summary>
-        /// The last directory a file was open or saved in.
-        /// </summary>
-        public string? LastSaveDirectory { get; set; }
+        [JsonIgnore]
+        public static readonly DependencyProperty ShowConsoleOnRunProperty = DependencyProperty.Register(
+            nameof(ShowConsoleOnRun), typeof(bool), typeof(AppSettings), new PropertyMetadata(true));
+
+        public bool ShowConsoleOnRun
+        {
+            get => (bool)GetValue(ShowConsoleOnRunProperty);
+            set => SetValue(ShowConsoleOnRunProperty, value);
+        }
+
+        [JsonIgnore]
+        public static readonly DependencyProperty ShowTimestampOnConsoleProperty = DependencyProperty.Register(
+            nameof(ShowTimestampOnConsole), typeof(bool), typeof(AppSettings), new PropertyMetadata(false));
+
+        public bool ShowTimestampOnConsole
+        {
+            get => (bool)GetValue(ShowTimestampOnConsoleProperty);
+            set => SetValue(ShowTimestampOnConsoleProperty, value);
+        }
+
     }
 }

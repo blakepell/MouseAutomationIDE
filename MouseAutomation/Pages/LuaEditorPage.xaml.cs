@@ -179,6 +179,11 @@ namespace MouseAutomation.Pages
 
             this.ViewModel.LuaInterpreterStatus = "Running";
 
+            if (AppSettings.ShowConsoleOnRun)
+            {
+                ToggleSwitchConsoleVisible.IsChecked = true;
+            }
+
             var luaPage = AppServices.GetRequiredService<LuaEditorPage>();
             _executionControlToken = new();
 

@@ -21,6 +21,13 @@
                           Margin="0,8,0,0"
                           Content="Convert Tabs to Spaces" />
 
+                <CheckBox IsChecked="{Binding ShowConsoleOnRun}"
+                          Margin="0,8,0,0"
+                          Content="Show Console on Run" />
+
+                <CheckBox IsChecked="{Binding ShowTimestampOnConsole}"
+                          Margin="0,8,0,0"
+                          Content="Show Timestamp on Console" />
             </StackPanel>
         </Border>
     </Border>
