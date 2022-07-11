@@ -15,7 +15,7 @@ namespace MouseAutomation.Pages
 {
     public partial class SettingsPage
     {
-        public AppSettings AppSettings { get; set; }
+        private AppSettings AppSettings { get; set; }
 
         public SettingsPage()
         {
@@ -25,9 +25,10 @@ namespace MouseAutomation.Pages
             AppServices.AddSingleton(this);
         }
 
-        private void PollingInterval_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void CheckBoxConvertTabsToSpace_OnChecked(object sender, RoutedEventArgs e)
         {
             var page = AppServices.GetRequiredService<LuaEditorPage>();
+            page.Editor.Options.ConvertTabsToSpaces = CheckBoxConvertTabsToSpaces.IsChecked ?? false;
         }
     }
 }

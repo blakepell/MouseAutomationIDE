@@ -38,5 +38,20 @@ namespace MouseAutomation.Common
             get => (bool)GetValue(AutoSaveOnExitProperty);
             set => SetValue(AutoSaveOnExitProperty, value);
         }
+
+        [JsonIgnore]
+        public static readonly DependencyProperty ConvertTabsToSpacesProperty = DependencyProperty.Register(
+            nameof(ConvertTabsToSpaces), typeof(bool), typeof(AppSettings), new PropertyMetadata(default(bool)));
+
+        public bool ConvertTabsToSpaces
+        {
+            get => (bool)GetValue(ConvertTabsToSpacesProperty);
+            set => SetValue(ConvertTabsToSpacesProperty, value);
+        }
+
+        /// <summary>
+        /// The last directory a file was open or saved in.
+        /// </summary>
+        public string? LastSaveDirectory { get; set; }
     }
 }

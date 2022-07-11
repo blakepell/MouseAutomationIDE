@@ -742,15 +742,21 @@ namespace MouseAutomation.Pages
             var dialog = new OpenFileDialog
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                Filter = "Lua files (*.lua)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*",
+                Filter = "Lua files (*.lua)|*.lua|Text Files (*.txt)|*.txt|All files (*.*)|*.*",
                 Title = "Open Lua Script"
             };
+
+            if (!string.IsNullOrWhiteSpace(AppSettings.LastSaveDirectory) && Directory.Exists(AppSettings.LastSaveDirectory))
+            {
+                dialog.InitialDirectory = AppSettings.LastSaveDirectory;
+            }
 
             try
             {
                 if (dialog.ShowDialog() == true)
                 {
                     Editor.Text = await File.ReadAllTextAsync(dialog.FileName);
+                    this.AppSettings.LastSaveDirectory = Path.GetDirectoryName(dialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -768,11 +774,17 @@ namespace MouseAutomation.Pages
                 Title = "Save Lua Script"
             };
 
+            if (!string.IsNullOrWhiteSpace(AppSettings.LastSaveDirectory) && Directory.Exists(AppSettings.LastSaveDirectory))
+            {
+                dialog.InitialDirectory = AppSettings.LastSaveDirectory;
+            }
+
             try
             {
                 if (dialog.ShowDialog() == true)
                 {
                     await File.WriteAllTextAsync(dialog.FileName, Editor.Text);
+                    this.AppSettings.LastSaveDirectory = Path.GetDirectoryName(dialog.FileName);
                 }
             }
             catch (Exception ex)
