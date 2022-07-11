@@ -210,14 +210,9 @@ namespace MouseAutomation.Pages
             {
                 sw.Stop();
 
-                if (ex.GetBaseException() is ScriptTerminationRequestedException)
-                {
-                    luaPage.ViewModel.StatusText = "Stopped";
-                }
-                else
-                {
-                    luaPage.ViewModel.StatusText = $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
-                }
+                luaPage.ViewModel.StatusText = ex.GetBaseException() is ScriptTerminationRequestedException 
+                    ? "Stopped" 
+                    : $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
             }
             finally
             {
