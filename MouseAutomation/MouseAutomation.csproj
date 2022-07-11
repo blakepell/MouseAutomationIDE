@@ -6,11 +6,16 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <RootNamespace>MouseAutomation</RootNamespace>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Assets\app.png" />
     <None Remove="Resources\LuaDarkTheme.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\app.ico" />
   </ItemGroup>
 
   <ItemGroup>
