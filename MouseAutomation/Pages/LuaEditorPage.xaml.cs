@@ -180,6 +180,8 @@ namespace MouseAutomation.Pages
                 return;
             }
 
+            this.ViewModel.StatusText = "Running";
+
             var luaPage = AppServices.GetRequiredService<LuaEditorPage>();
             _executionControlToken = new();
 
@@ -207,7 +209,15 @@ namespace MouseAutomation.Pages
             catch (Exception ex)
             {
                 sw.Stop();
-                luaPage.ViewModel.StatusText = $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
+
+                if (ex.GetBaseException() is ScriptTerminationRequestedException)
+                {
+                    luaPage.ViewModel.StatusText = "Stopped";
+                }
+                else
+                {
+                    luaPage.ViewModel.StatusText = $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
+                }
             }
             finally
             {
@@ -232,6 +242,8 @@ namespace MouseAutomation.Pages
         /// <param name="e"></param>
         private void ButtonStop_OnClick(object sender, RoutedEventArgs e)
         {
+            this.ViewModel.StatusText = "Attempting to stop, please wait.";
+
             _executionControlToken?.Terminate();
 
             this.ViewModel.PlayButtonEnabled = true;
@@ -244,7 +256,7 @@ namespace MouseAutomation.Pages
             this.ViewModel.StopButtonBrush = UIBrushes.GrayBrush;
 
             this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
-            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.LightBlueBrush;
+            this.ViewModel.StatusBarBackgroundBrush = UIBrushes.OrangeBrush;
 
             if (!this._recorderStopwatch.IsRunning)
             {

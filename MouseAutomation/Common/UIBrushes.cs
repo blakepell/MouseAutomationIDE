@@ -33,7 +33,7 @@ namespace MouseAutomation.Common
             WhiteBrush = Brushes.White;
             WhiteBrush.Freeze();
 
-            OrangeBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF8C00");
+            OrangeBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#C46800");
             OrangeBrush?.Freeze();
 
             BlackBrush = Brushes.Black;
