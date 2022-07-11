@@ -274,6 +274,7 @@ namespace MouseAutomation.Lua
 
             editor.Console.AppendText(text);
             editor.Console.AppendText(Environment.NewLine);
+            editor.Console.ScrollToEnd();
         }
 
         [Description("Clears all of the text in the console.")]

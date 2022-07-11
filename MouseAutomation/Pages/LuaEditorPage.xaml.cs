@@ -127,6 +127,8 @@ namespace MouseAutomation.Pages
             App.MouseHook.RightButtonUp += MouseHookOnRightButtonUp;
             App.MouseHook.MiddleButtonDown += MouseHookOnMiddleButtonDown;
             App.MouseHook.MiddleButtonUp += MouseHookOnMiddleButtonUp;
+
+            this.ViewModel.StatusText = "Startup Complete";
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
