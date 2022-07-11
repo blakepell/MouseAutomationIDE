@@ -433,9 +433,13 @@ namespace MouseAutomation.Pages
                 _completionWindow.Show();
                 _completionWindow.Closed += (sender, args) => _completionWindow = null;
             }
-            else if (e.Key == Key.F5)
+            else if (e.Key == Key.F5 && !(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)))
             {
                 ButtonRunLua_OnClick(sender, e);
+            }
+            else if (e.Key == Key.F5 && (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)))
+            {
+                ButtonStop_OnClick(sender, e);
             }
             else if (Keyboard.IsKeyDown(Key.F6))
             {
