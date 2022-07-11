@@ -49,7 +49,7 @@ namespace MouseAutomation.Common
             {
                 sb.Append("<tr style=\"background: #191E21\">");
 
-                sb.AppendLine($"<td style='vertical-align: top; width: 50%;'><span class=\"class\">{header.ToLower()}</span>.{prop.Name}</td><td>Gets or sets {prop.PropertyType}");
+                sb.AppendLine($"<td class='cell'><span class=\"class\">{header.ToLower()}</span>.{prop.Name}</td><td class='cell'>Gets or sets {prop.PropertyType}");
                 sb.Replace("System.Void", "nothing");
 
                 if (prop.CustomAttributes.Any())
@@ -86,7 +86,7 @@ namespace MouseAutomation.Common
             foreach (var method in t.GetMethods().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
             {
                 sb.Append("<tr style=\"background: #191E21\">");
-                sb.Append($"<td style='vertical-align: top; width: 50%;'><span class=\"class\">{header.ToLower()}</span>.");
+                sb.Append($"<td class='cell'><span class=\"class\">{header.ToLower()}</span>.");
 
                 var parameterDescriptions = string.Join
                 (", ", method.GetParameters()
@@ -99,8 +99,8 @@ namespace MouseAutomation.Common
                 Cleanup(sb);
 
                 sb.Append("</td>");
-                sb.Append("<td style='vertical-align: top;'>");
-                sb.AppendLine($"Returns {method.ReturnType}<br />");
+                sb.Append("<td class='cell'>");
+                sb.AppendLine($"Returns <span class='type'>{method.ReturnType}</span><br />");
                 sb.Replace("System.Void", "nothing");
 
                 if (method.CustomAttributes.Any())
@@ -136,6 +136,11 @@ namespace MouseAutomation.Common
     }
     .method  {
         color: #DCDCAA;
+    }
+    .cell {
+        padding: 10px;
+        vertical-align: top;
+        width: 50%;
     }
 </style>
 ");

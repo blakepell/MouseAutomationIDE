@@ -54,7 +54,7 @@
                 </ui:NavigationFluent.Items>
                 <ui:NavigationFluent.Footer>
                     <ui:NavigationItem
-                        Content="Lua Syntax Help"
+                        Content="Automation Extensions Help"
                         Icon="BookCompass20"
                         PageType="{x:Type pages:LuaSyntaxHelpPage}" />
                     <ui:NavigationItem
