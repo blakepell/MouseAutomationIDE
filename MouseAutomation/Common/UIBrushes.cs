@@ -16,23 +16,10 @@ namespace MouseAutomation.Common
     /// Static frozen brushes used on the UI.
     /// </summary>
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class UIBrushes
     {
-        public static SolidColorBrush RedBrush;
-
-        public static SolidColorBrush GreenBrush;
-
-        public static SolidColorBrush GrayBrush;
-
-        public static SolidColorBrush LightBlueBrush;
-
-        public static SolidColorBrush WhiteBrush;
-
-        public static SolidColorBrush OrangeBrush;
-
-        public static SolidColorBrush BlackBrush;
-
-        public static void Init()
+        static UIBrushes()
         {
             RedBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#C04048");
             RedBrush?.Freeze();
@@ -55,5 +42,19 @@ namespace MouseAutomation.Common
             BlackBrush = Brushes.Black;
             BlackBrush.Freeze();
         }
+
+        public static SolidColorBrush RedBrush;
+
+        public static SolidColorBrush GreenBrush;
+
+        public static SolidColorBrush GrayBrush;
+
+        public static SolidColorBrush LightBlueBrush;
+
+        public static SolidColorBrush WhiteBrush;
+
+        public static SolidColorBrush OrangeBrush;
+
+        public static SolidColorBrush BlackBrush;
     }
 }
