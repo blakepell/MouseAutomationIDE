@@ -7,6 +7,7 @@
  * @license           : Closed Source
  */
 
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Media;
 
 namespace MouseAutomation.Common
@@ -14,7 +15,8 @@ namespace MouseAutomation.Common
     /// <summary>
     /// Static frozen brushes used on the UI.
     /// </summary>
-    public class UIBrushes
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public static class UIBrushes
     {
         public static SolidColorBrush RedBrush;
 

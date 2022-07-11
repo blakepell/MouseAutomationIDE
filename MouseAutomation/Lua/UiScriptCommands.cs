@@ -24,6 +24,7 @@ namespace MouseAutomation.Lua
     /// UI Script Commands
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class UIScriptCommands
     {
         /// <summary>

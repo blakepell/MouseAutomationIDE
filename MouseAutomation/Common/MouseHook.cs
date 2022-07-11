@@ -19,6 +19,7 @@ namespace MouseAutomation.Common
     /// </summary>
     [SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "CommentTypo")]
     public class MouseHook
     {
         /// <summary>

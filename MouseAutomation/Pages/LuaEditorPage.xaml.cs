@@ -289,22 +289,22 @@ namespace MouseAutomation.Pages
                         sb.Append($"mouse.SetPosition({ev.X}, {ev.Y})\r\n");
                         break;
                     case MouseEventType.LeftDown:
-                        sb.Append($"mouse.LeftDown()\r\n");
+                        sb.Append("mouse.LeftDown()\r\n");
                         break;
                     case MouseEventType.LeftUp:
-                        sb.Append($"mouse.LeftUp()\r\n");
+                        sb.Append("mouse.LeftUp()\r\n");
                         break;
                     case MouseEventType.RightDown:
-                        sb.Append($"mouse.RightDown()\r\n");
+                        sb.Append("mouse.RightDown()\r\n");
                         break;
                     case MouseEventType.RightUp:
-                        sb.Append($"mouse.RightUp()\r\n");
+                        sb.Append("mouse.RightUp()\r\n");
                         break;
                     case MouseEventType.MiddleDown:
-                        sb.Append($"mouse.MiddleDown()\r\n");
+                        sb.Append("mouse.MiddleDown()\r\n");
                         break;
                     case MouseEventType.MiddleUp:
-                        sb.Append($"mouse.MiddleUp()\r\n");
+                        sb.Append("mouse.MiddleUp()\r\n");
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -439,7 +439,7 @@ namespace MouseAutomation.Pages
                 // Open code completion after the user has pressed dot:
                 _completionWindow = new CompletionWindow(Editor.TextArea);
                 var data = _completionWindow.CompletionList.CompletionData;
-                LuaCompletion.LoadCompletionDatasnippets(data);
+                LuaCompletion.LoadCompletionDataSnippets(data);
 
                 _completionWindow.Show();
                 _completionWindow.Closed += (sender, args) => _completionWindow = null;
@@ -635,7 +635,7 @@ namespace MouseAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnLeftButtonUp(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        private void MouseHookOnLeftButtonUp(MouseHook.MSLLHOOKSTRUCT mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
@@ -652,7 +652,7 @@ namespace MouseAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnLeftButtonDown(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        private void MouseHookOnLeftButtonDown(MouseHook.MSLLHOOKSTRUCT mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
@@ -669,7 +669,7 @@ namespace MouseAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnRightButtonDown(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        private void MouseHookOnRightButtonDown(MouseHook.MSLLHOOKSTRUCT mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
@@ -686,7 +686,7 @@ namespace MouseAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnRightButtonUp(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        private void MouseHookOnRightButtonUp(MouseHook.MSLLHOOKSTRUCT mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
@@ -703,7 +703,7 @@ namespace MouseAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnMiddleButtonUp(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        private void MouseHookOnMiddleButtonUp(MouseHook.MSLLHOOKSTRUCT mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
@@ -720,7 +720,7 @@ namespace MouseAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnMiddleButtonDown(MouseHook.MSLLHOOKSTRUCT mousestruct)
+        private void MouseHookOnMiddleButtonDown(MouseHook.MSLLHOOKSTRUCT mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
