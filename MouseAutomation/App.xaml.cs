@@ -16,7 +16,7 @@ namespace MouseAutomation
     {
         private const string APP_FOLDER = "MouseAutomation";
 
-        public const string APP_TITLE = "Mouse Automation IDE";
+        public const string APP_TITLE = "Lua Automation IDE";
 
         /// <summary>
         /// MouseHook class for use with recording mouse macros.

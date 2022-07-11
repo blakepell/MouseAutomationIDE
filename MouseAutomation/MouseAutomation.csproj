@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\appicon.png" />
+    <None Remove="Assets\app.png" />
     <None Remove="Resources\LuaDarkTheme.xshd" />
   </ItemGroup>
 
@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="Assets\appicon.png" />
+	  <Resource Include="Assets\app.png" />
 	</ItemGroup>
 
 	<ItemGroup>

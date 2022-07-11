@@ -24,7 +24,7 @@
             Title="{Binding Path=Title}"
             Grid.Row="0"
             ForceShutdown="False"
-            Icon="pack://application:,,/Assets/appicon.png"
+            Icon="pack://application:,,/Assets/app.png"
             MinimizeToTray="False"
             UseSnapLayout="True">
         </ui:TitleBar>
