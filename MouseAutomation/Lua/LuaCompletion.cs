@@ -253,8 +253,9 @@ namespace MouseAutomation.Lua
 
         public static void LoadCompletionDataSnippets(IList<ICompletionData> data)
         {
-            data.Add(new LuaCompletionData("For Loop", "A snippet to show how to use scheduled tasks", ""));
-            data.Add(new LuaCompletionData("For Loop Pairs", "A snippet to show how to use scheduled tasks", ""));
+            data.Add(new LuaCompletionData("For Loop", "A snippet to show how to do a basic for loop.", ""));
+            data.Add(new LuaCompletionData("For Loop Pairs", "A snippet to show iterate over pairs.", ""));
+            data.Add(new LuaCompletionData("While Loop", "A snippet to to show how to do a while loop with pausing.", ""));
         }
     }
 }

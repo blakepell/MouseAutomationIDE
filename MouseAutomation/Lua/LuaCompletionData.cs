@@ -88,6 +88,20 @@ namespace MouseAutomation.Lua
                 textArea.Document.Replace(completionSegment, sb.ToString());
                 Argus.Memory.StringBuilderPool.Return(sb);
             }
+            else if (this.Text == "While Loop")
+            {
+                var sb = Argus.Memory.StringBuilderPool.Take();
+
+                sb.Append(@"local condition = true
+while(condition)
+do
+    -- Pause for 10 seconds
+    ui.PauseAsync(10000)
+end");
+
+                textArea.Document.Replace(completionSegment, sb.ToString());
+                Argus.Memory.StringBuilderPool.Return(sb);
+            }
             else
             {
                 textArea.Document.Replace(completionSegment, this.Text);
