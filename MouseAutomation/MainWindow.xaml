@@ -12,7 +12,8 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         MinHeight="50"
-        Title="Mouse Automation IDE" Height="768" Width="1024">
+        Title="{Binding Path=Title}"
+        Height="768" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,7 +21,7 @@
         </Grid.RowDefinitions>
 
         <ui:TitleBar
-            Title="Mouse Automation IDE"
+            Title="{Binding Path=Title}"
             Grid.Row="0"
             ForceShutdown="False"
             Icon="pack://application:,,/Assets/appicon.png"

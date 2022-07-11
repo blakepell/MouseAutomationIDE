@@ -10,6 +10,7 @@
 using Argus.Memory;
 using System;
 using System.Windows.Controls;
+using MouseAutomation.ViewModels;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
@@ -17,10 +18,21 @@ namespace MouseAutomation
 {
     public partial class MainWindow : INavigationWindow
     {
+        /// <summary>
+        /// The view model for the <see cref="LuaEditorPage"/>.
+        /// </summary>
+        public MainWindowViewModel ViewModel { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+
+            // Register our shared objects with the DI container.
+            this.ViewModel = new();
             AppServices.AddSingleton(this);
+            AppServices.AddSingleton(this.ViewModel);
+
+            this.DataContext = this.ViewModel;
         }
 
         #region INavigationWindow methods

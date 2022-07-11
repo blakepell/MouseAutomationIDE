@@ -70,6 +70,49 @@ namespace MouseAutomation.Lua
             }
         }
 
+        /// <summary>
+        /// The window title.
+        /// </summary>
+        [Description("The window title.")]
+        public string Title
+        {
+            get
+            {
+                // If it has access directly return it.
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    var editor = AppServices.GetRequiredService<MainWindowViewModel>();
+                    return editor.Title;
+                }
+
+                string text = "";
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var editor = AppServices.GetRequiredService<MainWindowViewModel>();
+                    text = editor.Title;
+                });
+
+                return text;
+            }
+            set
+            {
+                // If it has access directly set it.
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    var editor = AppServices.GetRequiredService<MainWindowViewModel>();
+                    editor.Title = value;
+                    return;
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var editor = AppServices.GetRequiredService<MainWindowViewModel>();
+                    editor.Title = value;
+                });
+            }
+        }
+
         [Description("Shows a message box with the specified text.")]
         public void MsgBox(string text)
         {
