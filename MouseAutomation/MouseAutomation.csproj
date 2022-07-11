@@ -42,7 +42,7 @@
 	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 	    <SubType>Designer</SubType>
 	  </Page>
-	  <Page Update="Pages\LuaSyntaxHelp.xaml">
+	  <Page Update="Pages\LuaSyntaxHelpPage.xaml">
 	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 	    <SubType>Designer</SubType>
 	  </Page>
