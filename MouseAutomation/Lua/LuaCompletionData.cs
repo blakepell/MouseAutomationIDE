@@ -68,26 +68,7 @@ namespace MouseAutomation.Lua
 
         public void Complete(TextArea textArea, ISegment completionSegment, EventArgs insertionRequestEventArgs)
         {
-            // TODO, these need to be in external snippet files that are read dynamically.
-            if (this.Text == "Scheduled Tasks")
-            {
-                var sb = Argus.Memory.StringBuilderPool.Take();
-                sb.AppendLine("lua:Send(\"say I will now count to 10.\")");
-                sb.AppendLine("lua:AddScheduledTask(\"say 1\", false, 1)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 2\", false, 2)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 3\", false, 3)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 4\", false, 4)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 5\", false, 5)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 6\", false, 6)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 7\", false, 7)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 8\", false, 8)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 9\", false, 9)");
-                sb.AppendLine("lua:AddScheduledTask(\"say 10\", false, 10)");
-
-                textArea.Document.Replace(completionSegment, sb.ToString());
-                Argus.Memory.StringBuilderPool.Return(sb);
-            }
-            else if (this.Text == "For Loop")
+            if (this.Text == "For Loop")
             {
                 var sb = Argus.Memory.StringBuilderPool.Take();
                 sb.AppendLine("for i = 1, 10 do");
@@ -106,14 +87,6 @@ namespace MouseAutomation.Lua
 
                 textArea.Document.Replace(completionSegment, sb.ToString());
                 Argus.Memory.StringBuilderPool.Return(sb);
-            }
-            else if (this.Text == "Get Arguments via getargs")
-            {
-                textArea.Document.Replace(completionSegment, "getarg(1, ...)");
-            }
-            else if (this.Text == "Get Arguments via select")
-            {
-                textArea.Document.Replace(completionSegment, "select(0, ...)");
             }
             else
             {

@@ -139,6 +139,8 @@ namespace MouseAutomation.Pages
 
             this.ViewModel.StatusText = "Idle";
 
+            //Editor.Options.ConvertTabsToSpaces = true;
+
             App.MouseHook.MouseMove += MouseHookOnMouseMove;
             App.MouseHook.LeftButtonDown += MouseHookOnLeftButtonDown;
             App.MouseHook.LeftButtonUp += MouseHookOnLeftButtonUp;
