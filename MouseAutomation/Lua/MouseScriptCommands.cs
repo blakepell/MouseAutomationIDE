@@ -186,6 +186,7 @@ namespace MouseAutomation.Lua
             Mouse.MouseShow();
         }
 
+        [Description("The X coordinate of the mouse's current position.")]
         public int X
         {
             get => Mouse.X();
@@ -196,6 +197,7 @@ namespace MouseAutomation.Lua
             }
         }
 
+        [Description("The X coordinate of the mouse's current position.")]
         public int Y
         {
             get => Mouse.Y();
