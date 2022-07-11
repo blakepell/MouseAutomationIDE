@@ -41,7 +41,7 @@ namespace MouseAutomation.Common
 
         [JsonIgnore]
         public static readonly DependencyProperty ConvertTabsToSpacesProperty = DependencyProperty.Register(
-            nameof(ConvertTabsToSpaces), typeof(bool), typeof(AppSettings), new PropertyMetadata(default(bool)));
+            nameof(ConvertTabsToSpaces), typeof(bool), typeof(AppSettings), new PropertyMetadata(true));
 
         public bool ConvertTabsToSpaces
         {

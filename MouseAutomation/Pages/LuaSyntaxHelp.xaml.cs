@@ -30,6 +30,18 @@ namespace MouseAutomation.Pages
 
         private void LuaSyntaxHelpPage_OnLoaded(object sender, RoutedEventArgs e)
         {
+            var docs = new Documentation();
+
+            var mouse = typeof(MouseScriptCommands);
+            docs.AddHtmlDoc("Mouse", mouse);
+
+            var ui = typeof(UIScriptCommands);
+            docs.AddHtmlDoc("UI", ui);
+
+            WebBrowser.NavigateToString(docs.Generate());
+
+            return;
+
             var sb = new StringBuilder();
             sb.Append("<html><body style='background: #272F33; color: White; font-family: Segoe UI; padding-top: 10px;'>");
             sb.Append("<h2>Lua Syntax Documentation</h2><hr />");

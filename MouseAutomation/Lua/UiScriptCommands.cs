@@ -205,7 +205,7 @@ namespace MouseAutomation.Lua
             Dispatcher.PushFrame(df);
         }
 
-        [Description("Calls Thread.Sleep for the specified number of milliseconds.")]
+        [Description("Calls Thread.Sleep for the specified number of milliseconds.  Because this puts scripting engine thread to sleep any requests to stop the script won't process until the sleep command is finished executing.")]
         public void Sleep(int milliseconds)
         {
             Thread.Sleep(milliseconds);

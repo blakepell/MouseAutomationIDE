@@ -64,6 +64,7 @@
                 </ui:NavigationFluent.Footer>
             </ui:NavigationFluent>
 
+            <!-- #272F33 -->
             <Border
                 Grid.Column="1"
                 Background="#272F33"
