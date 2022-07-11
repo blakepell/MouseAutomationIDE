@@ -26,11 +26,11 @@ namespace MouseAutomation.Common
     {
         public MouseEventType EventType = MouseEventType.MouseMove;
 
-        public TimeSpan? TimeSpan { get; set; }
+        public TimeSpan? TimeSpan { get; init; }
 
-        public int X { get; set; }
+        public int X { get; init; }
 
-        public int Y { get; set; }
+        public int Y { get; init; }
 
         public int DelayMilliseconds = 0;
     }
