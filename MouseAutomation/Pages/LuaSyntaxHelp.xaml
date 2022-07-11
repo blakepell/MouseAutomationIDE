@@ -10,7 +10,7 @@
       Title="Lua Syntax Help">
     <Border>
         <Border Margin="10,0,0,0">
-            <WebBrowser x:Name="WebBrowser"></WebBrowser>
+            <WebBrowser x:Name="WebBrowser" Margin="0,0,1,1"></WebBrowser>
         </Border>
     </Border>
 </ui:UiPage>

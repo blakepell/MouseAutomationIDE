@@ -8,14 +8,10 @@
  */
 
 using Argus.Memory;
-using MouseAutomation.Lua;
 using System;
 using System.Collections.Generic;
-using System.DirectoryServices;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace MouseAutomation.Common
 {
@@ -37,10 +33,41 @@ namespace MouseAutomation.Common
         {
             var sb = StringBuilderPool.Take();
 
-            GenerateMethods(header, t, sb);
+            this.GenerateMethods(header, t, sb);
+            this.GenerateProperties(header, t, sb);
 
             Docs.Add(sb.ToString());
             StringBuilderPool.Return(sb);
+        }
+
+        private void GenerateProperties(string header, Type t, StringBuilder sb)
+        {
+            sb.Append("<h3>").Append(header).Append(" Properties</h3>");
+            sb.Append("<table style='width: 100%;'>");
+
+            foreach (var prop in t.GetProperties().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
+            {
+                sb.Append("<tr style=\"background: #191E21\">");
+
+                sb.AppendLine($"<td style='vertical-align: top; width: 50%;'><span class=\"class\">{header.ToLower()}</span>.{prop.Name}</td><td>Gets or sets {prop.PropertyType}");
+                sb.Replace("System.Void", "nothing");
+
+                if (prop.CustomAttributes.Any())
+                {
+                    var attr = prop.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name.Contains("DescriptionAttribute"));
+
+                    if (attr?.ConstructorArguments.Count > 0)
+                    {
+                        sb.AppendLine("<br >").Append(attr.ConstructorArguments[0].ToString().Trim('"'));
+                    }
+                }
+
+                sb.Append("</td></tr>");
+
+                Cleanup(sb);
+            }
+
+            sb.Append("</table>");
         }
 
         /// <summary>
@@ -113,7 +140,7 @@ namespace MouseAutomation.Common
 </style>
 ");
             sb.Append($"<body style='background: {this.BackgroundColor}; color: {this.ForegroundColor}; font-family: Segoe UI; padding-top: 10px;'>");
-            sb.Append("<h2>Lua Syntax Documentation</h2><hr />");
+            sb.Append("<h2>Lua Syntax Extensions Documentation</h2><hr />");
 
             foreach (string doc in this.Docs)
             {
