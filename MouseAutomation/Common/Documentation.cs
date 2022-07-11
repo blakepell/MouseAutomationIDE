@@ -10,6 +10,7 @@
 using Argus.Memory;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -18,16 +19,14 @@ namespace MouseAutomation.Common
     /// <summary>
     /// Creates documentation from reflection on an object and via custom attributes.
     /// </summary>
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class Documentation
     {
-        /// <summary>
-        /// #, #171717
-        /// </summary>
         public string BackgroundColor { get; set; } = "#272F33";
 
         public string ForegroundColor { get; set; } = "White";
 
-        public List<string> Docs = new();
+        private List<string> _docs = new();
 
         public void AddHtmlDoc(string header, Type t)
         {
@@ -36,7 +35,7 @@ namespace MouseAutomation.Common
             this.GenerateMethods(header, t, sb);
             this.GenerateProperties(header, t, sb);
 
-            Docs.Add(sb.ToString());
+            _docs.Add(sb.ToString());
             StringBuilderPool.Return(sb);
         }
 
@@ -147,7 +146,7 @@ namespace MouseAutomation.Common
             sb.Append($"<body style='background: {this.BackgroundColor}; color: {this.ForegroundColor}; font-family: Segoe UI; padding-top: 10px;'>");
             sb.Append("<h2>Lua Syntax Extensions Documentation</h2><hr />");
 
-            foreach (string doc in this.Docs)
+            foreach (string doc in this._docs)
             {
                 sb.Append(doc);
             }
