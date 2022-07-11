@@ -13,7 +13,6 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Microsoft.Win32;
 using MoonSharp.Interpreter;
-using Argus.Extensions;
 
 namespace MouseAutomation.Pages
 {
