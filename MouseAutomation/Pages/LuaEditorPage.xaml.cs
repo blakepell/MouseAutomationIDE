@@ -13,6 +13,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Microsoft.Win32;
 using MoonSharp.Interpreter;
+using Argus.Extensions;
 
 namespace MouseAutomation.Pages
 {
@@ -119,10 +120,6 @@ namespace MouseAutomation.Pages
             // Was there any text was auto saved?
             this.Editor.Text = this.AppSettings.AutoSaveText;
 
-            this.ViewModel.StatusText = "Idle";
-
-            //Editor.Options.ConvertTabsToSpaces = true;
-
             App.MouseHook.MouseMove += MouseHookOnMouseMove;
             App.MouseHook.LeftButtonDown += MouseHookOnLeftButtonDown;
             App.MouseHook.LeftButtonUp += MouseHookOnLeftButtonUp;
@@ -180,7 +177,7 @@ namespace MouseAutomation.Pages
                 return;
             }
 
-            this.ViewModel.StatusText = "Running";
+            this.ViewModel.LuaInterpreterStatus = "Running";
 
             var luaPage = AppServices.GetRequiredService<LuaEditorPage>();
             _executionControlToken = new();
@@ -204,15 +201,37 @@ namespace MouseAutomation.Pages
                 sw.Start();
                 _ = await this.Script.DoStringAsync(_executionControlToken, this.Editor.Text);
                 sw.Stop();
-                luaPage.ViewModel.StatusText = $"Completed => Runtime {sw.ElapsedMilliseconds / 1000}s";
+
+                luaPage.ViewModel.LuaInterpreterStatus = $"Completed in {sw.ElapsedMilliseconds / 1000}s";
+
+                // Reset the status to default
+                this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
+                this.ViewModel.StatusBarBackgroundBrush = UIBrushes.LightBlueBrush;
             }
             catch (Exception ex)
             {
                 sw.Stop();
 
-                luaPage.ViewModel.StatusText = ex.GetBaseException() is ScriptTerminationRequestedException 
-                    ? "Stopped" 
-                    : $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
+                if (ex.GetBaseException() is ScriptTerminationRequestedException)
+                {
+                    this.ViewModel.LuaInterpreterStatus = "Stopped";
+
+                    // Reset the status to default
+                    this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
+                    this.ViewModel.StatusBarBackgroundBrush = UIBrushes.LightBlueBrush;
+                }
+                else
+                {
+                    this.ViewModel.LuaInterpreterStatus = "Error";
+
+                    // Set the status to error
+                    this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
+                    this.ViewModel.StatusBarBackgroundBrush = UIBrushes.RedBrush;
+                }
+
+                //luaPage.ViewModel.StatusText = ex.GetBaseException() is ScriptTerminationRequestedException 
+                //    ? "Stopped" 
+                //    : $"Error: {ex.Message} => Runtime: {sw.ElapsedMilliseconds / 1000}s";
             }
             finally
             {
@@ -224,9 +243,6 @@ namespace MouseAutomation.Pages
 
                 this.ViewModel.StopButtonEnabled = false;
                 this.ViewModel.StopButtonBrush = UIBrushes.GrayBrush;
-
-                this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
-                this.ViewModel.StatusBarBackgroundBrush = UIBrushes.LightBlueBrush;
             }
         }
 
@@ -237,15 +253,15 @@ namespace MouseAutomation.Pages
         /// <param name="e"></param>
         private void ButtonStop_OnClick(object sender, RoutedEventArgs e)
         {
-            this.ViewModel.StatusText = "Attempting to stop, please wait.";
+            this.ViewModel.LuaInterpreterStatus = "Stopping";
 
             _executionControlToken?.Terminate();
 
-            this.ViewModel.PlayButtonEnabled = true;
-            this.ViewModel.PlayButtonBrush = UIBrushes.GreenBrush;
+            this.ViewModel.PlayButtonEnabled = false;
+            this.ViewModel.PlayButtonBrush = UIBrushes.GrayBrush;
 
-            this.ViewModel.RecordButtonEnabled = true;
-            this.ViewModel.RecordButtonBrush = UIBrushes.RedBrush;
+            this.ViewModel.RecordButtonEnabled = false;
+            this.ViewModel.RecordButtonBrush = UIBrushes.GrayBrush;
 
             this.ViewModel.StopButtonEnabled = false;
             this.ViewModel.StopButtonBrush = UIBrushes.GrayBrush;
@@ -260,7 +276,7 @@ namespace MouseAutomation.Pages
 
             this._recorderStopwatch.Stop();
 
-            this.ViewModel.StatusText = $"{this.MouseEvents.Count} events recorded.";
+            this.ViewModel.StatusText = $"{this.MouseEvents.Count:N0} events recorded.";
 
             for (int i = this.MouseEvents.Count - 1; i > 0; i--)
             {
@@ -308,6 +324,16 @@ namespace MouseAutomation.Pages
             }
 
             this.Editor.Text = sb.ToString();
+
+            // Reenable the menu options.
+            this.ViewModel.PlayButtonEnabled = true;
+            this.ViewModel.PlayButtonBrush = UIBrushes.GreenBrush;
+
+            this.ViewModel.RecordButtonEnabled = true;
+            this.ViewModel.RecordButtonBrush = UIBrushes.RedBrush;
+
+            this.ViewModel.StopButtonEnabled = false;
+            this.ViewModel.StopButtonBrush = UIBrushes.GrayBrush;
         }
 
         /// <summary>
@@ -366,7 +392,7 @@ namespace MouseAutomation.Pages
                     var t = typeof(MouseScriptCommands);
                     var ui = typeof(UIScriptCommands);
 
-                    var sb = new StringBuilder();
+                    var sb = StringBuilderPool.Take();
                     sb.Append(@"\b(");
 
                     // This should get all of our methods but exclude ones that are defined on
@@ -385,6 +411,7 @@ namespace MouseAutomation.Pages
                     sb.Append(@")\w*\b");
 
                     rule.Regex = new Regex(sb.ToString());
+                    StringBuilderPool.Return(sb);
                     rules.Add(rule);
                 }
             }
@@ -440,6 +467,14 @@ namespace MouseAutomation.Pages
             else if (e.Key == Key.F5 && (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)))
             {
                 ButtonStop_OnClick(sender, e);
+            }
+            else if (e.Key == Key.K && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                this.CommentOutSelection();
+            }
+            else if (e.Key == Key.U && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                this.UncommentSelection();
             }
             else if (Keyboard.IsKeyDown(Key.F6))
             {
@@ -518,9 +553,7 @@ namespace MouseAutomation.Pages
         /// <summary>
         /// Comments out any selected code.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonCommentOutSelection(object sender, RoutedEventArgs e)
+        private void CommentOutSelection()
         {
             if (this.Editor.SelectionLength <= 1)
             {
@@ -544,17 +577,15 @@ namespace MouseAutomation.Pages
                 }
             }
 
-            this.Editor.SelectedText = sb.ToString();
+            this.Editor.SelectedText = sb.ToString().TrimEnd('\r', '\n');
 
             StringBuilderPool.Return(sb);
         }
 
         /// <summary>
-        /// Uncomments any selected code.
+        /// Uncomment any selected code.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonUncommentSelection(object sender, RoutedEventArgs e)
+        private void UncommentSelection()
         {
             if (this.Editor.SelectionLength <= 1)
             {
@@ -578,7 +609,7 @@ namespace MouseAutomation.Pages
                 }
             }
 
-            this.Editor.SelectedText = sb.ToString();
+            this.Editor.SelectedText = sb.ToString().TrimEnd('\r', '\n');
 
             StringBuilderPool.Return(sb);
         }

@@ -11,11 +11,15 @@
       Loaded="AvalonLuaEditor_OnLoaded"
       Unloaded="AvalonLuaEditor_OnUnloaded"
       Title="Lua Editor">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*" />
-            <RowDefinition Height="25" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <ToolBarTray Grid.Row="0" Margin="0,0,0,0" Height="30"  VerticalAlignment="Top">
@@ -52,7 +56,8 @@
                 </Button>
             </ToolBar>
             <ToolBar>
-                <Button Click="ButtonRunLua_OnClick" IsEnabled="{Binding Path=PlayButtonEnabled}"
+                <Button Click="ButtonRunLua_OnClick"
+                        IsEnabled="{Binding Path=PlayButtonEnabled}"
                         ToolTip="Stop HotKey: F5"
                         Margin="0,0,0,0"
                         BorderThickness="0">
@@ -68,12 +73,13 @@
                     </Button.Content>
                 </Button>
                 <Button Click="ButtonStop_OnClick"
+                        IsEnabled="{Binding Path=StopButtonEnabled}"
                         ToolTip="Stop HotKey: F6"
                         Margin="0,0,0,0"
                         BorderThickness="0">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal" Margin="0">
-                            <iconPacks:PackIconMaterial Kind="Stop" IsEnabled="{Binding Path=StopButtonEnabled}"
+                            <iconPacks:PackIconMaterial Kind="Stop"
                                                         Foreground="{Binding Path=StopButtonBrush}" 
                                                         Height="14"
                                                         Width="14"
@@ -84,7 +90,8 @@
                 </Button>
             </ToolBar>
             <ToolBar>
-                <Button Click="ButtonRecord_OnClick" IsEnabled="{Binding Path=RecordButtonEnabled}"
+                <Button Click="ButtonRecord_OnClick"
+                        IsEnabled="{Binding Path=RecordButtonEnabled}"
                         Margin="0,0,0,0"
                         BorderThickness="0">
                     <Button.Content>
@@ -112,16 +119,56 @@
             BorderBrush="#666666">
         </avalonedit:TextEditor>
 
-        <StatusBar Grid.Row="2" Foreground="{Binding Path=StatusBarForegroundBrush}"  Background="{Binding Path=StatusBarBackgroundBrush}" BorderBrush="#444444" 
-                   BorderThickness="0,.9,0,0" 
-                   Padding="0">
-            <StatusBarItem>
+        <DockPanel Grid.Row="2" Background="#252526" Height="250" Visibility="{Binding IsChecked,ElementName=ToggleSwitchConsoleVisible,Converter={StaticResource BoolToVis}}">
+            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                <Border Height="2" Background="#7160E8"></Border>
+                <TextBlock Text="Console" Padding="5,3,0,3"></TextBlock>
+            </StackPanel>
+            <avalonedit:TextEditor DockPanel.Dock="Bottom"
+                x:Name="Console" ShowLineNumbers="False" WordWrap="False"
+                FontFamily="Consolas" FontSize="10pt" IsReadOnly="True"
+                Padding="0,0,0,0" Margin="0,0,0,0"
+                Background="#252526" Foreground="#DCDCDC"
+                ScrollViewer.PanningMode="VerticalOnly"
+                BorderThickness="0,.9,0,0"
+                BorderBrush="#666666">
+            </avalonedit:TextEditor>
+
+        </DockPanel>
+
+        <StatusBar Grid.Row="3" Margin="0,0,0,0">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Status:"></TextBlock>
-                    <TextBlock Text="{Binding Path=StatusText}" Margin="5,0,0,0"></TextBlock>
+                    <TextBlock Text="Status:"
+                               Foreground="{DynamicResource TextFillColorTertiaryBrush}"></TextBlock>
+                    <TextBlock Margin="5,0,0,0"
+                               Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                               Text="{Binding Path=StatusText}" />
                 </StackPanel>
             </StatusBarItem>
-            <StatusBarItem DockPanel.Dock="Right">
+            <Separator Grid.Column="1" />
+            <StatusBarItem Grid.Column="2">
+                <ui:ToggleSwitch x:Name="ToggleSwitchConsoleVisible"
+                    HorizontalAlignment="Center"
+                    Content="Show Console" FontSize="12" />
+            </StatusBarItem>
+            <Separator Grid.Column="3" />
+            <StatusBarItem Grid.Column="4">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="x:" Margin="10,0,0,0"></TextBlock>
                     <TextBlock Text="{Binding Path=X}" Margin="5,0,0,0"></TextBlock>
@@ -130,9 +177,12 @@
                     <TextBlock Text="{Binding Path=Y}" Margin="5,0,10,0"></TextBlock>
                 </StackPanel>
             </StatusBarItem>
-            <!-- This empty StatusBarItem pulls the previous item to the right -->
-            <StatusBarItem>
-                <TextBlock></TextBlock>
+            <Separator Grid.Column="5" />
+            <StatusBarItem Grid.Column="6">
+                <ui:Badge Background="{Binding Path=StatusBarBackgroundBrush}" 
+                          Foreground="{Binding Path=StatusBarForegroundBrush}" 
+                          Content="{Binding Path=LuaInterpreterStatus}">
+                </ui:Badge>
             </StatusBarItem>
         </StatusBar>
     </Grid>

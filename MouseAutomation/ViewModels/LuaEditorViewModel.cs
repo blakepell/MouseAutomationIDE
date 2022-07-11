@@ -36,7 +36,7 @@ namespace MouseAutomation.ViewModels
         }
 
         public static readonly DependencyProperty StatusTextProperty = DependencyProperty.Register(
-            nameof(StatusText), typeof(string), typeof(LuaEditorViewModel), new PropertyMetadata(default(string)));
+            nameof(StatusText), typeof(string), typeof(LuaEditorViewModel), new PropertyMetadata(""));
 
         /// <summary>
         /// Status text at the bottom of the code window.
@@ -49,6 +49,15 @@ namespace MouseAutomation.ViewModels
 
         public static readonly DependencyProperty PlayButtonEnabledProperty = DependencyProperty.Register(
             nameof(PlayButtonEnabled), typeof(bool), typeof(LuaEditorViewModel), new PropertyMetadata(true));
+
+        public static readonly DependencyProperty LuaInterpreterStatusProperty = DependencyProperty.Register(
+            nameof(LuaInterpreterStatus), typeof(string), typeof(LuaEditorViewModel), new PropertyMetadata("Idle"));
+
+        public string LuaInterpreterStatus
+        {
+            get => (string)GetValue(LuaInterpreterStatusProperty);
+            set => SetValue(LuaInterpreterStatusProperty, value);
+        }
 
         /// <summary>
         /// If a Lua script is currently running.
@@ -93,7 +102,7 @@ namespace MouseAutomation.ViewModels
         }
 
         public static readonly DependencyProperty StopButtonEnabledProperty = DependencyProperty.Register(
-            nameof(StopButtonEnabled), typeof(bool), typeof(LuaEditorViewModel), new PropertyMetadata(true));
+            nameof(StopButtonEnabled), typeof(bool), typeof(LuaEditorViewModel), new PropertyMetadata(false));
 
         public bool StopButtonEnabled
         {
