@@ -290,5 +290,29 @@ namespace MouseAutomation.Lua
             var editor = AppServices.GetRequiredService<LuaEditorPage>();
             editor.Console.Text = "";
         }
+
+        /// <summary>
+        /// TODO: Move into Win32 class.
+        /// </summary>
+        /// <param name="hwnd"></param>
+        /// <param name="rectangle"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowRect(IntPtr hwnd, ref MouseAutomation.Common.Rect rectangle);
+
+        [Description("Returns a Rect for the specified process if it's found.")]
+        public MouseAutomation.Common.Rect GetWindowPosition(string processName)
+        {
+            var rect = new MouseAutomation.Common.Rect();
+            var teamsProc = Process.GetProcessesByName(processName).FirstOrDefault();
+
+            if (teamsProc == null)
+            {
+                return rect;
+            }
+
+            _ = GetWindowRect(teamsProc.MainWindowHandle, ref rect);
+            return rect;
+        }
     }
 }

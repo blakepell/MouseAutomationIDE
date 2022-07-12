@@ -103,6 +103,8 @@ namespace MouseAutomation.Pages
                 UserData.RegisterType(uiCommands.GetType());
             }
 
+            UserData.RegisterType<MouseAutomation.Common.Rect>();
+
             // Setup the initial state of button that is not the default.
             this.ViewModel.StopButtonBrush = UIBrushes.GrayBrush;
             this.ViewModel.StopButtonEnabled = false;
