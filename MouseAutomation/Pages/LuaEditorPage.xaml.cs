@@ -179,6 +179,11 @@ namespace MouseAutomation.Pages
 
             this.ViewModel.LuaInterpreterStatus = "Running";
 
+            if (AppSettings.ClearConsoleOnRun)
+            {
+                Console.Clear();
+            }
+
             if (AppSettings.ShowConsoleOnRun)
             {
                 ToggleSwitchConsoleVisible.IsChecked = true;

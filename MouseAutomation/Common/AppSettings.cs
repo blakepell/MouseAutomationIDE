@@ -65,6 +65,16 @@ namespace MouseAutomation.Common
         }
 
         [JsonIgnore]
+        public static readonly DependencyProperty ClearConsoleOnRunProperty = DependencyProperty.Register(
+            nameof(ClearConsoleOnRun), typeof(bool), typeof(AppSettings), new PropertyMetadata(true));
+
+        public bool ClearConsoleOnRun
+        {
+            get => (bool)GetValue(ClearConsoleOnRunProperty);
+            set => SetValue(ClearConsoleOnRunProperty, value);
+        }
+
+        [JsonIgnore]
         public static readonly DependencyProperty ControlClickMillisecondsProperty = DependencyProperty.Register(
             nameof(ControlClickMilliseconds), typeof(int), typeof(AppSettings), new PropertyMetadata(500));
 
