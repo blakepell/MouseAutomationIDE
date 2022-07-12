@@ -64,5 +64,14 @@ namespace MouseAutomation.Common
             set => SetValue(ShowTimestampOnConsoleProperty, value);
         }
 
+        [JsonIgnore]
+        public static readonly DependencyProperty ControlClickMillisecondsProperty = DependencyProperty.Register(
+            nameof(ControlClickMilliseconds), typeof(int), typeof(AppSettings), new PropertyMetadata(500));
+
+        public int ControlClickMilliseconds
+        {
+            get => (int)GetValue(ControlClickMillisecondsProperty);
+            set => SetValue(ControlClickMillisecondsProperty, value);
+        }
     }
 }

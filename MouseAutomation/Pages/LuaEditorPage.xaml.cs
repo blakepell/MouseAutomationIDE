@@ -148,9 +148,6 @@ namespace MouseAutomation.Pages
         {
             Editor.TextArea.TextEntering -= AvalonLuaEditor_TextEntering;
             Editor.TextArea.TextEntered -= AvalonLuaEditor_TextEntered;
-            App.MouseHook.MouseMove -= this.MouseHookOnMouseMove;
-            App.MouseHook.LeftButtonDown -= this.MouseHookOnLeftButtonDown;
-            App.MouseHook.LeftButtonUp -= this.MouseHookOnLeftButtonUp;
         }
 
         /// <summary>
@@ -667,6 +664,24 @@ namespace MouseAutomation.Pages
 
         private void MouseHookOnLeftButtonUp(MouseHook.MSLLHOOKSTRUCT mouse)
         {
+            // First, check for just an individual control click even if not recording, if
+            // found put the script commands in for it then get out.
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                // Make sure this always goes on a new line.
+                if (Editor.Text.Length > 0 && Editor.Text[^1] != '\n')
+                {
+                    Editor.AppendText("\r\n");
+                }
+
+                GetCursorPos(out System.Drawing.Point p);
+                Editor.AppendText($"mouse.SetPosition({p.X}, {p.Y})\r\n");
+                Editor.AppendText("mouse.LeftClick()\r\n");
+                Editor.AppendText($"ui.Sleep({AppSettings.ControlClickMilliseconds})\r\n");
+                Editor.ScrollToEnd();
+                return;
+            }
+
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
             {
@@ -718,6 +733,24 @@ namespace MouseAutomation.Pages
 
         private void MouseHookOnRightButtonUp(MouseHook.MSLLHOOKSTRUCT mouse)
         {
+            // First, check for just an individual control click even if not recording, if
+            // found put the script commands in for it then get out.
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                // Make sure this always goes on a new line.
+                if (Editor.Text.Length > 0 && Editor.Text[^1] != '\n')
+                {
+                    Editor.AppendText("\r\n");
+                }
+
+                GetCursorPos(out System.Drawing.Point p);
+                Editor.AppendText($"mouse.SetPosition({p.X}, {p.Y})\r\n");
+                Editor.AppendText("mouse.RightClick()\r\n");
+                Editor.AppendText($"ui.Sleep({AppSettings.ControlClickMilliseconds})\r\n");
+                Editor.ScrollToEnd();
+                return;
+            }
+
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
             {
@@ -800,7 +833,7 @@ namespace MouseAutomation.Pages
             var dialog = new SaveFileDialog
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                Filter = "Lua files (*.lua)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*",
+                Filter = "Lua files (*.lua)|*.lua|Text Files (*.txt)|*.txt|All files (*.*)|*.*",
                 Title = "Save Lua Script"
             };
 

@@ -51,6 +51,8 @@ namespace MouseAutomation.Pages
             sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">Shift+F5</span></td><td class='cell'>Stops Running Program</td></tr>");
             sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">Ctrl+K</span></td><td class='cell'>Comments out selection</td></tr>");
             sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">Ctrl+U</span></td><td class='cell'>Uncomment selection</td></tr>");
+            sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">Ctrl+Left Click</span></td><td class='cell'>Generates the code to left click on the screen coordinate even when not recording a macro.  This works outside of the editor window.</td></tr>");
+            sb.AppendLine($"<tr style=\"background: #191E21\"><td class='cell'><span class=\"class\">Ctrl+Right Click</span></td><td class='cell'>Generates the code to right click on the screen coordinate even when not recording a macro.  This works outside of the editor window.</td></tr>");
 
             sb.Append("</table>");
 

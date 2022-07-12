@@ -28,6 +28,14 @@
                 <CheckBox IsChecked="{Binding ShowTimestampOnConsole}"
                           Margin="0,8,0,0"
                           Content="Show Timestamp on Console" />
+
+                <StackPanel Orientation="Vertical"
+                            Margin="0,5,10,0">
+                    <TextBlock Text="Code Generation: Milliseconds to sleep on Control+Click"
+                               Margin="0,0,0,5"></TextBlock>
+                    <ui:NumberBox Value="{Binding Path=ControlClickMilliseconds, Mode=TwoWay}"
+                                Max="5000" Min="0" Step="100" DecimalPlaces="0" />
+                </StackPanel>
             </StackPanel>
         </Border>
     </Border>
