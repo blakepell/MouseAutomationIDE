@@ -257,10 +257,15 @@ namespace MouseAutomation.Lua
         [Description("Writes a log entry to the console.")]
         public void ConsoleLog(string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => ConsoleLog(text)));
+                Application.Current.Dispatcher.Invoke(() => this.ConsoleLog(text));
                 return;
             }
 
@@ -283,7 +288,7 @@ namespace MouseAutomation.Lua
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(this.ConsoleClear));
+                Application.Current.Dispatcher.Invoke(this.ConsoleClear);
                 return;
             }
 

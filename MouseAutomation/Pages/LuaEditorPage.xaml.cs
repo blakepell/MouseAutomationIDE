@@ -13,6 +13,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Microsoft.Win32;
 using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Platforms;
 
 namespace MouseAutomation.Pages
 {
@@ -210,8 +211,9 @@ namespace MouseAutomation.Pages
             {
                 sw.Start();
                 _ = await this.Script.DoStringAsync(_executionControlToken, this.Editor.Text);
+                //this.Script.DoString(this.Editor.Text);
                 sw.Stop();
-
+                
                 luaPage.ViewModel.LuaInterpreterStatus = $"Completed in {sw.ElapsedMilliseconds / 1000}s";
 
                 // Reset the status to default
@@ -232,6 +234,13 @@ namespace MouseAutomation.Pages
                 }
                 else
                 {
+                    if (ex.InnerException is InterpreterException luaEx)
+                    {
+                        // TODO: DI inject
+                        var script = new UIScriptCommands();
+                        script.ConsoleLog($"ERROR {luaEx.DecoratedMessage}");
+                    }
+
                     this.ViewModel.LuaInterpreterStatus = "Error";
 
                     // Set the status to error
