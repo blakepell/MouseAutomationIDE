@@ -133,8 +133,6 @@ namespace LuaAutomation.Pages
             App.MouseHook.RightButtonUp += MouseHookOnRightButtonUp;
             App.MouseHook.MiddleButtonDown += MouseHookOnMiddleButtonDown;
             App.MouseHook.MiddleButtonUp += MouseHookOnMiddleButtonUp;
-
-            this.ViewModel.StatusText = "n/a";
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
