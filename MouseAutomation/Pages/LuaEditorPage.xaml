@@ -154,8 +154,6 @@
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Status:"
-                               Foreground="{DynamicResource TextFillColorTertiaryBrush}"></TextBlock>
                     <TextBlock Margin="5,0,0,0"
                                Foreground="{DynamicResource TextFillColorTertiaryBrush}"
                                Text="{Binding Path=StatusText}" />

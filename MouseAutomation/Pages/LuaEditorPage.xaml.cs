@@ -130,7 +130,7 @@ namespace MouseAutomation.Pages
             App.MouseHook.MiddleButtonDown += MouseHookOnMiddleButtonDown;
             App.MouseHook.MiddleButtonUp += MouseHookOnMiddleButtonUp;
 
-            this.ViewModel.StatusText = "Startup Complete";
+            this.ViewModel.StatusText = "n/a";
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
@@ -239,6 +239,11 @@ namespace MouseAutomation.Pages
                         // TODO: DI inject
                         var script = new UIScriptCommands();
                         script.ConsoleLog($"ERROR {luaEx.DecoratedMessage}");
+                    }
+                    else
+                    {
+                        var script = new UIScriptCommands();
+                        script.ConsoleLog($"ERROR {ex.Message}");
                     }
 
                     this.ViewModel.LuaInterpreterStatus = "Error";

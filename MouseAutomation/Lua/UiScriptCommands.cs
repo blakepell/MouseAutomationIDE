@@ -319,5 +319,25 @@ namespace MouseAutomation.Lua
             _ = GetWindowRect(teamsProc.MainWindowHandle, ref rect);
             return rect;
         }
+
+        [Description("Sets the focus to the specified process.")]
+        public void SetWindowFocus(string processName)
+        {
+            var proc = Process.GetProcessesByName(processName).FirstOrDefault();
+
+            if (proc == null)
+            {
+                return;
+            }
+
+            _ = Argus.Windows.Window.SetForegroundWindow(proc.MainWindowHandle);
+        }
+
+        [Description("Sets the focus to the specified process.")]
+        public void SetWindowFocus(int processId)
+        {
+            var proc = Process.GetProcessById(processId);
+            _ = Argus.Windows.Window.SetForegroundWindow(proc.MainWindowHandle);
+        }
     }
 }
