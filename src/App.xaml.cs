@@ -24,6 +24,11 @@ namespace LuaAutomation
         /// </summary>
         internal static MouseHook MouseHook = new();
 
+        /// <summary>
+        /// KeyHook class for use with recording mouse macros.
+        /// </summary>
+        internal static KeyHook KeyHook = new();
+
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
             try
@@ -43,6 +48,7 @@ namespace LuaAutomation
             try
             {
                 MouseHook.Install();
+                KeyHook.Install();
             }
             catch (Exception ex)
             {
@@ -77,6 +83,7 @@ namespace LuaAutomation
             try
             {
                 MouseHook.Uninstall();
+                KeyHook.Uninstall();
             }
             catch (Exception exception)
             {

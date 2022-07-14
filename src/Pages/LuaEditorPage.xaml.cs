@@ -122,6 +122,7 @@ namespace LuaAutomation.Pages
             // Was there any text was auto saved?
             this.Editor.Text = this.AppSettings.AutoSaveText;
 
+            // Wire up the mouse hooks for recording macros.
             App.MouseHook.MouseMove += MouseHookOnMouseMove;
             App.MouseHook.LeftButtonDown += MouseHookOnLeftButtonDown;
             App.MouseHook.LeftButtonUp += MouseHookOnLeftButtonUp;
@@ -129,6 +130,21 @@ namespace LuaAutomation.Pages
             App.MouseHook.RightButtonUp += MouseHookOnRightButtonUp;
             App.MouseHook.MiddleButtonDown += MouseHookOnMiddleButtonDown;
             App.MouseHook.MiddleButtonUp += MouseHookOnMiddleButtonUp;
+
+            // Wire up the key hooks for recording macros.
+            App.KeyHook.KeyUp += KeyHookOnKeyUp;
+            App.KeyHook.KeyDown += KeyHookOnKeyDown;
+        }
+
+        private void KeyHookOnKeyDown(KeyHook.VKeys key)
+        {
+            Console.AppendText(key.ToString());
+        }
+
+        private void KeyHookOnKeyUp(KeyHook.VKeys key)
+        {
+            var k = KeyInterop.KeyFromVirtualKey((int)key);
+            Console.AppendText(k.ToString());
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
