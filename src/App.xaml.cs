@@ -57,7 +57,8 @@ namespace LuaAutomation
 
             var appSettings = AppServices.GetRequiredService<AppSettings>() ?? new AppSettings();
 
-            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            // Make sure the there's no cross thread errors saving the file since this has bindable
+            // stuff on it that touched the UI at some point.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
                 await Application.Current.Dispatcher.Invoke(async () =>
