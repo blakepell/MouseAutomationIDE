@@ -57,14 +57,21 @@ namespace LuaAutomation
 
             var appSettings = AppServices.GetRequiredService<AppSettings>() ?? new AppSettings();
 
-            // Save the settings.
-            if (!appSettings.AutoSaveOnExit)
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                appSettings.AutoSaveText = null;
-            }
+                await Application.Current.Dispatcher.Invoke(async () =>
+                {
+                    // Save the settings.
+                    if (!appSettings.AutoSaveOnExit)
+                    {
+                        appSettings.AutoSaveText = null;
+                    }
 
-            var file = new Argus.IO.JsonFileService(Environment.SpecialFolder.LocalApplicationData, APP_FOLDER);
-            await file.SaveAsync(appSettings, "AppSettings.json");
+                    var file = new Argus.IO.JsonFileService(Environment.SpecialFolder.LocalApplicationData, APP_FOLDER);
+                    await file.SaveAsync(appSettings, "AppSettings.json");
+                });
+            }
 
             try
             {

@@ -654,7 +654,7 @@ namespace LuaAutomation.Pages
             _recorderStopwatch.Restart();
         }
 
-        private void MouseHookOnMouseMove(MouseHook.MSLLHOOKSTRUCT mouse)
+        private void MouseHookOnMouseMove(MouseHook.MouseHookStruct mouse)
         {
             // So we're using the mouse hook to only get the info when the mouse moves
             // but also, it's wrong with DPI stuff.. so we'll then just make the call (knowing
@@ -681,7 +681,7 @@ namespace LuaAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnLeftButtonUp(MouseHook.MSLLHOOKSTRUCT mouse)
+        private void MouseHookOnLeftButtonUp(MouseHook.MouseHookStruct mouse)
         {
             // First, check for just an individual control click even if not recording, if
             // found put the script commands in for it then get out.
@@ -716,7 +716,7 @@ namespace LuaAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnLeftButtonDown(MouseHook.MSLLHOOKSTRUCT mouse)
+        private void MouseHookOnLeftButtonDown(MouseHook.MouseHookStruct mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
@@ -733,7 +733,7 @@ namespace LuaAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnRightButtonDown(MouseHook.MSLLHOOKSTRUCT mouse)
+        private void MouseHookOnRightButtonDown(MouseHook.MouseHookStruct mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
@@ -750,7 +750,7 @@ namespace LuaAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnRightButtonUp(MouseHook.MSLLHOOKSTRUCT mouse)
+        private void MouseHookOnRightButtonUp(MouseHook.MouseHookStruct mouse)
         {
             // First, check for just an individual control click even if not recording, if
             // found put the script commands in for it then get out.
@@ -785,7 +785,7 @@ namespace LuaAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnMiddleButtonUp(MouseHook.MSLLHOOKSTRUCT mouse)
+        private void MouseHookOnMiddleButtonUp(MouseHook.MouseHookStruct mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
@@ -802,7 +802,7 @@ namespace LuaAutomation.Pages
             this.MouseEvents.Add(e);
         }
 
-        private void MouseHookOnMiddleButtonDown(MouseHook.MSLLHOOKSTRUCT mouse)
+        private void MouseHookOnMiddleButtonDown(MouseHook.MouseHookStruct mouse)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
