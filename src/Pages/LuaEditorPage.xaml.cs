@@ -69,10 +69,6 @@ namespace LuaAutomation.Pages
         /// </summary>
         private Script Script { get; set; }
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetCursorPos(out System.Drawing.Point point);
-
         public LuaEditorPage()
         {
             InitializeComponent();
@@ -664,7 +660,7 @@ namespace LuaAutomation.Pages
             // but also, it's wrong with DPI stuff.. so we'll then just make the call (knowing
             // the coordinates are different) to GetCursorPos which will correctly return
             // the values.
-            GetCursorPos(out System.Drawing.Point p);
+            Win32.GetCursorPos(out System.Drawing.Point p);
 
             this.ViewModel.X = p.X;
             this.ViewModel.Y = p.Y;
@@ -697,7 +693,7 @@ namespace LuaAutomation.Pages
                     Editor.AppendText("\r\n");
                 }
 
-                GetCursorPos(out System.Drawing.Point p);
+                Win32.GetCursorPos(out System.Drawing.Point p);
                 Editor.AppendText($"mouse.SetPosition({p.X}, {p.Y})\r\n");
                 Editor.AppendText("mouse.LeftClick()\r\n");
                 Editor.AppendText($"ui.Sleep({AppSettings.ControlClickMilliseconds})\r\n");
@@ -766,7 +762,7 @@ namespace LuaAutomation.Pages
                     Editor.AppendText("\r\n");
                 }
 
-                GetCursorPos(out System.Drawing.Point p);
+                Win32.GetCursorPos(out System.Drawing.Point p);
                 Editor.AppendText($"mouse.SetPosition({p.X}, {p.Y})\r\n");
                 Editor.AppendText("mouse.RightClick()\r\n");
                 Editor.AppendText($"ui.Sleep({AppSettings.ControlClickMilliseconds})\r\n");
