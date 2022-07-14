@@ -8,6 +8,7 @@
  */
 
 using LuaAutomation.Common;
+using LuaAutomation.Dialogs;
 
 namespace LuaAutomation.Pages
 {
@@ -27,6 +28,15 @@ namespace LuaAutomation.Pages
         {
             var page = AppServices.GetRequiredService<LuaEditorPage>();
             page.Editor.Options.ConvertTabsToSpaces = CheckBoxConvertTabsToSpaces.IsChecked ?? false;
+        }
+
+        private void ButtonAbout_OnClick(object sender, RoutedEventArgs e)
+        {
+            var win = AppServices.GetRequiredService<MainWindow>();
+
+            var about = new AboutDialog();
+            about.Owner = win;
+            about.ShowDialog();
         }
     }
 }
