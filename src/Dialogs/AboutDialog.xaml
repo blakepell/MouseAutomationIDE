@@ -24,6 +24,8 @@
             Grid.Row="0"
             ForceShutdown="False"
             CanMaximize="False"
+            ShowMaximize="False"
+            ShowMinimize="False"
             Icon="pack://application:,,/Assets/app.png"
             MinimizeToTray="False"
             UseSnapLayout="True">
