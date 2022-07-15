@@ -144,18 +144,6 @@ namespace LuaAutomation.Pages
             App.KeyHook.KeyUp += KeyHookOnKeyUp;
         }
 
-        private void KeyHookOnKeyUp(KeyHook.VKeys key)
-        {
-            var k = KeyInterop.KeyFromVirtualKey((int)key);
-            var ks = new KeyboardHelper.KeyState();
-            KeyboardHelper.KeyToChar(k, ref ks);
-
-            if (ks.Printable)
-            {
-                Console.AppendText(ks.Character.ToString());
-            }
-        }
-
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
         {
             this.SetupLuaEditor();
@@ -677,6 +665,28 @@ namespace LuaAutomation.Pages
 
             this.MouseEvents.Clear();
             _recorderStopwatch.Restart();
+        }
+
+        /// <summary>
+        /// When a full key press occurs.
+        /// </summary>
+        /// <param name="key"></param>
+        private void KeyHookOnKeyUp(KeyHook.VKeys key)
+        {
+            // If we're not recording, ditch out.
+            if (!this._recorderStopwatch.IsRunning)
+            {
+                return;
+            }
+
+            var k = KeyInterop.KeyFromVirtualKey((int)key);
+            KeyboardHelper.KeyToChar(k, out var ks);
+
+            if (ks.Printable)
+            {
+                //ui.SendKeys("")
+                Console.AppendText(ks.Character.ToString());
+            }
         }
 
         private void MouseHookOnMouseMove(MouseHook.MouseHookStruct mouse)

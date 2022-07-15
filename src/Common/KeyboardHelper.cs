@@ -63,7 +63,7 @@ namespace LuaAutomation.Common
         /// </summary>
         /// <param name="key"></param>
         /// <param name="keyDecode"></param>
-        public static void KeyToChar(Key key, ref KeyState keyDecode)
+        public static void KeyToChar(Key key, out KeyState keyDecode)
         {
             keyDecode.Key = key;
             keyDecode.Alt = IsAltDown();
