@@ -29,8 +29,8 @@
         /// </summary>
         public void Install()
         {
-            _hookHandler = HookFunc;
-            hookID = SetHook(_hookHandler);
+            _hookHandler = this.HookFunc;
+            hookID = this.SetHook(_hookHandler);
         }
 
         /// <summary>
@@ -66,17 +66,17 @@
 
                 if (iwParam == NativeMethods.WM_KEYDOWN || iwParam == NativeMethods.WM_SYSKEYDOWN)
                 {
-                    if (KeyDown != null)
+                    if (this.KeyDown != null)
                     {
-                        KeyDown((VirtualKeys)Marshal.ReadInt32(lParam));
+                        this.KeyDown((VirtualKeys)Marshal.ReadInt32(lParam));
                     }
                 }
 
                 if (iwParam == NativeMethods.WM_KEYUP || iwParam == NativeMethods.WM_SYSKEYUP)
                 {
-                    if (KeyUp != null)
+                    if (this.KeyUp != null)
                     {
-                        KeyUp((VirtualKeys)Marshal.ReadInt32(lParam));
+                        this.KeyUp((VirtualKeys)Marshal.ReadInt32(lParam));
                     }
                 }
             }
@@ -89,7 +89,7 @@
         /// </summary>
         ~KeyHook()
         {
-            Uninstall();
+            this.Uninstall();
         }
 
         /// <summary>
