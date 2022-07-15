@@ -671,7 +671,7 @@ namespace LuaAutomation.Pages
         /// When a full key press occurs.
         /// </summary>
         /// <param name="key"></param>
-        private void KeyHookOnKeyUp(KeyHook.VKeys key)
+        private void KeyHookOnKeyUp(VirtualKeys key)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
