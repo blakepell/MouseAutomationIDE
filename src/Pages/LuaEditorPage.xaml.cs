@@ -142,18 +142,18 @@ namespace LuaAutomation.Pages
 
             // Wire up the key hooks for recording macros.
             App.KeyHook.KeyUp += KeyHookOnKeyUp;
-            App.KeyHook.KeyDown += KeyHookOnKeyDown;
-        }
-
-        private void KeyHookOnKeyDown(KeyHook.VKeys key)
-        {
-            Console.AppendText(key.ToString());
         }
 
         private void KeyHookOnKeyUp(KeyHook.VKeys key)
         {
             var k = KeyInterop.KeyFromVirtualKey((int)key);
-            Console.AppendText(k.ToString());
+            var ks = new KeyboardHelper.KeyState();
+            KeyboardHelper.KeyToChar(k, ref ks);
+
+            if (ks.Printable)
+            {
+                Console.AppendText(ks.Character.ToString());
+            }
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)

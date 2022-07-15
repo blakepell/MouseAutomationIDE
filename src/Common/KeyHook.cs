@@ -244,7 +244,7 @@
             OEM_CLEAR = 0xFE // Clear key
         }
 
-        private KeyboardHookHandler hookHandler;
+        private KeyboardHookHandler _hookHandler;
 
         /// <summary>
         /// Hook ID
@@ -256,8 +256,8 @@
         /// </summary>
         public void Install()
         {
-            hookHandler = this.HookFunc;
-            hookID = this.SetHook(hookHandler);
+            _hookHandler = this.HookFunc;
+            hookID = this.SetHook(_hookHandler);
         }
 
         /// <summary>
@@ -325,8 +325,8 @@
 
         #region Events
 
-        public event KeyboardHookCallback KeyDown;
-        public event KeyboardHookCallback KeyUp;
+        public event KeyboardHookCallback? KeyDown;
+        public event KeyboardHookCallback? KeyUp;
 
         #endregion
 
@@ -342,8 +342,7 @@
         private const int WM_SYSKEYUP = 0x105;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr SetWindowsHookEx(int idHook, KeyboardHookHandler lpfn, IntPtr hMod,
-            uint dwThreadId);
+        private static extern IntPtr SetWindowsHookEx(int idHook, KeyboardHookHandler lpfn, IntPtr hMod, uint dwThreadId);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

@@ -18,30 +18,12 @@ namespace LuaAutomation.Common
     public class MouseHook
     {
         /// <summary>
-        /// Internal callback processing function
-        /// </summary>
-        private delegate IntPtr MouseHookHandler(int nCode, IntPtr wParam, IntPtr lParam);
-        private MouseHookHandler hookHandler;
-
-        /// <summary>
         /// Function to be called when defined even occurs
         /// </summary>
         /// <param name="mouseStruct">MSLLHOOKSTRUCT mouse structure</param>
         public delegate void MouseHookCallback(MouseHookStruct mouseStruct);
 
-        #region Events
-        public event MouseHookCallback? LeftButtonDown;
-        public event MouseHookCallback? LeftButtonUp;
-        public event MouseHookCallback? RightButtonDown;
-        public event MouseHookCallback? RightButtonUp;
-        public event MouseHookCallback? MouseMove;
-        public event MouseHookCallback? MouseWheel;
-        public event MouseHookCallback? DoubleClick;
-        public event MouseHookCallback? MiddleButtonDown;
-        public event MouseHookCallback? MiddleButtonUp;
-        public event MouseHookCallback? XButtonDown;
-        public event MouseHookCallback? XButtonUp;
-        #endregion
+        private MouseHookHandler _hookHandler;
 
         /// <summary>
         /// Low level mouse hook's ID
@@ -53,8 +35,8 @@ namespace LuaAutomation.Common
         /// </summary>
         public void Install()
         {
-            hookHandler = this.HookFunc;
-            hookID = this.SetHook(hookHandler);
+            _hookHandler = this.HookFunc;
+            hookID = this.SetHook(_hookHandler);
         }
 
         /// <summary>
@@ -86,7 +68,7 @@ namespace LuaAutomation.Common
         /// <returns>Hook ID</returns>
         private IntPtr SetHook(MouseHookHandler proc)
         {
-            using (ProcessModule module = Process.GetCurrentProcess().MainModule)
+            using (var module = Process.GetCurrentProcess().MainModule)
             {
                 return SetWindowsHookEx(WH_MOUSE_LL, proc, GetModuleHandle(module.ModuleName), 0);
             }
@@ -102,7 +84,8 @@ namespace LuaAutomation.Common
             {
                 if (MouseMessages.WM_LBUTTONDOWN == (MouseMessages)wParam)
                 {
-                    this.LeftButtonDown?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    this.LeftButtonDown?.Invoke(
+                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_LBUTTONUP == (MouseMessages)wParam)
@@ -112,12 +95,14 @@ namespace LuaAutomation.Common
 
                 if (MouseMessages.WM_RBUTTONDOWN == (MouseMessages)wParam)
                 {
-                    this.RightButtonDown?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    this.RightButtonDown?.Invoke(
+                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_RBUTTONUP == (MouseMessages)wParam)
                 {
-                    this.RightButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    this.RightButtonUp?.Invoke(
+                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_MOUSEMOVE == (MouseMessages)wParam)
@@ -137,12 +122,14 @@ namespace LuaAutomation.Common
 
                 if (MouseMessages.WM_MBUTTONDOWN == (MouseMessages)wParam)
                 {
-                    this.MiddleButtonDown?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    this.MiddleButtonDown?.Invoke(
+                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_MBUTTONUP == (MouseMessages)wParam)
                 {
-                    this.MiddleButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    this.MiddleButtonUp?.Invoke(
+                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_XBUTTONDOWN == (MouseMessages)wParam)
@@ -155,10 +142,33 @@ namespace LuaAutomation.Common
                     this.XButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
             }
+
             return CallNextHookEx(hookID, nCode, wParam, lParam);
         }
 
+        /// <summary>
+        /// Internal callback processing function
+        /// </summary>
+        private delegate IntPtr MouseHookHandler(int nCode, IntPtr wParam, IntPtr lParam);
+
+        #region Events
+
+        public event MouseHookCallback? LeftButtonDown;
+        public event MouseHookCallback? LeftButtonUp;
+        public event MouseHookCallback? RightButtonDown;
+        public event MouseHookCallback? RightButtonUp;
+        public event MouseHookCallback? MouseMove;
+        public event MouseHookCallback? MouseWheel;
+        public event MouseHookCallback? DoubleClick;
+        public event MouseHookCallback? MiddleButtonDown;
+        public event MouseHookCallback? MiddleButtonUp;
+        public event MouseHookCallback? XButtonDown;
+        public event MouseHookCallback? XButtonUp;
+
+        #endregion
+
         #region WinAPI
+
         private const int WH_MOUSE_LL = 14;
 
         private enum MouseMessages
@@ -199,7 +209,7 @@ namespace LuaAutomation.Common
             None = 0x00,
             Injected = 0x01,
             LowerIntegrityLevelInjected = 0x02
-        };
+        }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook, MouseHookHandler lpfn, IntPtr hMod, uint dwThreadId);
@@ -213,6 +223,7 @@ namespace LuaAutomation.Common
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
+
         #endregion
     }
 }
