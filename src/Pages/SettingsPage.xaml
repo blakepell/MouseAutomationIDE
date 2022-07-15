@@ -28,6 +28,10 @@
                           Margin="0,8,0,0"
                           Content="Show Console on Run" />
 
+                <CheckBox IsChecked="{Binding ShowConsoleOnStartup}"
+                          Margin="0,8,0,0"
+                          Content="Show Console on Startup" />
+
                 <CheckBox IsChecked="{Binding ClearConsoleOnRun}"
                           Margin="0,8,0,0"
                           Content="Clear Console on Run" />

@@ -84,6 +84,15 @@ namespace LuaAutomation.Pages
             // Set the data context to the view model.
             this.DataContext = this.ViewModel;
 
+            if (this.AppSettings.ShowConsoleOnStartup)
+            {
+                ToggleSwitchConsoleVisible.IsChecked = true;
+            }
+            else
+            {
+                ToggleSwitchConsoleVisible.IsChecked = false;
+            }
+
             // Setup Lua, we're going to create instances of our CLR objects that
             // extend Lua.
             UserData.RegisterType<MouseScriptCommands>();

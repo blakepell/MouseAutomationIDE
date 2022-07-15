@@ -15,7 +15,7 @@ namespace LuaAutomation
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public partial class App
     {
-        private const string APP_FOLDER = "MouseAutomation";
+        private const string APP_FOLDER = "LuaAutomationIDE";
 
         public const string APP_TITLE = "Lua Automation IDE";
 
@@ -78,6 +78,17 @@ namespace LuaAutomation
                     var file = new Argus.IO.JsonFileService(Environment.SpecialFolder.LocalApplicationData, APP_FOLDER);
                     await file.SaveAsync(appSettings, "AppSettings.json");
                 });
+            }
+            else
+            {
+                // Save the settings.
+                if (!appSettings.AutoSaveOnExit)
+                {
+                    appSettings.AutoSaveText = null;
+                }
+
+                var file = new Argus.IO.JsonFileService(Environment.SpecialFolder.LocalApplicationData, APP_FOLDER);
+                await file.SaveAsync(appSettings, "AppSettings.json");
             }
 
             try

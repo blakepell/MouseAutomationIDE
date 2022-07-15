@@ -55,6 +55,16 @@ namespace LuaAutomation.Common
         }
 
         [JsonIgnore]
+        public static readonly DependencyProperty ShowConsoleOnStartupProperty = DependencyProperty.Register(
+            nameof(ShowConsoleOnStartup), typeof(bool), typeof(AppSettings), new PropertyMetadata(false));
+
+        public bool ShowConsoleOnStartup
+        {
+            get => (bool)GetValue(ShowConsoleOnStartupProperty);
+            set => SetValue(ShowConsoleOnStartupProperty, value);
+        }
+
+        [JsonIgnore]
         public static readonly DependencyProperty ShowTimestampOnConsoleProperty = DependencyProperty.Register(
             nameof(ShowTimestampOnConsole), typeof(bool), typeof(AppSettings), new PropertyMetadata(false));
 
