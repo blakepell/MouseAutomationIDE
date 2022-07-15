@@ -11,12 +11,8 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using LuaAutomation.Common;
-using LuaAutomation.Lua;
-using LuaAutomation.ViewModels;
 using Microsoft.Win32;
 using MoonSharp.Interpreter;
-using MoonSharp.Interpreter.Platforms;
 using Rect = LuaAutomation.Common.Rect;
 
 namespace LuaAutomation.Pages
