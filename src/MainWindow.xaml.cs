@@ -7,9 +7,9 @@
  * @license           : Closed Source
  */
 
-using LuaAutomation.ViewModels;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
+using Wpf.Ui.Tray;
 
 namespace LuaAutomation
 {
@@ -30,6 +30,16 @@ namespace LuaAutomation
             AppServices.AddSingleton(this.ViewModel);
 
             this.DataContext = this.ViewModel;
+        }
+
+        /// <summary>
+        /// When the icon in the system tray is left clicked on.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotifyIcon_OnLeftClick(INotifyIcon sender, RoutedEventArgs e)
+        {
+            SystemCommands.RestoreWindow(this);
         }
 
         #region INavigationWindow methods

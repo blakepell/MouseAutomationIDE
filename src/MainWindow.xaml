@@ -25,8 +25,30 @@
             Grid.Row="0"
             ForceShutdown="False"
             Icon="pack://application:,,/Assets/app.png"
-            MinimizeToTray="False"
+            MinimizeToTray="True"
             UseSnapLayout="True">
+            <ui:TitleBar.Tray>
+                <ui:NotifyIcon
+                    FocusOnLeftClick="True"
+                    Icon="pack://application:,,,/Assets/app.png"
+                    MenuOnRightClick="True"
+                    LeftClick="NotifyIcon_OnLeftClick"
+                    TooltipText="Lua Automation IDE">
+                    <ui:NotifyIcon.Menu>
+                        <ContextMenu>
+                            <ui:MenuItem
+                                Header="Stop Script"
+                                SymbolIcon="Library28"
+                                Tag="home" />
+                            <Separator />
+                            <ui:MenuItem
+                                Header="Open"
+                                SymbolIcon="Folder28"
+                                Tag="open" />
+                        </ContextMenu>
+                    </ui:NotifyIcon.Menu>
+                </ui:NotifyIcon>
+            </ui:TitleBar.Tray>
         </ui:TitleBar>
 
         <Grid

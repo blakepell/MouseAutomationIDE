@@ -25,7 +25,7 @@
             ForceShutdown="False"
             CanMaximize="False"
             ShowMaximize="False"
-            ShowMinimize="False"
+            ShowMinimize="false"
             Icon="pack://application:,,/Assets/app.png"
             MinimizeToTray="False"
             UseSnapLayout="True">
