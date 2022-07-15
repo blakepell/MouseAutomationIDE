@@ -30,6 +30,13 @@ namespace LuaAutomation
             AppServices.AddSingleton(this.ViewModel);
 
             this.DataContext = this.ViewModel;
+
+            // Get our app settings.
+            var appSettings = AppServices.GetRequiredService<AppSettings>();
+
+            // TODO: Have this bind directly
+            // Reset the minimize to tray setting.
+            TitleBar.MinimizeToTray = appSettings.MinimizeToTray;
         }
 
         /// <summary>

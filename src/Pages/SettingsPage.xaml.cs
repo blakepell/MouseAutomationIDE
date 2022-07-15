@@ -38,5 +38,11 @@ namespace LuaAutomation.Pages
             about.Owner = win;
             about.ShowDialog();
         }
+
+        private void MinimizeToTray_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var win = AppServices.GetRequiredService<MainWindow>();
+            win.TitleBar.MinimizeToTray = CheckBoxMinimizeToTray.IsChecked ?? true;
+        }
     }
 }

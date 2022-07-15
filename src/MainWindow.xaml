@@ -21,6 +21,7 @@
         </Grid.RowDefinitions>
 
         <ui:TitleBar
+            x:Name="TitleBar"
             Title="{Binding Path=Title}"
             Grid.Row="0"
             ForceShutdown="False"

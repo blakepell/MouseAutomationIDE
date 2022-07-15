@@ -93,5 +93,15 @@ namespace LuaAutomation.Common
             get => (int)GetValue(ControlClickMillisecondsProperty);
             set => SetValue(ControlClickMillisecondsProperty, value);
         }
+
+        [JsonIgnore]
+        public static readonly DependencyProperty MinimizeToTrayProperty = DependencyProperty.Register(
+            nameof(MinimizeToTray), typeof(bool), typeof(AppSettings), new PropertyMetadata(true));
+
+        public bool MinimizeToTray
+        {
+            get => (bool)GetValue(MinimizeToTrayProperty);
+            set => SetValue(MinimizeToTrayProperty, value);
+        }
     }
 }
