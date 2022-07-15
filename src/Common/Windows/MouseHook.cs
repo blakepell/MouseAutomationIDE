@@ -7,7 +7,7 @@
  * @license           : Closed Source
  */
 
-namespace LuaAutomation.Common
+namespace LuaAutomation.Common.Windows
 {
     /// <summary>
     /// Class for intercepting low level Windows mouse hooks.
@@ -23,7 +23,10 @@ namespace LuaAutomation.Common
         /// <param name="mouseStruct">MSLLHOOKSTRUCT mouse structure</param>
         public delegate void MouseHookCallback(MouseHookStruct mouseStruct);
 
-        private MouseHookHandler _hookHandler;
+        /// <summary>
+        /// Internal callback processing function reference.
+        /// </summary>
+        private MouseHookHandler? _hookHandler;
 
         /// <summary>
         /// Low level mouse hook's ID
@@ -35,8 +38,8 @@ namespace LuaAutomation.Common
         /// </summary>
         public void Install()
         {
-            _hookHandler = this.HookFunc;
-            hookID = this.SetHook(_hookHandler);
+            _hookHandler = HookFunc;
+            hookID = SetHook(_hookHandler);
         }
 
         /// <summary>
@@ -58,7 +61,7 @@ namespace LuaAutomation.Common
         /// </summary>
         ~MouseHook()
         {
-            this.Uninstall();
+            Uninstall();
         }
 
         /// <summary>
@@ -79,67 +82,63 @@ namespace LuaAutomation.Common
         /// </summary>
         private IntPtr HookFunc(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            // parse system messages
+            // Parse system messages
             if (nCode >= 0)
             {
                 if (MouseMessages.WM_LBUTTONDOWN == (MouseMessages)wParam)
                 {
-                    this.LeftButtonDown?.Invoke(
-                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    LeftButtonDown?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_LBUTTONUP == (MouseMessages)wParam)
                 {
-                    this.LeftButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    LeftButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_RBUTTONDOWN == (MouseMessages)wParam)
                 {
-                    this.RightButtonDown?.Invoke(
+                    RightButtonDown?.Invoke(
                         (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_RBUTTONUP == (MouseMessages)wParam)
                 {
-                    this.RightButtonUp?.Invoke(
-                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    RightButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_MOUSEMOVE == (MouseMessages)wParam)
                 {
-                    this.MouseMove?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    MouseMove?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_MOUSEWHEEL == (MouseMessages)wParam)
                 {
-                    this.MouseWheel?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    MouseWheel?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_LBUTTONDBLCLK == (MouseMessages)wParam)
                 {
-                    this.DoubleClick?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    DoubleClick?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_MBUTTONDOWN == (MouseMessages)wParam)
                 {
-                    this.MiddleButtonDown?.Invoke(
-                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    MiddleButtonDown?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_MBUTTONUP == (MouseMessages)wParam)
                 {
-                    this.MiddleButtonUp?.Invoke(
-                        (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    MiddleButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_XBUTTONDOWN == (MouseMessages)wParam)
                 {
-                    this.XButtonDown?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    XButtonDown?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
 
                 if (MouseMessages.WM_XBUTTONUP == (MouseMessages)wParam)
                 {
-                    this.XButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
+                    XButtonUp?.Invoke((MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct)));
                 }
             }
 

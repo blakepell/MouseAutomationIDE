@@ -7,7 +7,6 @@
  * @license           : Closed Source
  */
 
-using LuaAutomation.Common;
 using Mouse = Argus.Windows.Mouse;
 
 namespace LuaAutomation

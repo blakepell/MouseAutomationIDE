@@ -1,4 +1,4 @@
-﻿namespace LuaAutomation.Common
+﻿namespace LuaAutomation.Common.Windows
 {
     /// <summary>
     /// Class for intercepting low level keyboard hooks
@@ -14,7 +14,10 @@
         /// <param name="key">VKeys</param>
         public delegate void KeyboardHookCallback(VirtualKeys key);
 
-        private KeyboardHookHandler _hookHandler;
+        /// <summary>
+        /// Internal callback processing function reference.
+        /// </summary>
+        private KeyboardHookHandler? _hookHandler;
 
         /// <summary>
         /// Hook ID
@@ -26,8 +29,8 @@
         /// </summary>
         public void Install()
         {
-            _hookHandler = this.HookFunc;
-            hookID = this.SetHook(_hookHandler);
+            _hookHandler = HookFunc;
+            hookID = SetHook(_hookHandler);
         }
 
         /// <summary>
@@ -56,23 +59,24 @@
         /// </summary>
         private IntPtr HookFunc(int nCode, IntPtr wParam, IntPtr lParam)
         {
+            // Parse system messages
             if (nCode >= 0)
             {
                 int iwParam = wParam.ToInt32();
 
-                if ((iwParam == NativeMethods.WM_KEYDOWN || iwParam == NativeMethods.WM_SYSKEYDOWN))
+                if (iwParam == NativeMethods.WM_KEYDOWN || iwParam == NativeMethods.WM_SYSKEYDOWN)
                 {
-                    if (this.KeyDown != null)
+                    if (KeyDown != null)
                     {
-                        this.KeyDown((VirtualKeys)Marshal.ReadInt32(lParam));
+                        KeyDown((VirtualKeys)Marshal.ReadInt32(lParam));
                     }
                 }
 
-                if ((iwParam == NativeMethods.WM_KEYUP || iwParam == NativeMethods.WM_SYSKEYUP))
+                if (iwParam == NativeMethods.WM_KEYUP || iwParam == NativeMethods.WM_SYSKEYUP)
                 {
-                    if (this.KeyUp != null)
+                    if (KeyUp != null)
                     {
-                        this.KeyUp((VirtualKeys)Marshal.ReadInt32(lParam));
+                        KeyUp((VirtualKeys)Marshal.ReadInt32(lParam));
                     }
                 }
             }
@@ -85,7 +89,7 @@
         /// </summary>
         ~KeyHook()
         {
-            this.Uninstall();
+            Uninstall();
         }
 
         /// <summary>
@@ -93,8 +97,14 @@
         /// </summary>
         public delegate IntPtr KeyboardHookHandler(int nCode, IntPtr wParam, IntPtr lParam);
 
+        /// <summary>
+        /// Event for when a key is pressed down.
+        /// </summary>
         public event KeyboardHookCallback? KeyDown;
-        public event KeyboardHookCallback? KeyUp;
 
+        /// <summary>
+        /// Event for when a key is released.
+        /// </summary>
+        public event KeyboardHookCallback? KeyUp;
     }
 }
