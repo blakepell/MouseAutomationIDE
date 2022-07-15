@@ -17,7 +17,7 @@
         /// <summary>
         /// Virtual Keys
         /// </summary>
-        public enum VKeys
+        public enum VKeys : int
         {
             // Losely based on http://www.pinvoke.net/default.aspx/Enums/VK.html
 
@@ -265,7 +265,7 @@
         /// </summary>
         public void Uninstall()
         {
-            UnhookWindowsHookEx(hookID);
+            NativeMethods.UnhookWindowsHookEx(hookID);
         }
 
         /// <summary>
@@ -277,7 +277,7 @@
         {
             using (var module = Process.GetCurrentProcess().MainModule)
             {
-                return SetWindowsHookEx(13, proc, GetModuleHandle(module.ModuleName), 0);
+                return NativeMethods.SetWindowsHookEx(13, proc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
             }
         }
 
@@ -307,7 +307,7 @@
                 }
             }
 
-            return CallNextHookEx(hookID, nCode, wParam, lParam);
+            return NativeMethods.CallNextHookEx(hookID, nCode, wParam, lParam);
         }
 
         /// <summary>
@@ -321,7 +321,7 @@
         /// <summary>
         /// Internal callback processing function
         /// </summary>
-        private delegate IntPtr KeyboardHookHandler(int nCode, IntPtr wParam, IntPtr lParam);
+        public delegate IntPtr KeyboardHookHandler(int nCode, IntPtr wParam, IntPtr lParam);
 
         #region Events
 
@@ -340,19 +340,6 @@
         private const int WM_SYSKEYDOWN = 0x104;
         private const int WM_KEYUP = 0x101;
         private const int WM_SYSKEYUP = 0x105;
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr SetWindowsHookEx(int idHook, KeyboardHookHandler lpfn, IntPtr hMod, uint dwThreadId);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr GetModuleHandle(string lpModuleName);
 
         #endregion
     }

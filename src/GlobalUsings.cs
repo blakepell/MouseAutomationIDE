@@ -12,6 +12,7 @@ global using Argus.Memory;
 global using LuaAutomation.Common;
 global using LuaAutomation.Lua;
 global using LuaAutomation.ViewModels;
+global using LuaAutomation.Common.Windows;
 global using System;
 global using System.Collections.Generic;
 global using System.ComponentModel;
