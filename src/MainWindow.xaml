@@ -48,6 +48,11 @@
                                 Click="MenuItemOpen_OnClick"
                                 SymbolIcon="Folder28"
                                 Tag="open" />
+                            <ui:MenuItem
+                                Header="Exit"
+                                Click="MenuItemExit_OnClick"
+                                SymbolIcon="ArrowExit20"
+                                Tag="open" />
                         </ContextMenu>
                     </ui:NotifyIcon.Menu>
                 </ui:NotifyIcon>

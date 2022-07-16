@@ -78,5 +78,12 @@ namespace LuaAutomation
             var page = AppServices.GetRequiredService<LuaEditorPage>();
             page.Open();
         }
+
+        private void MenuItemExit_OnClick(object sender, RoutedEventArgs e)
+        {
+            // TODO: DI
+            var ui = new UIScriptCommands();
+            ui.Exit();
+        }
     }
 }
