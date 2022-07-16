@@ -211,57 +211,25 @@ namespace LuaAutomation.Lua
             win.Show();
         }
 
-        /// <summary>
-        /// Will pause the Lua script for the designated amount of milliseconds.  This is not async
-        /// so it will block the Lua (but since Lua is called async the rest of the program continues
-        /// to work).  This will be an incredibly useful and powerful command for those crafting Lua scripts.
-        /// </summary>
-        /// <param name="milliseconds"></param>
-        [Description("Pauses a Lua script for the designated amount of milliseconds.")]
-        public void Pause(int milliseconds)
-        {
-            // ReSharper disable once AsyncConverter.AsyncWait
-            Task.Delay(milliseconds).Wait();
-        }
-
-        /// <summary>
-        /// Pauses the lua script for a designated amount of milliseconds.  This should work with both
-        /// sync and not sync Lua calls.
-        /// </summary>
-        /// <param name="milliseconds"></param>
-        [Description("Pauses a Lua script for the designated amount of milliseconds.")]
-        public void PauseAsync(int milliseconds)
-        {
-            DispatcherFrame df = new DispatcherFrame();
-
-            new Thread(() =>
-            {
-                Thread.Sleep(TimeSpan.FromMilliseconds(milliseconds));
-                df.Continue = false;
-
-            }).Start();
-
-            Dispatcher.PushFrame(df);
-        }
-
-        [Description("Calls Thread.Sleep for the specified number of milliseconds.  Because this puts scripting engine thread to sleep any requests to stop the script won't process until the sleep command is finished executing.")]
+        [Description("Calls Thread.Sleep for the specified number of milliseconds (prefer this for long pauses).  This is CPU efficient but sometimes inaccurate (1ms pauses can sometimes take up to 10).")]
         public void Sleep(int milliseconds)
         {
             Thread.Sleep(milliseconds);
         }
 
-        [Description("Calls an accurate but CPU intensive pause for the specified amount of milliseconds.")]
-        public void SleepSpin(int milliseconds)
-        {
-            var sw = new Stopwatch();
-            sw.Start();
+        private Stopwatch _sw = new();
 
-            while (sw.ElapsedMilliseconds < milliseconds)
+        [Description("Calls an accurate but CPU intensive pause for the specified amount of milliseconds (prefer this for pauses between 1-10ms).")]
+        public void Pause(int milliseconds)
+        {
+            _sw.Restart();
+
+            while (_sw.ElapsedMilliseconds < milliseconds)
             {
 
             }
 
-            sw.Stop();
+            _sw.Stop();
         }
 
         [Description("Simulates keystrokes.")]

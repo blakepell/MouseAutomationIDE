@@ -388,10 +388,16 @@ namespace LuaAutomation.Pages
                 }
 
                 // Put the delay so it simulates close to the time frame the user used
-                // when recording it.
-                if (ev.DelayMilliseconds > 0)
+                // when recording it.  For 0-15 milliseconds use a spinning pause which
+                // has high CPU usage but is very accurate, for longer pauses that 15ms
+                // use a Thread.Sleep which isn't always accurate but saves a lot of CPU usage.
+                if (ev.DelayMilliseconds is > 0 and <= 15)
                 {
-                    sb.Append($"ui.SleepSpin({ev.DelayMilliseconds})\r\n");
+                    sb.Append($"ui.Pause({ev.DelayMilliseconds})\r\n");
+                }
+                else if (ev.DelayMilliseconds > 15)
+                {
+                    sb.Append($"ui.Sleep({ev.DelayMilliseconds})\r\n");
                 }
             }
 
