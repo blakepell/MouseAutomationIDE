@@ -103,5 +103,24 @@ namespace LuaAutomation.Common
             get => (bool)GetValue(MinimizeToTrayProperty);
             set => SetValue(MinimizeToTrayProperty, value);
         }
+
+        public static readonly DependencyProperty RecordMouseEventsProperty = DependencyProperty.Register(
+            nameof(RecordMouseEvents), typeof(bool), typeof(AppSettings), new PropertyMetadata(true));
+
+        public bool RecordMouseEvents
+        {
+            get => (bool)GetValue(RecordMouseEventsProperty);
+            set => SetValue(RecordMouseEventsProperty, value);
+        }
+
+        [JsonIgnore]
+        public static readonly DependencyProperty RecordKeyEventsProperty = DependencyProperty.Register(
+            nameof(RecordKeyEvents), typeof(bool), typeof(AppSettings), new PropertyMetadata(true));
+
+        public bool RecordKeyEvents
+        {
+            get => (bool)GetValue(RecordKeyEventsProperty);
+            set => SetValue(RecordKeyEventsProperty, value);
+        }
     }
 }

@@ -684,8 +684,9 @@ namespace LuaAutomation.Pages
 
         private void KeyHookOnKeyDown(VirtualKeys key)
         {
-            // If we're not recording, ditch out.
-            if (!this._recorderStopwatch.IsRunning)
+            // If we're not recording or we're not supposed to record keystrokes
+            // ever then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !AppSettings.RecordKeyEvents)
             {
                 return;
             }
@@ -721,8 +722,9 @@ namespace LuaAutomation.Pages
             this.ViewModel.X = p.X;
             this.ViewModel.Y = p.Y;
 
-            // If we're not recording, ditch out.
-            if (!this._recorderStopwatch.IsRunning)
+            // If we're not recording or we're not supposed to record mouse events
+            // then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !this.AppSettings.RecordMouseEvents)
             {
                 return;
             }
@@ -757,8 +759,9 @@ namespace LuaAutomation.Pages
                 return;
             }
 
-            // If we're not recording, ditch out.
-            if (!this._recorderStopwatch.IsRunning)
+            // If we're not recording or we're not supposed to record mouse events
+            // then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !this.AppSettings.RecordMouseEvents)
             {
                 return;
             }
@@ -774,8 +777,9 @@ namespace LuaAutomation.Pages
 
         private void MouseHookOnLeftButtonDown(MouseHookStruct mouse)
         {
-            // If we're not recording, ditch out.
-            if (!this._recorderStopwatch.IsRunning)
+            // If we're not recording or we're not supposed to record mouse events
+            // then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !this.AppSettings.RecordMouseEvents)
             {
                 return;
             }
@@ -791,8 +795,9 @@ namespace LuaAutomation.Pages
 
         private void MouseHookOnRightButtonDown(MouseHookStruct mouse)
         {
-            // If we're not recording, ditch out.
-            if (!this._recorderStopwatch.IsRunning)
+            // If we're not recording or we're not supposed to record mouse events
+            // then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !this.AppSettings.RecordMouseEvents)
             {
                 return;
             }
@@ -826,8 +831,9 @@ namespace LuaAutomation.Pages
                 return;
             }
 
-            // If we're not recording, ditch out.
-            if (!this._recorderStopwatch.IsRunning)
+            // If we're not recording or we're not supposed to record mouse events
+            // then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !this.AppSettings.RecordMouseEvents)
             {
                 return;
             }
@@ -843,8 +849,9 @@ namespace LuaAutomation.Pages
 
         private void MouseHookOnMiddleButtonUp(MouseHookStruct mouse)
         {
-            // If we're not recording, ditch out.
-            if (!this._recorderStopwatch.IsRunning)
+            // If we're not recording or we're not supposed to record mouse events
+            // then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !this.AppSettings.RecordMouseEvents)
             {
                 return;
             }
@@ -860,8 +867,9 @@ namespace LuaAutomation.Pages
 
         private void MouseHookOnMiddleButtonDown(MouseHookStruct mouse)
         {
-            // If we're not recording, ditch out.
-            if (!this._recorderStopwatch.IsRunning)
+            // If we're not recording or we're not supposed to record mouse events
+            // then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !this.AppSettings.RecordMouseEvents)
             {
                 return;
             }
