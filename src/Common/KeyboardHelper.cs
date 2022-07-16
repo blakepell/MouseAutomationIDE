@@ -290,6 +290,29 @@ namespace LuaAutomation.Common
         }
 
         /// <summary>
+        /// A map from a Key to the SendKeys required input.
+        /// </summary>
+        public static Dictionary<Key, string> SendKeysMap = new()
+        {
+            { Key.F1, "{F1}" },
+            { Key.F2, "{F2}" },
+            { Key.F3, "{F3}" },
+            { Key.F4, "{F4}" },
+            { Key.F5, "{F5}" },
+            { Key.F6, "{F6}" },
+            { Key.F7, "{F7}" },
+            { Key.F8, "{F8}" },
+            { Key.F9, "{F9}" },
+            { Key.F10, "{F10}" },
+            { Key.F11, "{F11}" },
+            { Key.F12, "{F12}" },
+            { Key.F12, "{F13}" },
+            { Key.F12, "{F14}" },
+            { Key.F12, "{F15}" },
+            { Key.F12, "{F16}" }
+        };
+
+        /// <summary>
         /// The state that existed when a key was pressed.
         /// </summary>
         public struct KeyState
