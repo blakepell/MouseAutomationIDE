@@ -315,6 +315,18 @@ namespace LuaAutomation.Pages
                 this.InputEvents[i].DelayMilliseconds = Convert.ToInt32(ts.Value.TotalMilliseconds);
             }
 
+            // Take care of the delay after the first event
+            if (this.InputEvents.Count > 0)
+            {
+                TimeSpan startTimeSpan = new TimeSpan(0, 0, 0, 0, 0);
+                var endTimeSpan = this.InputEvents[0].TimeSpan - startTimeSpan;
+
+                if (endTimeSpan != null)
+                {
+                    this.InputEvents[0].DelayMilliseconds = Convert.ToInt32(endTimeSpan.Value.TotalMilliseconds);
+                }
+            }
+
             var sb = new StringBuilder();
 
             foreach (var ev in this.InputEvents)

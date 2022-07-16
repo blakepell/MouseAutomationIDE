@@ -363,7 +363,12 @@ namespace LuaAutomation.Common
                     keyDecode.Character = '\x00';
                     keyDecode.SendKeysValue = "{F16}";
                     return;
-
+                case Key.LWin:
+                case Key.RWin:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "^{Escape}";
+                    return;
                 default:
                     keyDecode.Printable = false;
                     keyDecode.Character = '\x00';
