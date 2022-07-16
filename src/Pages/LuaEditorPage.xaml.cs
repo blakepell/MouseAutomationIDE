@@ -137,7 +137,7 @@ namespace LuaAutomation.Pages
             App.MouseHook.MiddleButtonUp += MouseHookOnMiddleButtonUp;
 
             // Wire up the key hooks for recording macros.
-            App.KeyHook.KeyUp += KeyHookOnKeyUp;
+            App.KeyHook.KeyDown += KeyHookOnKeyDown;
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
@@ -663,11 +663,7 @@ namespace LuaAutomation.Pages
             _recorderStopwatch.Restart();
         }
 
-        /// <summary>
-        /// When a full key press occurs.
-        /// </summary>
-        /// <param name="key"></param>
-        private void KeyHookOnKeyUp(VirtualKeys key)
+        private void KeyHookOnKeyDown(VirtualKeys key)
         {
             // If we're not recording, ditch out.
             if (!this._recorderStopwatch.IsRunning)
