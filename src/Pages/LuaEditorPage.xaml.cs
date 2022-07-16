@@ -241,7 +241,14 @@ namespace LuaAutomation.Pages
                 }
                 else
                 {
-                    if (ex.InnerException is InterpreterException luaEx)
+                    if (ex.InnerException is SyntaxErrorException syntaxEx)
+                    {
+                        // TODO: DI inject
+                        var script = new UIScriptCommands();
+                        script.ConsoleLog($"ERROR {syntaxEx.DecoratedMessage}");
+                        this.Editor.ScrollToLine(syntaxEx.FromLineNumber);
+                    }
+                    else if (ex.InnerException is InterpreterException luaEx)
                     {
                         // TODO: DI inject
                         var script = new UIScriptCommands();
