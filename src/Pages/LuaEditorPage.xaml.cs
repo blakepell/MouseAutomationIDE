@@ -391,7 +391,7 @@ namespace LuaAutomation.Pages
                 // when recording it.
                 if (ev.DelayMilliseconds > 0)
                 {
-                    sb.Append($"ui.Sleep({ev.DelayMilliseconds})\r\n");
+                    sb.Append($"ui.SleepSpin({ev.DelayMilliseconds})\r\n");
                 }
             }
 

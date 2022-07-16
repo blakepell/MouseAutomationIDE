@@ -250,6 +250,20 @@ namespace LuaAutomation.Lua
             Thread.Sleep(milliseconds);
         }
 
+        [Description("Calls an accurate but CPU intensive pause for the specified amount of milliseconds.")]
+        public void SleepSpin(int milliseconds)
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            while (sw.ElapsedMilliseconds < milliseconds)
+            {
+
+            }
+
+            sw.Stop();
+        }
+
         [Description("Simulates keystrokes.")]
         public void SendKeys(string keys)
         {
