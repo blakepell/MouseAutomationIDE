@@ -12,7 +12,7 @@
              WindowCornerPreference="Round"
              WindowStartupLocation="CenterOwner"
              MinHeight="50"
-             Title="About" Height="200" Width="200">
+             Title="About" Height="400" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -38,7 +38,7 @@
                        FontSize="18"></TextBlock>
             <Separator Margin="10,3,0,0" />
 
-            <Grid>
+            <Grid Margin="20,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition />
@@ -64,7 +64,93 @@
                            Margin="20,5,0,0"></TextBlock>
             </Grid>
 
-            <ui:Button Appearance="Primary" 
+            <TextBlock Text="Third Party Library Usage"
+                       Margin="20,10,0,0"
+                       FontSize="18"></TextBlock>
+            <Separator Margin="10,3,0,0" />
+
+            <Grid Margin="20,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="210" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0"
+                           FontSize="12"
+                           Text="AvalonLua.MoonSharp:"
+                           Margin="20,5,0,0"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0"
+                           FontSize="12"
+                           Text="https://github.com/blakepell/AvalonMudClient"
+                           Margin="20,5,0,0"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="1"
+                           FontSize="12"
+                           Text="MoonSharp:"
+                           Margin="20,5,0,0"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1"
+                           FontSize="12"
+                           Text="https://github.com/moonsharp-devs/moonsharp"
+                           Margin="20,5,0,0"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="2"
+                           FontSize="12"
+                           Text="WPF-UI:"
+                           Margin="20,5,0,0"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="2"
+                           FontSize="12"
+                           Text="https://github.com/lepoco/wpfui"
+                           Margin="20,5,0,0"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="3"
+                           FontSize="12"
+                           Text="MahApps.Metro.IconPacks.Material:"
+                           Margin="20,5,0,0"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="3"
+                           FontSize="12"
+                           Text="https://github.com/MahApps/MahApps.Metro.IconPacks"
+                           Margin="20,5,0,0"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="4"
+                           FontSize="12"
+                           Text="AvalonEdit"
+                           Margin="20,5,0,0"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="4"
+                           FontSize="12"
+                           Text="https://github.com/icsharpcode/AvalonEdit"
+                           Margin="20,5,0,0"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="5"
+                           FontSize="12"
+                           Text="Argus.Core"
+                           Margin="20,5,0,0"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="5"
+                           FontSize="12"
+                           Text="https://github.com/blakepell/ArgusFramework"
+                           Margin="20,5,0,0"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="6"
+                           FontSize="12"
+                           Text="ZString"
+                           Margin="20,5,0,0"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="6"
+                           FontSize="12"
+                           Text="https://github.com/Cysharp/ZString"
+                           Margin="20,5,0,0"></TextBlock>
+
+            </Grid>
+
+
+            <ui:Button Appearance="Primary"
                        Content="Close" 
                        HorizontalAlignment="Right"
                        Margin="0,25,15,0"
