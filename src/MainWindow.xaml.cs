@@ -7,6 +7,8 @@
  * @license           : Closed Source
  */
 
+using System.Drawing.Design;
+using LuaAutomation.Pages;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 using Wpf.Ui.Tray;
@@ -64,5 +66,17 @@ namespace LuaAutomation
         public void CloseWindow() => Close();
 
         #endregion INavigationWindow methods
+
+        private void MenuItemStopScript_OnClick(object sender, RoutedEventArgs e)
+        {
+            var page = AppServices.GetRequiredService<LuaEditorPage>();
+            page.Stop();
+        }
+
+        private void MenuItemOpen_OnClick(object sender, RoutedEventArgs e)
+        {
+            var page = AppServices.GetRequiredService<LuaEditorPage>();
+            page.Open();
+        }
     }
 }

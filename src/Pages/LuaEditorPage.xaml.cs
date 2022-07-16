@@ -235,6 +235,10 @@ namespace LuaAutomation.Pages
                 {
                     this.ViewModel.LuaInterpreterStatus = "Stopped";
 
+                    // TODO: DI inject
+                    var script = new UIScriptCommands();
+                    script.ConsoleLog($"Stopped");
+
                     // Reset the status to default
                     this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
                     this.ViewModel.StatusBarBackgroundBrush = UIBrushes.LightBlueBrush;
@@ -285,11 +289,22 @@ namespace LuaAutomation.Pages
         }
 
         /// <summary>
+        /// Stops the running script.
+        /// </summary>
+        public void Stop()
+        {
+            if (this.ViewModel.StopButtonEnabled)
+            {
+                this.ButtonStop_OnClick(null, null);
+            }
+        }
+
+        /// <summary>
         /// Stops a Lua script that's running.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonStop_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonStop_OnClick(object? sender, RoutedEventArgs? e)
         {
             this.ViewModel.LuaInterpreterStatus = "Stopping";
 
@@ -890,7 +905,15 @@ namespace LuaAutomation.Pages
             this.InputEvents.Add(e);
         }
 
-        private async void ButtonOpen_OnClick(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Triggers the file open dialog.
+        /// </summary>
+        public void Open()
+        {
+            this.ButtonOpen_OnClick(null, null);
+        }
+
+        private async void ButtonOpen_OnClick(object? sender, RoutedEventArgs? e)
         {
             var dialog = new OpenFileDialog
             {

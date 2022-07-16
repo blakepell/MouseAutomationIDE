@@ -39,11 +39,13 @@
                         <ContextMenu>
                             <ui:MenuItem
                                 Header="Stop Script"
-                                SymbolIcon="Library28"
-                                Tag="home" />
+                                SymbolIcon="Stop24"
+                                Tag="stop"
+                                Click="MenuItemStopScript_OnClick" />
                             <Separator />
                             <ui:MenuItem
                                 Header="Open"
+                                Click="MenuItemOpen_OnClick"
                                 SymbolIcon="Folder28"
                                 Tag="open" />
                         </ContextMenu>
