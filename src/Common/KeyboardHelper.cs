@@ -70,6 +70,7 @@ namespace LuaAutomation.Common
             keyDecode.Ctrl = IsCtrlDown();
             keyDecode.Shift = IsShiftDown();
             keyDecode.CapsLock = IsCapsLockDown();
+            keyDecode.SendKeysValue = null;
 
             if (keyDecode.Alt || keyDecode.Ctrl)
             {
@@ -86,6 +87,7 @@ namespace LuaAutomation.Common
             {
                 case Key.Enter:
                     keyDecode.Character = '\n';
+                    keyDecode.SendKeysValue = "{ENTER}";
                     return;
                 case Key.A:
                     keyDecode.Character = (isCaps ? 'A' : 'a');
@@ -281,6 +283,86 @@ namespace LuaAutomation.Common
                 case Key.Multiply:
                     keyDecode.Character = '*';
                     return;
+                case Key.F1:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F1}";
+                    return;
+                case Key.F2:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F2}";
+                    return;
+                case Key.F3:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F3}";
+                    return;
+                case Key.F4:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F4}";
+                    return;
+                case Key.F5:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F5}";
+                    return;
+                case Key.F6:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F6}";
+                    return;
+                case Key.F7:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F7}";
+                    return;
+                case Key.F8:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F8}";
+                    return;
+                case Key.F9:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F9}";
+                    return;
+                case Key.F10:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F10}";
+                    return;
+                case Key.F11:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F11}";
+                    return;
+                case Key.F12:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F12}";
+                    return;
+                case Key.F13:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F13}";
+                    return;
+                case Key.F14:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F14}";
+                    return;
+                case Key.F15:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F15}";
+                    return;
+                case Key.F16:
+                    keyDecode.Printable = false;
+                    keyDecode.Character = '\x00';
+                    keyDecode.SendKeysValue = "{F16}";
+                    return;
 
                 default:
                     keyDecode.Printable = false;
@@ -288,29 +370,6 @@ namespace LuaAutomation.Common
                     return;
             }
         }
-
-        /// <summary>
-        /// A map from a Key to the SendKeys required input.
-        /// </summary>
-        public static Dictionary<Key, string> SendKeysMap = new()
-        {
-            { Key.F1, "{F1}" },
-            { Key.F2, "{F2}" },
-            { Key.F3, "{F3}" },
-            { Key.F4, "{F4}" },
-            { Key.F5, "{F5}" },
-            { Key.F6, "{F6}" },
-            { Key.F7, "{F7}" },
-            { Key.F8, "{F8}" },
-            { Key.F9, "{F9}" },
-            { Key.F10, "{F10}" },
-            { Key.F11, "{F11}" },
-            { Key.F12, "{F12}" },
-            { Key.F12, "{F13}" },
-            { Key.F12, "{F14}" },
-            { Key.F12, "{F15}" },
-            { Key.F12, "{F16}" }
-        };
 
         /// <summary>
         /// The state that existed when a key was pressed.
@@ -324,6 +383,7 @@ namespace LuaAutomation.Common
             public bool Ctrl;
             public bool Alt;
             public bool CapsLock;
+            public string? SendKeysValue;
         }
     }
 }

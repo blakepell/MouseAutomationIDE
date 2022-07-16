@@ -20,16 +20,16 @@ namespace LuaAutomation.Common
         MiddleUp = 6,
     }
 
-    public class MouseEvent
+    public class MouseEvent : IInputEvent
     {
-        public MouseEventType EventType = MouseEventType.MouseMove;
-
         public TimeSpan? TimeSpan { get; init; }
+
+        public int DelayMilliseconds { get; set; } = 0;
+
+        public MouseEventType EventType = MouseEventType.MouseMove;
 
         public int X { get; init; }
 
         public int Y { get; init; }
-
-        public int DelayMilliseconds = 0;
     }
 }

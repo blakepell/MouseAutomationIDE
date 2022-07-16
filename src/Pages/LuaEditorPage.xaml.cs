@@ -51,9 +51,9 @@ namespace LuaAutomation.Pages
         private LuaEditorPage? _luaEditorPage;
 
         /// <summary>
-        /// A list of recorded mouse events.
+        /// A list of recorded input events.
         /// </summary>
-        public List<MouseEvent> MouseEvents = new();
+        public List<IInputEvent> InputEvents = new();
 
         /// <summary>
         /// A <see cref="Stopwatch"/> used to record the time a mouse event occurred.
@@ -307,43 +307,50 @@ namespace LuaAutomation.Pages
 
             this._recorderStopwatch.Stop();
 
-            this.ViewModel.StatusText = $"{this.MouseEvents.Count:N0} events recorded.";
+            this.ViewModel.StatusText = $"{this.InputEvents.Count:N0} events recorded.";
 
-            for (int i = this.MouseEvents.Count - 1; i > 0; i--)
+            for (int i = this.InputEvents.Count - 1; i > 0; i--)
             {
-                var ts = this.MouseEvents[i].TimeSpan - this.MouseEvents[i - 1].TimeSpan;
-                this.MouseEvents[i].DelayMilliseconds = Convert.ToInt32(ts.Value.TotalMilliseconds);
+                var ts = this.InputEvents[i].TimeSpan - this.InputEvents[i - 1].TimeSpan;
+                this.InputEvents[i].DelayMilliseconds = Convert.ToInt32(ts.Value.TotalMilliseconds);
             }
 
             var sb = new StringBuilder();
 
-            foreach (var ev in this.MouseEvents)
+            foreach (var ev in this.InputEvents)
             {
-                switch (ev.EventType)
+                if (ev is MouseEvent mouseEvent)
                 {
-                    case MouseEventType.MouseMove:
-                        sb.Append($"mouse.SetPosition({ev.X}, {ev.Y})\r\n");
-                        break;
-                    case MouseEventType.LeftDown:
-                        sb.Append("mouse.LeftDown()\r\n");
-                        break;
-                    case MouseEventType.LeftUp:
-                        sb.Append("mouse.LeftUp()\r\n");
-                        break;
-                    case MouseEventType.RightDown:
-                        sb.Append("mouse.RightDown()\r\n");
-                        break;
-                    case MouseEventType.RightUp:
-                        sb.Append("mouse.RightUp()\r\n");
-                        break;
-                    case MouseEventType.MiddleDown:
-                        sb.Append("mouse.MiddleDown()\r\n");
-                        break;
-                    case MouseEventType.MiddleUp:
-                        sb.Append("mouse.MiddleUp()\r\n");
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    switch (mouseEvent.EventType)
+                    {
+                        case MouseEventType.MouseMove:
+                            sb.Append($"mouse.SetPosition({mouseEvent.X}, {mouseEvent.Y})\r\n");
+                            break;
+                        case MouseEventType.LeftDown:
+                            sb.Append("mouse.LeftDown()\r\n");
+                            break;
+                        case MouseEventType.LeftUp:
+                            sb.Append("mouse.LeftUp()\r\n");
+                            break;
+                        case MouseEventType.RightDown:
+                            sb.Append("mouse.RightDown()\r\n");
+                            break;
+                        case MouseEventType.RightUp:
+                            sb.Append("mouse.RightUp()\r\n");
+                            break;
+                        case MouseEventType.MiddleDown:
+                            sb.Append("mouse.MiddleDown()\r\n");
+                            break;
+                        case MouseEventType.MiddleUp:
+                            sb.Append("mouse.MiddleUp()\r\n");
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+                else if (ev is KeyEvent keyEvent && !string.IsNullOrEmpty(keyEvent.SendKeysValue))
+                {
+                    sb.Append($"ui.SendKeys(\"{keyEvent.SendKeysValue}\")\r\n");
                 }
 
                 // Put the delay so it simulates close to the time frame the user used
@@ -659,7 +666,7 @@ namespace LuaAutomation.Pages
             this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
             this.ViewModel.StatusBarBackgroundBrush = UIBrushes.RedBrush;
 
-            this.MouseEvents.Clear();
+            this.InputEvents.Clear();
             _recorderStopwatch.Restart();
         }
 
@@ -674,11 +681,21 @@ namespace LuaAutomation.Pages
             var k = KeyInterop.KeyFromVirtualKey((int)key);
             KeyboardHelper.KeyToChar(k, out var ks);
 
-            if (ks.Printable)
+            var e = new KeyEvent
             {
-                //ui.SendKeys("")
-                Console.AppendText(ks.Character.ToString());
+                TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds),
+            };
+
+            if (!string.IsNullOrEmpty(ks.SendKeysValue))
+            {
+                e.SendKeysValue = ks.SendKeysValue;
             }
+            else if (ks.Printable)
+            {
+                e.SendKeysValue = ks.Character.ToString();
+            }
+
+            this.InputEvents.Add(e);
         }
 
         private void MouseHookOnMouseMove(MouseHookStruct mouse)
@@ -705,7 +722,7 @@ namespace LuaAutomation.Pages
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 
-            this.MouseEvents.Add(e);
+            this.InputEvents.Add(e);
         }
 
         private void MouseHookOnLeftButtonUp(MouseHookStruct mouse)
@@ -740,7 +757,7 @@ namespace LuaAutomation.Pages
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 
-            this.MouseEvents.Add(e);
+            this.InputEvents.Add(e);
         }
 
         private void MouseHookOnLeftButtonDown(MouseHookStruct mouse)
@@ -757,7 +774,7 @@ namespace LuaAutomation.Pages
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 
-            this.MouseEvents.Add(e);
+            this.InputEvents.Add(e);
         }
 
         private void MouseHookOnRightButtonDown(MouseHookStruct mouse)
@@ -774,7 +791,7 @@ namespace LuaAutomation.Pages
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 
-            this.MouseEvents.Add(e);
+            this.InputEvents.Add(e);
         }
 
         private void MouseHookOnRightButtonUp(MouseHookStruct mouse)
@@ -809,7 +826,7 @@ namespace LuaAutomation.Pages
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 
-            this.MouseEvents.Add(e);
+            this.InputEvents.Add(e);
         }
 
         private void MouseHookOnMiddleButtonUp(MouseHookStruct mouse)
@@ -826,7 +843,7 @@ namespace LuaAutomation.Pages
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 
-            this.MouseEvents.Add(e);
+            this.InputEvents.Add(e);
         }
 
         private void MouseHookOnMiddleButtonDown(MouseHookStruct mouse)
@@ -843,7 +860,7 @@ namespace LuaAutomation.Pages
                 TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
             };
 
-            this.MouseEvents.Add(e);
+            this.InputEvents.Add(e);
         }
 
         private async void ButtonOpen_OnClick(object sender, RoutedEventArgs e)
