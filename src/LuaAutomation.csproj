@@ -1,26 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <RootNamespace>LuaAutomation</RootNamespace>
-    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<RootNamespace>LuaAutomation</RootNamespace>
+		<ApplicationIcon>Assets\app.ico</ApplicationIcon>
+		<Version>2022.7.16.1</Version>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Assets\app.png" />
-    <None Remove="Resources\LuaDarkTheme.xshd" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Assets\app.png" />
+		<None Remove="Resources\LuaDarkTheme.xshd" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Assets\app.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="Assets\app.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\LuaDarkTheme.xshd" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\LuaDarkTheme.xshd" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Argus.Core" Version="2022.7.5.3" />
@@ -35,22 +36,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="Assets\app.png" />
+		<Resource Include="Assets\app.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Pages\LuaEditorPage.xaml">
-	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-	    <SubType>Designer</SubType>
-	  </Page>
-	  <Page Update="Pages\HotKeysPage.xaml">
-	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-	    <SubType>Designer</SubType>
-	  </Page>
-	  <Page Update="Pages\LuaSyntaxHelpPage.xaml">
-	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-	    <SubType>Designer</SubType>
-	  </Page>
+		<Page Update="Pages\LuaEditorPage.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Pages\HotKeysPage.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Pages\LuaSyntaxHelpPage.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
 	</ItemGroup>
 
 </Project>

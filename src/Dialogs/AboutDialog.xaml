@@ -40,7 +40,7 @@
 
             <Grid Margin="20,0,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="210" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -51,16 +51,29 @@
 
                 <TextBlock Grid.Column="0" Grid.Row="0"
                            Text="Written by:"
+                           FontSize="12"
                            Margin="20,5,0,0"></TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="0"
                            Text="Blake Pell"
+                           FontSize="12"
                            Margin="20,5,0,0"></TextBlock>
 
                 <TextBlock Grid.Column="0" Grid.Row="1"
-                           Text="Website:"
+                           Text="Version:"
+                           FontSize="12"
                            Margin="20,5,0,0"></TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="1"
+                           Text="{Binding Path=Version}"
+                           FontSize="12"
+                           Margin="20,5,0,0"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="2"
+                           Text="Website:"
+                           FontSize="12"
+                           Margin="20,5,0,0"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="2"
                            Text="https://www.blakepell.com"
+                           FontSize="12"
                            Margin="20,5,0,0"></TextBlock>
             </Grid>
 
