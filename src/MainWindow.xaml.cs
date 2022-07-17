@@ -7,7 +7,6 @@
  * @license           : Closed Source
  */
 
-using System.Drawing.Design;
 using LuaAutomation.Pages;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
@@ -51,6 +50,24 @@ namespace LuaAutomation
             SystemCommands.RestoreWindow(this);
         }
 
+        private void MenuItemStopScript_OnClick(object sender, RoutedEventArgs e)
+        {
+            var page = AppServices.GetRequiredService<LuaEditorPage>();
+            page.Stop();
+        }
+
+        private void MenuItemOpen_OnClick(object sender, RoutedEventArgs e)
+        {
+            var page = AppServices.GetRequiredService<LuaEditorPage>();
+            page.Open();
+        }
+
+        private void MenuItemExit_OnClick(object sender, RoutedEventArgs e)
+        {
+            var ui = AppServices.GetRequiredService<UIScriptCommands>();
+            ui.Exit();
+        }
+
         #region INavigationWindow methods
 
         public Frame GetFrame() => RootFrame;
@@ -67,23 +84,5 @@ namespace LuaAutomation
 
         #endregion INavigationWindow methods
 
-        private void MenuItemStopScript_OnClick(object sender, RoutedEventArgs e)
-        {
-            var page = AppServices.GetRequiredService<LuaEditorPage>();
-            page.Stop();
-        }
-
-        private void MenuItemOpen_OnClick(object sender, RoutedEventArgs e)
-        {
-            var page = AppServices.GetRequiredService<LuaEditorPage>();
-            page.Open();
-        }
-
-        private void MenuItemExit_OnClick(object sender, RoutedEventArgs e)
-        {
-            // TODO: DI
-            var ui = new UIScriptCommands();
-            ui.Exit();
-        }
     }
 }

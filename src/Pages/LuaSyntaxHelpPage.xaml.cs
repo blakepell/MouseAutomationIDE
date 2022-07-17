@@ -7,9 +7,6 @@
  * @license           : Closed Source
  */
 
-using LuaAutomation.Common;
-using LuaAutomation.Lua;
-
 namespace LuaAutomation.Pages
 {
     public partial class LuaSyntaxHelpPage

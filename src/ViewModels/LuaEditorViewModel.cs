@@ -7,8 +7,6 @@
  * @license           : Closed Source
  */
 
-using LuaAutomation.Common;
-
 namespace LuaAutomation.ViewModels
 {
     public class LuaEditorViewModel : DependencyObject

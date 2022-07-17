@@ -14,7 +14,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Microsoft.Win32;
 using MoonSharp.Interpreter;
-using Rect = LuaAutomation.Common.Rect;
+using Rect = LuaAutomation.Common.Windows.Rect;
 
 namespace LuaAutomation.Pages
 {

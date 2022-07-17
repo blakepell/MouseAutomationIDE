@@ -7,52 +7,53 @@
  * @license           : Closed Source
  */
 
-namespace LuaAutomation.Common;
-
-/// <summary>
-/// A rectangle for use with the WinAPI.
-/// </summary>
-[StructLayout(LayoutKind.Sequential)]
-public struct Rect
+namespace LuaAutomation.Common.Windows
 {
     /// <summary>
-    /// x position of upper-left corner
+    /// A rectangle for use with the WinAPI.
     /// </summary>
-    public int Left;
-    /// <summary>
-    /// y position of upper-left corner
-    /// </summary>
-    public int Top;
-    /// <summary>
-    /// x position of lower-right corner
-    /// </summary>
-    public int Right;
-    /// <summary>
-    /// y position of lower-right corner
-    /// </summary>
-    public int Bottom;
-
-    public int X
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Rect
     {
-        get => Left;
-        set { Right -= (Left - value); Left = value; }
-    }
+        /// <summary>
+        /// x position of upper-left corner
+        /// </summary>
+        public int Left;
+        /// <summary>
+        /// y position of upper-left corner
+        /// </summary>
+        public int Top;
+        /// <summary>
+        /// x position of lower-right corner
+        /// </summary>
+        public int Right;
+        /// <summary>
+        /// y position of lower-right corner
+        /// </summary>
+        public int Bottom;
 
-    public int Y
-    {
-        get => Top;
-        set { Bottom -= (Top - value); Top = value; }
-    }
+        public int X
+        {
+            get => Left;
+            set { Right -= (Left - value); Left = value; }
+        }
 
-    public int Height
-    {
-        get => Bottom - Top;
-        set => Bottom = value + Top;
-    }
+        public int Y
+        {
+            get => Top;
+            set { Bottom -= (Top - value); Top = value; }
+        }
 
-    public int Width
-    {
-        get => Right - Left;
-        set => Right = value + Left;
+        public int Height
+        {
+            get => Bottom - Top;
+            set => Bottom = value + Top;
+        }
+
+        public int Width
+        {
+            get => Right - Left;
+            set => Right = value + Left;
+        }
     }
 }

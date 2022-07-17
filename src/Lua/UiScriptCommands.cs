@@ -7,11 +7,8 @@
  * @license           : Closed Source
  */
 
-using System.Windows.Threading;
-using LuaAutomation.Common;
 using LuaAutomation.Pages;
-using LuaAutomation.ViewModels;
-using Rect = LuaAutomation.Common.Rect;
+using Rect = LuaAutomation.Common.Windows.Rect;
 
 namespace LuaAutomation.Lua
 {

@@ -48,8 +48,9 @@
                                 Click="MenuItemOpen_OnClick"
                                 SymbolIcon="Folder28"
                                 Tag="open" />
+                            <Separator />
                             <ui:MenuItem
-                                Header="Exit"
+                                Header="Exit Lua Automation IDE"
                                 Click="MenuItemExit_OnClick"
                                 SymbolIcon="ArrowExit20"
                                 Tag="open" />

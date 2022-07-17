@@ -7,7 +7,6 @@
  * @license           : Closed Source
  */
 
-using LuaAutomation.Common;
 using LuaAutomation.Dialogs;
 
 namespace LuaAutomation.Pages
