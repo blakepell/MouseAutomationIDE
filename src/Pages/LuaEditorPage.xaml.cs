@@ -731,10 +731,44 @@ namespace LuaAutomation.Pages
             if (!string.IsNullOrEmpty(ks.SendKeysValue))
             {
                 e.SendKeysValue = ks.SendKeysValue;
+
+                if (ks.Ctrl)
+                {
+                    e.SendKeysValue = $"^{e.SendKeysValue}";
+                }
+
+                if (ks.Alt)
+                {
+                    e.SendKeysValue = $"%{e.SendKeysValue}";
+                }
+
+                if (ks.Shift)
+                {
+                    e.SendKeysValue = $"+{e.SendKeysValue}";
+                }
             }
             else if (ks.Printable)
             {
                 e.SendKeysValue = ks.Character.ToString();
+            }
+            else if (!ks.Printable && ks.Character != '\x00')
+            {
+                e.SendKeysValue = ks.Character.ToString();
+
+                if (ks.Ctrl)
+                {
+                    e.SendKeysValue = $"^{e.SendKeysValue}";
+                }
+
+                if (ks.Alt)
+                {
+                    e.SendKeysValue = $"%{e.SendKeysValue}";
+                }
+
+                if (ks.Shift)
+                {
+                    e.SendKeysValue = $"+{e.SendKeysValue}";
+                }
             }
 
             this.InputEvents.Add(e);
