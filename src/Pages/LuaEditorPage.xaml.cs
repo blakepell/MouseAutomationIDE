@@ -7,6 +7,7 @@
  * @license           : Closed Source
  */
 
+using Cysharp.Text;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -773,17 +774,21 @@ namespace LuaAutomation.Pages
             // found put the script commands in for it then get out.
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                // Make sure this always goes on a new line.
-                if (Editor.Text.Length > 0 && Editor.Text[^1] != '\n')
+                NativeMethods.GetCursorPos(out System.Drawing.Point p);
+
+                using (var sb = ZString.CreateStringBuilder())
                 {
-                    Editor.AppendText("\r\n");
+                    sb.AppendFormat("mouse.SetPosition({0}, {1})\r\n", p.X, p.Y);
+                    sb.AppendLine("mouse.LeftClick()");
+                    sb.AppendLine($"ui.Sleep({AppSettings.ControlClickMilliseconds})");
+
+                    int start = Editor.SelectionStart;
+                    string lua = sb.ToString();
+
+                    Editor.Text = Editor.Text.Insert(Editor.SelectionStart, lua);
+                    Editor.SelectionStart = start + lua.Length;
                 }
 
-                NativeMethods.GetCursorPos(out System.Drawing.Point p);
-                Editor.AppendText($"mouse.SetPosition({p.X}, {p.Y})\r\n");
-                Editor.AppendText("mouse.LeftClick()\r\n");
-                Editor.AppendText($"ui.Sleep({AppSettings.ControlClickMilliseconds})\r\n");
-                Editor.ScrollToEnd();
                 return;
             }
 
@@ -845,17 +850,21 @@ namespace LuaAutomation.Pages
             // found put the script commands in for it then get out.
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                // Make sure this always goes on a new line.
-                if (Editor.Text.Length > 0 && Editor.Text[^1] != '\n')
+                NativeMethods.GetCursorPos(out System.Drawing.Point p);
+
+                using (var sb = ZString.CreateStringBuilder())
                 {
-                    Editor.AppendText("\r\n");
+                    sb.AppendFormat("mouse.SetPosition({0}, {1})\r\n", p.X, p.Y);
+                    sb.AppendLine("mouse.RightClick()");
+                    sb.AppendLine($"ui.Sleep({AppSettings.ControlClickMilliseconds})");
+
+                    int start = Editor.SelectionStart;
+                    string lua = sb.ToString();
+
+                    Editor.Text = Editor.Text.Insert(Editor.SelectionStart, lua);
+                    Editor.SelectionStart = start + lua.Length;
                 }
 
-                NativeMethods.GetCursorPos(out System.Drawing.Point p);
-                Editor.AppendText($"mouse.SetPosition({p.X}, {p.Y})\r\n");
-                Editor.AppendText("mouse.RightClick()\r\n");
-                Editor.AppendText($"ui.Sleep({AppSettings.ControlClickMilliseconds})\r\n");
-                Editor.ScrollToEnd();
                 return;
             }
 
