@@ -146,6 +146,9 @@ namespace LuaAutomation.Pages
 
             // Wire up the key hooks for recording macros.
             App.KeyHook.KeyDown += KeyHookOnKeyDown;
+
+            // Set the initial focus to the Lua editor.
+            Editor.Focus();
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
