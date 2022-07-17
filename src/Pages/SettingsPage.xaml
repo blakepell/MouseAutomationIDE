@@ -10,7 +10,16 @@
     <Border>
         <Border Margin="20,10,0,0">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Settings" FontSize="24" FontWeight="DemiBold"></TextBlock>
+                <DockPanel Margin="0,0,10,0">
+                    <TextBlock Text="Settings" FontSize="24" FontWeight="DemiBold" DockPanel.Dock="Left"></TextBlock>
+                    <ui:Button Appearance="Primary"
+                               Margin="0,0,0,0"
+                               Content="About"
+                               DockPanel.Dock="Right"
+                               HorizontalAlignment="Right"
+                               Click="ButtonAbout_OnClick" />
+                </DockPanel>
+
                 <Separator Margin="0,5,0,0" />
 
                 <CheckBox IsChecked="{Binding AutoSaveOnExit}"
@@ -62,11 +71,6 @@
                     <ui:NumberBox Value="{Binding Path=ControlClickMilliseconds, Mode=TwoWay}"
                                 Max="5000" Min="0" Step="100" DecimalPlaces="0" />
                 </StackPanel>
-
-                <ui:Button Appearance="Primary"
-                           Margin="0,10,0,0"
-                           Content="About"
-                           Click="ButtonAbout_OnClick" />
             </StackPanel>
         </Border>
     </Border>
