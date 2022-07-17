@@ -56,6 +56,11 @@ namespace LuaAutomation.Pages
         public List<IInputEvent> InputEvents = new();
 
         /// <summary>
+        /// A reference to an instance of <see cref="UIScriptCommands"/>.
+        /// </summary>
+        private UIScriptCommands UIScriptCommands;
+
+        /// <summary>
         /// A <see cref="Stopwatch"/> used to record the time a mouse event occurred.
         /// </summary>
         private Stopwatch _recorderStopwatch = new();
@@ -73,9 +78,11 @@ namespace LuaAutomation.Pages
             this.ViewModel = new();
             AppServices.AddSingleton(this);
             AppServices.AddSingleton(this.ViewModel);
+            AppServices.AddSingleton(new UIScriptCommands());
 
             // Retrieve DI objects we need.
             this.AppSettings = AppServices.GetRequiredService<AppSettings>();
+            this.UIScriptCommands = AppServices.GetRequiredService<UIScriptCommands>();
 
             // Set the data context to the view model.
             this.DataContext = this.ViewModel;
@@ -234,10 +241,7 @@ namespace LuaAutomation.Pages
                 if (ex.GetBaseException() is ScriptTerminationRequestedException)
                 {
                     this.ViewModel.LuaInterpreterStatus = "Stopped";
-
-                    // TODO: DI inject
-                    var script = new UIScriptCommands();
-                    script.ConsoleLog($"Stopped");
+                    this.UIScriptCommands.ConsoleLog($"Stopped");
 
                     // Reset the status to default
                     this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
@@ -247,16 +251,12 @@ namespace LuaAutomation.Pages
                 {
                     if (ex.InnerException is SyntaxErrorException syntaxEx)
                     {
-                        // TODO: DI inject
-                        var script = new UIScriptCommands();
-                        script.ConsoleLog($"ERROR {syntaxEx.DecoratedMessage}");
+                        this.UIScriptCommands.ConsoleLog($"ERROR {syntaxEx.DecoratedMessage}");
                         this.Editor.ScrollToLine(syntaxEx.FromLineNumber);
                     }
                     else if (ex.InnerException is InterpreterException luaEx)
                     {
-                        // TODO: DI inject
-                        var script = new UIScriptCommands();
-                        script.ConsoleLog($"ERROR {luaEx.DecoratedMessage}");
+                        this.UIScriptCommands.ConsoleLog($"ERROR {luaEx.DecoratedMessage}");
                     }
                     else
                     {
@@ -939,6 +939,7 @@ namespace LuaAutomation.Pages
                 {
                     Editor.Text = await File.ReadAllTextAsync(dialog.FileName);
                     this.AppSettings.LastSaveDirectory = Path.GetDirectoryName(dialog.FileName);
+                    this.UIScriptCommands.StatusText = dialog.FileName;
                 }
             }
             catch (Exception ex)
