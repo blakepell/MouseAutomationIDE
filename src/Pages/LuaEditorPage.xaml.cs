@@ -128,6 +128,7 @@ namespace LuaAutomation.Pages
             this.Script.Options.CheckThreadAccess = false;
             this.Script.Globals.Set("mouse", UserData.Create(mouseCommands));
             this.Script.Globals.Set("ui", UserData.Create(uiCommands));
+            this.Script.Options.DebugPrint = s => uiCommands.ConsoleLog(s);
 
             // Warmup the script engine.
             Script.WarmUp();
