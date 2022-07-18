@@ -12,7 +12,7 @@
              WindowCornerPreference="Round"
              WindowStartupLocation="CenterOwner"
              MinHeight="50"
-             Title="About" Height="400" Width="600">
+             Title="About" Height="405" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
