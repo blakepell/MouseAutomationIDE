@@ -191,8 +191,9 @@ namespace LuaAutomation.Pages
         /// <param name="e"></param>
         private async void ButtonRunLua_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!this.ViewModel.PlayButtonEnabled)
+            if (!this.ViewModel.PlayButtonEnabled || string.IsNullOrWhiteSpace(Editor.Text))
             {
+                this.UIScriptCommands.ConsoleLog("No source code was available to run.");
                 return;
             }
 

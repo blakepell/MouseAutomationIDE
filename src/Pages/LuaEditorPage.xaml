@@ -14,22 +14,25 @@
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Page.Resources>
-    <Grid>
+    <Grid Margin="0,3,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ToolBarTray Grid.Row="0" Margin="0,0,0,0" Height="30"  VerticalAlignment="Top">
+        <ToolBarTray Grid.Row="0" 
+                     Margin="17,0,0, 5" IsLocked="True"
+                     Height="35" VerticalAlignment="Top" Background="#272F33">
             <ToolBar>
+                <Separator Background="#666666" />
                 <Button Click="ButtonOpen_OnClick"
                         ToolTip="Open"
-                        Margin="0,0,0,0"
+                        Margin="0,2,0,0"
                         BorderThickness="0">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" Margin="0">
+                        <StackPanel Orientation="Horizontal" Margin="0,-1, 0, 0">
                             <iconPacks:PackIconMaterial Kind="FolderOpen"
                                                         Height="14"
                                                         Width="14"
@@ -41,10 +44,10 @@
                 </Button>
                 <Button Click="ButtonSave_OnClick"
                     ToolTip="Open"
-                    Margin="0,0,0,0"
+                    Margin="0,2,0,0"
                     BorderThickness="0">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" Margin="0">
+                        <StackPanel Orientation="Horizontal" Margin="0, -1, 0, 0">
                             <iconPacks:PackIconMaterial Kind="ContentSave"
                                                         Height="14"
                                                         Width="14"
@@ -54,15 +57,16 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
+                <Separator Background="#666666" />
             </ToolBar>
             <ToolBar>
                 <Button Click="ButtonRunLua_OnClick"
                         IsEnabled="{Binding Path=PlayButtonEnabled}"
                         ToolTip="Stop HotKey: F5"
-                        Margin="0,0,0,0"
+                        Margin="0,2,0,0"
                         BorderThickness="0">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" Margin="0">
+                        <StackPanel Orientation="Horizontal" Margin="0, -1, 0, 0">
                             <iconPacks:PackIconMaterial Kind="Play"
                                                         Height="14"
                                                         Width="14"
@@ -75,10 +79,10 @@
                 <Button Click="ButtonStop_OnClick"
                         IsEnabled="{Binding Path=StopButtonEnabled}"
                         ToolTip="Stop HotKey: F6"
-                        Margin="0,0,0,0"
+                        Margin="0,2,0,0"
                         BorderThickness="0">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" Margin="0">
+                        <StackPanel Orientation="Horizontal" Margin="0, -1, 0, 0">
                             <iconPacks:PackIconMaterial Kind="Stop"
                                                         Foreground="{Binding Path=StopButtonBrush}" 
                                                         Height="14"
@@ -88,14 +92,15 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
+                <Separator Background="#666666" />
             </ToolBar>
             <ToolBar>
                 <Button Click="ButtonRecord_OnClick"
                         IsEnabled="{Binding Path=RecordButtonEnabled}"
-                        Margin="0,0,0,0"
+                        Margin="0,2,0,0"
                         BorderThickness="0">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" Margin="0">
+                        <StackPanel Orientation="Horizontal" Margin="0, -1, 0, 0">
                             <iconPacks:PackIconMaterial Kind="Record" 
                                                         Foreground="{Binding Path=RecordButtonBrush}"
                                                         Height="14"
@@ -105,6 +110,7 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
+                <Separator Background="#666666" />
             </ToolBar>
         </ToolBarTray>
 
@@ -156,7 +162,8 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5,0,0,0"
                                Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                               Text="{Binding Path=StatusText}" />
+                               Text="{Binding Path=StatusText}"
+                               TextTrimming="CharacterEllipsis" />
                 </StackPanel>
             </StatusBarItem>
             <Separator Grid.Column="1" />
