@@ -182,5 +182,16 @@ namespace LuaAutomation.Lua
             }
         }
 
+        [Description("Scrolls up the specified number of clicks.")]
+        public void ScrollUp(int clicks)
+        {
+            Mouse.ScrollUp(clicks);
+        }
+
+        [Description("Scrolls down the specified number of clicks.")]
+        public void ScrollDown(int clicks)
+        {
+            Mouse.ScrollDown(clicks);
+        }
     }
 }

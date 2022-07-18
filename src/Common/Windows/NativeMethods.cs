@@ -41,5 +41,8 @@ namespace LuaAutomation.Common.Windows
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetCursorPos(out System.Drawing.Point point);
+
+        [DllImport("user32", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "mouse_event")]
+        public static extern void MouseEvent(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
     }
 }

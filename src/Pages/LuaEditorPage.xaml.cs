@@ -388,10 +388,10 @@ namespace LuaAutomation.Pages
                             sb.Append("mouse.MiddleUp()\r\n");
                             break;
                         case MouseEventType.ScrollDown:
-                            sb.Append("mouse.ScrollDown()\r\n");
+                            sb.Append("mouse.ScrollDown(1)\r\n");
                             break;
                         case MouseEventType.ScrollUp:
-                            sb.Append("mouse.ScrollUp()\r\n");
+                            sb.Append("mouse.ScrollUp(1)\r\n");
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
