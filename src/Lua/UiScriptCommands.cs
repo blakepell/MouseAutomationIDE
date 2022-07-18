@@ -237,7 +237,7 @@ namespace LuaAutomation.Lua
         }
 
         [Description("Writes a log entry to the console.")]
-        public void ConsoleLog(string text)
+        public void Log(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -247,7 +247,7 @@ namespace LuaAutomation.Lua
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.Invoke(() => this.ConsoleLog(text));
+                Application.Current.Dispatcher.Invoke(() => this.Log(text));
                 return;
             }
 
@@ -265,12 +265,12 @@ namespace LuaAutomation.Lua
         }
 
         [Description("Clears all of the text in the console.")]
-        public void ConsoleClear()
+        public void ClearConsole()
         {
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.Invoke(this.ConsoleClear);
+                Application.Current.Dispatcher.Invoke(this.ClearConsole);
                 return;
             }
 

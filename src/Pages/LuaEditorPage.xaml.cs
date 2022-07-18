@@ -130,7 +130,7 @@ namespace LuaAutomation.Pages
             this.Script.Globals.Set("ui", UserData.Create(uiCommands));
 
             // Redirect any inputs or outputs to where we want them to go.
-            this.Script.Options.DebugPrint = s => uiCommands.ConsoleLog(s);
+            this.Script.Options.DebugPrint = s => uiCommands.Log(s);
 
             // Warmup the script engine.
             Script.WarmUp();
@@ -196,7 +196,7 @@ namespace LuaAutomation.Pages
         {
             if (!this.ViewModel.PlayButtonEnabled || string.IsNullOrWhiteSpace(Editor.Text))
             {
-                this.UIScriptCommands.ConsoleLog("No source code was available to run.");
+                this.UIScriptCommands.Log("No source code was available to run.");
                 return;
             }
 
@@ -249,7 +249,7 @@ namespace LuaAutomation.Pages
                 if (ex.GetBaseException() is ScriptTerminationRequestedException)
                 {
                     this.ViewModel.LuaInterpreterStatus = "Stopped";
-                    this.UIScriptCommands.ConsoleLog($"Stopped");
+                    this.UIScriptCommands.Log($"Stopped");
 
                     // Reset the status to default
                     this.ViewModel.StatusBarForegroundBrush = UIBrushes.WhiteBrush;
@@ -259,17 +259,17 @@ namespace LuaAutomation.Pages
                 {
                     if (ex.InnerException is SyntaxErrorException syntaxEx)
                     {
-                        this.UIScriptCommands.ConsoleLog($"ERROR {syntaxEx.DecoratedMessage}");
+                        this.UIScriptCommands.Log($"ERROR {syntaxEx.DecoratedMessage}");
                         this.Editor.ScrollToLine(syntaxEx.FromLineNumber);
                     }
                     else if (ex.InnerException is InterpreterException luaEx)
                     {
-                        this.UIScriptCommands.ConsoleLog($"ERROR {luaEx.DecoratedMessage}");
+                        this.UIScriptCommands.Log($"ERROR {luaEx.DecoratedMessage}");
                     }
                     else
                     {
                         var script = new UIScriptCommands();
-                        script.ConsoleLog($"ERROR {ex.Message}");
+                        script.Log($"ERROR {ex.Message}");
                     }
 
                     this.ViewModel.LuaInterpreterStatus = "Error";
