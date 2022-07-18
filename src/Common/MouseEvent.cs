@@ -18,6 +18,8 @@ namespace LuaAutomation.Common
         RightUp = 4,
         MiddleDown = 5,
         MiddleUp = 6,
+        ScrollUp = 7,
+        ScrollDown = 8
     }
 
     public class MouseEvent : IInputEvent

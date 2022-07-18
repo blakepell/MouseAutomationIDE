@@ -146,6 +146,7 @@ namespace LuaAutomation.Pages
             App.MouseHook.RightButtonUp += MouseHookOnRightButtonUp;
             App.MouseHook.MiddleButtonDown += MouseHookOnMiddleButtonDown;
             App.MouseHook.MiddleButtonUp += MouseHookOnMiddleButtonUp;
+            App.MouseHook.MouseWheel += MouseHookOnMouseWheel;
 
             // Wire up the key hooks for recording macros.
             App.KeyHook.KeyDown += KeyHookOnKeyDown;
@@ -385,6 +386,12 @@ namespace LuaAutomation.Pages
                             break;
                         case MouseEventType.MiddleUp:
                             sb.Append("mouse.MiddleUp()\r\n");
+                            break;
+                        case MouseEventType.ScrollDown:
+                            sb.Append("mouse.ScrollDown()\r\n");
+                            break;
+                        case MouseEventType.ScrollUp:
+                            sb.Append("mouse.ScrollUp()\r\n");
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -959,6 +966,42 @@ namespace LuaAutomation.Pages
             };
 
             this.InputEvents.Add(e);
+        }
+
+        private static int GetWheelDeltaWParam(uint wparam) { return (int)(wparam >> 16); }
+
+        private void MouseHookOnMouseWheel(MouseHookStruct mousestruct)
+        {
+            // If we're not recording or we're not supposed to record mouse events
+            // then ditch out.
+            if (!this._recorderStopwatch.IsRunning || !this.AppSettings.RecordMouseEvents)
+            {
+                return;
+            }
+
+            // 65416 (scroll down), 120 (scroll up)
+            int wheelMovement = GetWheelDeltaWParam(mousestruct.mouseData);
+
+            if (wheelMovement == 120)
+            {
+                var e = new MouseEvent
+                {
+                    EventType = MouseEventType.ScrollUp,
+                    TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
+                };
+                
+                this.InputEvents.Add(e);
+            }
+            else if (wheelMovement == 65416)
+            {
+                var e = new MouseEvent
+                {
+                    EventType = MouseEventType.ScrollDown,
+                    TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
+                };
+
+                this.InputEvents.Add(e);
+            }
         }
 
         /// <summary>
