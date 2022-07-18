@@ -5,9 +5,11 @@ while(count < 5)
 do
     count = count + 1
     ui.StatusText = "Loop " .. count
-    ui.ConsoleLog("Loop " .. count)    
-    ui.Sleep(1000)
+    ui.Log("Loop " .. count)    
+
+    -- Pause for 500 milliseconds
+    ui.Sleep(500)
 end
 
-ui.ConsoleLog("Complete!")
+ui.Log("Complete!")
 ui.StatusText = "Complete!"

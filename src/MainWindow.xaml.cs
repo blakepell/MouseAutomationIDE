@@ -7,6 +7,7 @@
  * @license           : Closed Source
  */
 
+using LuaAutomation.Dialogs;
 using LuaAutomation.Pages;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
@@ -84,5 +85,14 @@ namespace LuaAutomation
 
         #endregion INavigationWindow methods
 
+        private void ButtonExampleLuaPrograms_OnClick(object sender, RoutedEventArgs e)
+        {
+            var win = new ExamplesDialog
+            {
+                Owner = this
+            };
+
+            win.ShowDialog();
+        }
     }
 }

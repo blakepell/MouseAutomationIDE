@@ -88,7 +88,7 @@
                     <ui:NavigationItem
                         Content="Example Lua Programs"
                         Icon="Apps24"
-                        PageType="{x:Type pages:ExamplesPage}" />
+                        Click="ButtonExampleLuaPrograms_OnClick" />
                     <ui:NavigationItem
                         Content="Hot Keys"
                         Icon="KeyCommand20"
