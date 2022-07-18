@@ -21,20 +21,20 @@ namespace LuaAutomation.Dialogs
                 this.ResourceFileName = resourceFileName;
             }
 
-            public string Name { get; set; }
+            public string Name { get; }
 
-            public string ResourceFileName { get; set; }
+            public string ResourceFileName { get; }
         }
 
         public List<ExampleData> LuaExamples => new()
         {
-            new ExampleData("Click on a running application", "s.lua"),
+            new ExampleData("Click on a running application", ""),
             new ExampleData("Find a window by process name", ""),
             new ExampleData("For Loop Examples", "ExampleForLoop.lua"),
             new ExampleData("While Loop Examples","ExampleWhileLoop.lua"),
             new ExampleData("File Reading and Writing",""),
             new ExampleData("Updating UI Elements",""),
-            new ExampleData("Mouse Automation", "")
+            new ExampleData("Mouse Automation", "MouseAutomation.lua")
         };
 
         public ExamplesDialog()

@@ -15,6 +15,7 @@
 		<None Remove="Resources\ExampleForLoop.lua" />
 		<None Remove="Resources\ExampleWhileLoop.lua" />
 		<None Remove="Resources\LuaDarkTheme.xshd" />
+		<None Remove="Resources\MouseAutomation.lua" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -25,6 +26,7 @@
 		<EmbeddedResource Include="Resources\ExampleForLoop.lua" />
 		<EmbeddedResource Include="Resources\ExampleWhileLoop.lua" />
 		<EmbeddedResource Include="Resources\LuaDarkTheme.xshd" />
+		<EmbeddedResource Include="Resources\MouseAutomation.lua" />
 	</ItemGroup>
 
 	<ItemGroup>
