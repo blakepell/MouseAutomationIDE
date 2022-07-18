@@ -160,32 +160,6 @@ namespace LuaAutomation.Lua
             Mouse.MiddleUp();
         }
 
-        [Description("Hides the mouse cursor.")]
-        public void Hide()
-        {
-            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
-            if (!Application.Current.Dispatcher.CheckAccess())
-            {
-                _ = Application.Current.Dispatcher.BeginInvoke(new Action(this.Hide));
-                return;
-            }
-
-            Mouse.MouseHide();
-        }
-
-        [Description("Shows the mouse cursor.")]
-        public void Show()
-        {
-            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
-            if (!Application.Current.Dispatcher.CheckAccess())
-            {
-                _ = Application.Current.Dispatcher.BeginInvoke(new Action(this.Show));
-                return;
-            }
-
-            Mouse.MouseShow();
-        }
-
         [Description("The X coordinate of the mouse's current position.")]
         public int X
         {
