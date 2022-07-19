@@ -481,6 +481,7 @@ namespace LuaAutomation.Pages
                         }
                     };
 
+                    // TODO: Read from method data in LuaCompletion
                     // Construct our custom highlighting rule via reflection.
                     var t = typeof(MouseScriptCommands);
                     var ui = typeof(UIScriptCommands);

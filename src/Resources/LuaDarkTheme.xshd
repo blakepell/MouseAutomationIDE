@@ -102,12 +102,11 @@
                 bold="true"
                 italic="false"
                 color="#D2A0DF">
-        <Key word = "lua" />
         <Key word = "ui" />
         <Key word = "mouse" />
       </KeyWords>
 
-      <!-- Our extension keywords are not going to be dynamically loaded via reflection so this doesn't have
+      <!-- Our extension keywords are to be dynamically loaded via reflection so this doesn't have
            to be updated every time we add a new method which is, a lot. -->
 
     </RuleSet>
