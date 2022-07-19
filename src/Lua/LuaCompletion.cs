@@ -14,121 +14,88 @@ namespace LuaAutomation.Lua
     public static class LuaCompletion
     {
         /// <summary>
-        /// A static list of completion data we can construct and format once.  We are going
-        /// to consolidate overloads.
+        /// Static list of the auto complete data.
         /// </summary>
-        private static Dictionary<string, ICompletionData>? _luaCompletionData;
+        private static Dictionary<string, List<LuaCompletionData>> CompletionData { get; set; }
 
-        private static Dictionary<string, ICompletionData>? _uiCompletionData;
+        /// <summary>
+        /// Constructs the static list of completion data based off of any class that has
+        /// a <see cref="LuaClassAttribute"/> on it.
+        /// </summary>
+        static LuaCompletion()
+        {
+            CompletionData = new();
+
+            var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsDefined(typeof(LuaClassAttribute)));
+
+            foreach (var t in types)
+            {
+                var attr = t.GetCustomAttributes(false)
+                                                .OfType<LuaClassAttribute>()
+                                                .SingleOrDefault();
+
+                if (attr == null)
+                {
+                    continue;
+                }
+
+                var entries = new List<LuaCompletionData>();
+                CompletionData.Add(attr.Name, entries);
+
+                // This should get all of our methods but exclude ones that are defined on
+                // object like ToString, GetHashCode, Equals, etc.
+                foreach (var method in t.GetMethods().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
+                {
+                    var entry = entries.FirstOrDefault(x => x.Text == method.Name);
+
+                    if (entry != null)
+                    {
+                        // It exists, therefore this is an overload.
+                        ConstructMembers(method, entry);
+                    }
+                    else
+                    {
+                        var lcd = new LuaCompletionData(method.Name, "");
+                        ConstructMembers(method, lcd);
+                        entries.Add(lcd);
+                    }
+                }
+
+                foreach (var prop in t.GetProperties().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
+                {
+                    var entry = entries.FirstOrDefault(x => x.Text == prop.Name);
+
+                    if (entry != null)
+                    {
+                        // It exists, therefore this is an overload.
+                        ConstructProperties(prop, entry);
+                    }
+                    else
+                    {
+                        var lcd = new LuaCompletionData(prop.Name, "");
+                        ConstructProperties(prop, lcd);
+                        entries.Add(lcd);
+                    }
+                }
+
+            }
+        }
 
         /// <summary>
         /// Loads the completion data based on the pattern.
         /// </summary>
         public static void LoadCompletionData(IList<ICompletionData> data, string pattern)
         {
-            if (pattern == "mouse")
+            if (!CompletionData.ContainsKey(pattern))
             {
-                if (_luaCompletionData == null)
-                {
-                    // Initialize the Lua completion data once.
-                    _luaCompletionData = new Dictionary<string, ICompletionData>();
-
-                    var t = typeof(MouseScriptCommands);
-
-                    // This should get all of our methods but exclude ones that are defined on
-                    // object like ToString, GetHashCode, Equals, etc.
-                    foreach (var method in t.GetMethods().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
-                    {
-                        if (_luaCompletionData.ContainsKey(method.Name))
-                        {
-                            // It exists, therefore this is an overload.
-                            ConstructMembers(method, (LuaCompletionData) _luaCompletionData[method.Name]);
-                        }
-                        else
-                        {
-                            var lcd = new LuaCompletionData(method.Name, "");
-                            _luaCompletionData.Add(method.Name, lcd);
-                            ConstructMembers(method, lcd);
-                            data.Add(lcd);
-                        }
-                    }
-
-                    foreach (var prop in t.GetProperties().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
-                    {
-                        if (_luaCompletionData.ContainsKey(prop.Name))
-                        {
-                            // It exists, therefore this is an overload.
-                            ConstructProperties(prop, (LuaCompletionData)_luaCompletionData[prop.Name]);
-                        }
-                        else
-                        {
-                            var lcd = new LuaCompletionData(prop.Name, "");
-                            _luaCompletionData.Add(prop.Name, lcd);
-                            ConstructProperties(prop, lcd);
-                            data.Add(lcd);
-                        }
-                    }
-
-                }
-                else
-                {
-                    foreach (var item in _luaCompletionData)
-                    {
-                        data.Add(item.Value);
-                    }
-                }
+                return;
             }
-            else if (pattern == "ui")
+
+            var entries = CompletionData[pattern];
+
+            foreach (var entry in entries)
             {
-                if (_uiCompletionData == null)
-                {
-                    // Initialize the Lua completion data once.
-                    _uiCompletionData = new Dictionary<string, ICompletionData>();
-
-                    var t = typeof(UIScriptCommands);
-
-                    // This should get all of our methods but exclude ones that are defined on
-                    // object like ToString, GetHashCode, Equals, etc.
-                    foreach (var method in t.GetMethods().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
-                    {
-                        if (_uiCompletionData.ContainsKey(method.Name))
-                        {
-                            // It exists, therefore this is an overload.
-                            ConstructMembers(method, (LuaCompletionData)_uiCompletionData[method.Name]);
-                        }
-                        else
-                        {
-                            var lcd = new LuaCompletionData(method.Name, "");
-                            _uiCompletionData.Add(method.Name, lcd);
-                            ConstructMembers(method, lcd);
-                            data.Add(lcd);
-                        }
-                    }
-
-                    foreach (var prop in t.GetProperties().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
-                    {
-                        if (_uiCompletionData.ContainsKey(prop.Name))
-                        {
-                            // It exists, therefore this is an overload.
-                            ConstructProperties(prop, (LuaCompletionData)_uiCompletionData[prop.Name]);
-                        }
-                        else
-                        {
-                            var lcd = new LuaCompletionData(prop.Name, "");
-                            _uiCompletionData.Add(prop.Name, lcd);
-                            ConstructProperties(prop, lcd);
-                            data.Add(lcd);
-                        }
-                    }
-
-                }
-                else
-                {
-                    foreach (var item in _uiCompletionData)
-                    {
-                        data.Add(item.Value);
-                    }
-                }
+                data.Add(entry);
             }
         }
 
@@ -190,7 +157,7 @@ namespace LuaAutomation.Lua
             sb.TrimEnd('\r', '\n');
 
             lcd.Description = sb.ToString();
-            
+
             Argus.Memory.StringBuilderPool.Return(sb);
         }
 

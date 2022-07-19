@@ -12,6 +12,7 @@ using Mouse = Argus.Windows.Mouse;
 
 namespace LuaAutomation.Lua
 {
+    [LuaClass("mouse")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class MouseScriptCommands
     {

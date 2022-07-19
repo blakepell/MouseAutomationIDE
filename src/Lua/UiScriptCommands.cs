@@ -15,6 +15,7 @@ namespace LuaAutomation.Lua
     /// <summary>
     /// UI Script Commands
     /// </summary>
+    [LuaClass("ui")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class UIScriptCommands
