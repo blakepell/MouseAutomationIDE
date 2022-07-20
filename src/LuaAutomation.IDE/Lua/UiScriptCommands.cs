@@ -279,6 +279,36 @@ namespace LuaAutomation.Lua
             editor.Console.Text = "";
         }
 
+        [Description("Moves the cursor to the specified line in the code editor.")]
+        public void EditorGotoLine(int line)
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() => this.EditorGotoLine(line));
+                return;
+            }
+
+            var editor = AppServices.GetRequiredService<LuaEditorPage>();
+            editor.Editor.ScrollToLine(line);
+            editor.Editor.TextArea.Caret.Line = line;
+            editor.Editor.TextArea.Caret.Column = 0;
+        }
+
+        [Description("Moves the cursor to the specified line in the console.")]
+        public void ConsoleGotoLine(int line)
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() => this.ConsoleGotoLine(line));
+                return;
+            }
+
+            var editor = AppServices.GetRequiredService<LuaEditorPage>();
+            editor.Console.ScrollToLine(line);
+        }
+
         /// <summary>
         /// TODO: Move into Win32 class.
         /// </summary>

@@ -262,6 +262,8 @@ namespace LuaAutomation.Pages
                     {
                         this.UIScriptCommands.Log($"ERROR {syntaxEx.DecoratedMessage}");
                         this.Editor.ScrollToLine(syntaxEx.FromLineNumber);
+                        this.Editor.TextArea.Caret.Line = syntaxEx.FromLineNumber;
+                        this.Editor.TextArea.Caret.Column = 0;
                     }
                     else if (ex.InnerException is InterpreterException luaEx)
                     {
