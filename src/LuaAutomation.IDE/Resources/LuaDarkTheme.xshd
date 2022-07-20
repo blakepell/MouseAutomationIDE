@@ -104,6 +104,15 @@
                 color="#D2A0DF">
         <Key word = "ui" />
         <Key word = "mouse" />
+        <Key word = "global" />
+        <Key word = "io" />
+        <Key word = "debug" />
+        <Key word = "dynamic" />
+        <Key word = "json" />
+        <Key word = "math" />
+        <Key word = "os" />
+        <Key word = "string" />
+        <Key word = "table" />
       </KeyWords>
 
       <!-- Our extension keywords are to be dynamically loaded via reflection so this doesn't have
