@@ -44,5 +44,14 @@ namespace LuaAutomation.Common.Windows
 
         [DllImport("user32", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "mouse_event")]
         public static extern void MouseEvent(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetProcessDpiAwarenessContext(int dpiFlag);
+
+        [DllImport("SHCore.dll", SetLastError = true)]
+        public static extern bool SetProcessDpiAwareness(ProcessDpiAwareness awareness);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetProcessDPIAware();
     }
 }
