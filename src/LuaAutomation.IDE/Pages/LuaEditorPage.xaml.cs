@@ -738,6 +738,12 @@ namespace LuaAutomation.Pages
 
         private void KeyHookOnKeyDown(VirtualKeys key)
         {
+            // The ability to stop a macro from recording or playing from anywhere.
+            if (key == VirtualKeys.PAUSE || key == VirtualKeys.CANCEL)
+            {
+                this.Stop();
+            }
+
             // If we're not recording or we're not supposed to record keystrokes
             // ever then ditch out.
             if (!this._recorderStopwatch.IsRunning || !AppSettings.RecordKeyEvents)

@@ -71,10 +71,10 @@
                            Text="Website:"
                            FontSize="12"
                            Margin="20,5,0,0"></TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="2"
-                           Text="https://www.blakepell.com"
-                           FontSize="12"
-                           Margin="20,5,0,0"></TextBlock>
+                <ui:Hyperlink Grid.Row="2" Grid.Column="1"
+                              FontSize="12"
+                              Margin="-10,0,0,0"
+                              NavigateUri="https://www.blakepell.com">https://www.blakepell.com</ui:Hyperlink>
             </Grid>
 
             <TextBlock Text="Third Party Library Usage"
