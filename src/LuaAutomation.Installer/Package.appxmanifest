@@ -7,8 +7,8 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="9b392703-f2cd-4226-9aae-b2a827f6eff3"
-    Publisher="CN=blake"
+    Name="48918BlakePell.LuaAutomationIDE"
+    Publisher="CN=CCD52E31-6DDB-4266-B6DC-03BCDCBF12F8"
     Version="2022.7.1.0" />
 
   <Properties>
