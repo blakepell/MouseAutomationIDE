@@ -236,7 +236,7 @@ namespace LuaAutomation.Pages
                 _ = await this.Script.DoStringAsync(_executionControlToken, this.Editor.Text);
                 //this.Script.DoString(this.Editor.Text);
                 sw.Stop();
-                
+
                 luaPage.ViewModel.LuaInterpreterStatus = $"Completed in {sw.ElapsedMilliseconds / 1000}s";
 
                 // Reset the status to default
@@ -1000,7 +1000,7 @@ namespace LuaAutomation.Pages
                     EventType = MouseEventType.ScrollUp,
                     TimeSpan = new TimeSpan(0, 0, 0, 0, (int)this._recorderStopwatch.ElapsedMilliseconds)
                 };
-                
+
                 this.InputEvents.Add(e);
             }
             else if (wheelMovement == 65416)
@@ -1013,6 +1013,74 @@ namespace LuaAutomation.Pages
 
                 this.InputEvents.Add(e);
             }
+        }
+
+        /// <summary>
+        /// Attempts to reset the IDE to it's default state.  Used when "New" is clicked.
+        /// </summary>
+        public void ResetIde()
+        {
+            this.Editor.Text = "";
+            this.Console.Text = "";
+            this.ViewModel.OpenFilePath = "";
+            this.ViewModel.StatusText = "";
+        }
+
+        private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (this.Editor.Text.Length > 0 && string.IsNullOrWhiteSpace(this.ViewModel.OpenFilePath))
+            {
+                this.ResetIde();
+                return;
+            }
+
+            if (this.Editor.Text.Length > 0 && !string.IsNullOrWhiteSpace(this.ViewModel.OpenFilePath))
+            {
+                var messageBox = new Wpf.Ui.Controls.MessageBox();
+
+                messageBox.ButtonLeftName = "No";
+                messageBox.ButtonRightName = "Yes";
+
+                messageBox.ButtonLeftClick += SaveDialog_NoButtonClick;
+                messageBox.ButtonRightClick += SaveDialog_YesButtonClick;
+
+                messageBox.Show("Save File", "Would you like to save this file before creating a new one?");
+            }
+        }
+
+        /// <summary>
+        /// When no is clicked on the save dialog.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveDialog_NoButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.ResetIde();
+            (sender as Wpf.Ui.Controls.MessageBox)?.Close();
+        }
+
+        /// <summary>
+        /// When "Yes" is clicked on the save dialog.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SaveDialog_YesButtonClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await File.WriteAllTextAsync(this.ViewModel.OpenFilePath, Editor.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+
+            this.Editor.Text = "";
+            this.Console.Text = "";
+            this.ViewModel.OpenFilePath = "";
+            this.ViewModel.StatusText = "";
+
+            (sender as Wpf.Ui.Controls.MessageBox)?.Close();
         }
 
         /// <summary>
@@ -1044,6 +1112,7 @@ namespace LuaAutomation.Pages
                     Editor.Text = await File.ReadAllTextAsync(dialog.FileName);
                     this.AppSettings.LastSaveDirectory = Path.GetDirectoryName(dialog.FileName);
                     this.UIScriptCommands.StatusText = dialog.FileName;
+                    this.ViewModel.OpenFilePath = dialog.FileName;
                 }
             }
             catch (Exception ex)
@@ -1054,6 +1123,22 @@ namespace LuaAutomation.Pages
 
         private async void ButtonSave_OnClick(object sender, RoutedEventArgs e)
         {
+            // If it's already opened, then try to save it without prompting with a dialog
+            if (!string.IsNullOrWhiteSpace(this.ViewModel.OpenFilePath))
+            {
+                try
+                {
+                    await File.WriteAllTextAsync(this.ViewModel.OpenFilePath, Editor.Text);
+                    this.AppSettings.LastSaveDirectory = Path.GetDirectoryName(this.ViewModel.OpenFilePath);
+                    this.ViewModel.StatusText = $"Saved at {DateTime.Now.ToString()}";
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            }
+
             var dialog = new SaveFileDialog
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -1072,6 +1157,7 @@ namespace LuaAutomation.Pages
                 {
                     await File.WriteAllTextAsync(dialog.FileName, Editor.Text);
                     this.AppSettings.LastSaveDirectory = Path.GetDirectoryName(dialog.FileName);
+                    this.ViewModel.OpenFilePath = this.ViewModel.OpenFilePath;
                 }
             }
             catch (Exception ex)

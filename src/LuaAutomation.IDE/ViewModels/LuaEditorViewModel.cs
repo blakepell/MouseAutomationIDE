@@ -146,5 +146,16 @@ namespace LuaAutomation.ViewModels
             set => SetValue(StatusBarForegroundBrushProperty, value);
         }
 
+        public static readonly DependencyProperty OpenFilePathProperty = DependencyProperty.Register(
+            nameof(OpenFilePath), typeof(string), typeof(LuaEditorViewModel), new PropertyMetadata(default(string)));
+
+        /// <summary>
+        /// The file path of the currently opened file.
+        /// </summary>
+        public string OpenFilePath
+        {
+            get => (string)GetValue(OpenFilePathProperty);
+            set => SetValue(OpenFilePathProperty, value);
+        }
     }
 }

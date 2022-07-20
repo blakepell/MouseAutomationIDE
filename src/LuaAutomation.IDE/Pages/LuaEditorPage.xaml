@@ -27,6 +27,21 @@
                      Height="35" VerticalAlignment="Top" Background="#272F33">
             <ToolBar>
                 <Separator Background="#666666" />
+                <Button Click="ButtonNew_OnClick"
+                        ToolTip="New"
+                        Margin="0,2,0,0"
+                        BorderThickness="0">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Margin="0,-1, 0, 0">
+                            <iconPacks:PackIconMaterial Kind="FileDocument"
+                                                        Height="14"
+                                                        Width="14"
+                                                        Foreground="LightGray" 
+                                                        Margin="0,0,0,0" />
+                            <TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="#DDDDDD" Margin="5,-1,0,0" Height="29">New</TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
                 <Button Click="ButtonOpen_OnClick"
                         ToolTip="Open"
                         Margin="0,2,0,0"
