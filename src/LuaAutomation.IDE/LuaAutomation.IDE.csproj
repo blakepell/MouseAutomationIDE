@@ -9,6 +9,7 @@
 		<ApplicationIcon>Assets\app.ico</ApplicationIcon>
 		<Version>2022.7.16.1</Version>
 		<AssemblyName>LuaAutomation.IDE</AssemblyName>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 
 	<ItemGroup>
