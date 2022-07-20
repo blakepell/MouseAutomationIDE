@@ -63,11 +63,11 @@ namespace LuaAutomation.Dialogs
             var asm = Assembly.GetExecutingAssembly();
             string result = "";
 
-            using (var s = asm.GetManifestResourceStream($"{asm.GetName().Name}.Resources.{item.ResourceFileName}"))
+            using (var s = asm.GetManifestResourceStream($"LuaAutomation.Resources.{item.ResourceFileName}"))
             {
                 if (s == null)
                 {
-                    ui.StatusText = $"Embedded Resource {item.ResourceFileName} was not found.";
+                    ui.StatusText = $"[WARNING] Embedded Resource {item.ResourceFileName} was not found.";
                     this.Close();
                     return;
                 }

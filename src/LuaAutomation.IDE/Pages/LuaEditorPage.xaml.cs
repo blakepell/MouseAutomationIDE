@@ -464,8 +464,16 @@ namespace LuaAutomation.Pages
         {
             var asm = Assembly.GetExecutingAssembly();
 
-            using (var s = asm.GetManifestResourceStream($"{asm.GetName().Name}.Resources.LuaDarkTheme.xshd"))
+            // LuaAutomation is the default namespace
+            using (var s = asm.GetManifestResourceStream($"LuaAutomation.Resources.LuaDarkTheme.xshd"))
             {
+                if (s == null)
+                {
+                    var ui = AppServices.GetRequiredService<UIScriptCommands>();
+                    ui.Log("[WARNING] Resource LuaAutomation.Resources.LuaDarkTheme.xshd was not found.");
+                    return;
+                }
+
                 using (var reader = new XmlTextReader(s))
                 {
                     te.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
