@@ -28,13 +28,13 @@ namespace LuaAutomation.Dialogs
 
         public List<ExampleData> LuaExamples => new()
         {
-            new ExampleData("Click on a running application", ""),
-            new ExampleData("Find a window by process name", ""),
+            new ExampleData("Click on a running application", "ExampleClickOnARunningApplication.lua"),
+            new ExampleData("Find a window position by process name", "ExampleFindAWindowByProcessName.lua"),
             new ExampleData("For Loop Examples", "ExampleForLoop.lua"),
             new ExampleData("While Loop Examples","ExampleWhileLoop.lua"),
-            new ExampleData("File Reading and Writing",""),
-            new ExampleData("Updating UI Elements",""),
-            new ExampleData("Mouse Automation", "MouseAutomation.lua")
+            new ExampleData("File Reading and Writing","ExampleFileReadingAndWriting.lua"),
+            new ExampleData("Updating UI Elements","ExampleUpdateUiElements.lua"),
+            new ExampleData("Mouse Automation", "ExampleMouseAutomation.lua")
         };
 
         public ExamplesDialog()

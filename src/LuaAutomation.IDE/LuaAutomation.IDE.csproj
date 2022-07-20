@@ -13,10 +13,14 @@
 
 	<ItemGroup>
 		<None Remove="Assets\app.png" />
+		<None Remove="Resources\ExampleClickOnARunningApplication.lua" />
+		<None Remove="Resources\ExampleFileReadingAndWriting.lua" />
+		<None Remove="Resources\ExampleFindAWindowByProcessName.lua" />
 		<None Remove="Resources\ExampleForLoop.lua" />
+		<None Remove="Resources\ExampleMouseAutomation.lua" />
+		<None Remove="Resources\ExampleUpdateUiElements.lua" />
 		<None Remove="Resources\ExampleWhileLoop.lua" />
 		<None Remove="Resources\LuaDarkTheme.xshd" />
-		<None Remove="Resources\MouseAutomation.lua" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -24,10 +28,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="Resources\ExampleClickOnARunningApplication.lua" />
+		<EmbeddedResource Include="Resources\ExampleFileReadingAndWriting.lua" />
+		<EmbeddedResource Include="Resources\ExampleFindAWindowByProcessName.lua" />
 		<EmbeddedResource Include="Resources\ExampleForLoop.lua" />
+		<EmbeddedResource Include="Resources\ExampleUpdateUiElements.lua" />
 		<EmbeddedResource Include="Resources\ExampleWhileLoop.lua" />
 		<EmbeddedResource Include="Resources\LuaDarkTheme.xshd" />
-		<EmbeddedResource Include="Resources\MouseAutomation.lua" />
+		<EmbeddedResource Include="Resources\ExampleMouseAutomation.lua" />
 	</ItemGroup>
 
 	<ItemGroup>
