@@ -57,9 +57,6 @@ namespace LuaAutomation
 
         private async void App_OnExit(object sender, ExitEventArgs e)
         {
-            // Make sure to show the mouse when we exit in case a script hid it.
-            Mouse.MouseShow();
-
             var appSettings = AppServices.GetRequiredService<AppSettings>() ?? new AppSettings();
 
             // Make sure the there's no cross thread errors saving the file since this has bindable
