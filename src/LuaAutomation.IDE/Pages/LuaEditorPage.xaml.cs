@@ -117,6 +117,14 @@ namespace LuaAutomation.Pages
                 UserData.RegisterType(uiCommands.GetType());
             }
 
+            var fileCommands = new FileScriptCommands();
+
+            // Register the type if it's not already registered.
+            if (!UserData.IsTypeRegistered(fileCommands.GetType()))
+            {
+                UserData.RegisterType(fileCommands.GetType());
+            }
+
             UserData.RegisterType<Rect>();
 
             // Setup the initial state of button that is not the default.
@@ -128,6 +136,7 @@ namespace LuaAutomation.Pages
             this.Script.Options.CheckThreadAccess = false;
             this.Script.Globals.Set("mouse", UserData.Create(mouseCommands));
             this.Script.Globals.Set("ui", UserData.Create(uiCommands));
+            this.Script.Globals.Set("file", UserData.Create(fileCommands));
 
             // Redirect any inputs or outputs to where we want them to go.
             this.Script.Options.DebugPrint = s => uiCommands.Log(s);
@@ -495,6 +504,7 @@ namespace LuaAutomation.Pages
                     // Construct our custom highlighting rule via reflection.
                     var t = typeof(MouseScriptCommands);
                     var ui = typeof(UIScriptCommands);
+                    var file = typeof(FileScriptCommands);
 
                     var sb = StringBuilderPool.Take();
                     sb.Append(@"\b(");
@@ -507,6 +517,11 @@ namespace LuaAutomation.Pages
                     }
 
                     foreach (var method in ui.GetMethods().Where(m => m.DeclaringType != typeof(object)))
+                    {
+                        sb.AppendFormat("{0}|", method.Name);
+                    }
+
+                    foreach (var method in file.GetMethods().Where(m => m.DeclaringType != typeof(object)))
                     {
                         sb.AppendFormat("{0}|", method.Name);
                     }
@@ -537,7 +552,7 @@ namespace LuaAutomation.Pages
 
             string word = GetWordBefore(Editor);
 
-            if (word == "mouse" || word == "ui")
+            if (word == "mouse" || word == "ui" || word == "file")
             {
                 // Open code completion after the user has pressed dot
                 _completionWindow = new CompletionWindow(Editor.TextArea);

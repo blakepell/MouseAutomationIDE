@@ -8,6 +8,7 @@
 - Ability to accept a file as a startup parameter to load
 - More example programs
 - Filter search on programs dialog
+- global variables
 
 #### Filter Code
 

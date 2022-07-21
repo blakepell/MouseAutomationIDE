@@ -31,6 +31,9 @@ namespace LuaAutomation.Pages
             var ui = typeof(UIScriptCommands);
             docs.AddHtmlDoc("UI", ui);
 
+            var file = typeof(FileScriptCommands);
+            docs.AddHtmlDoc("File", file);
+
             WebBrowser.NavigateToString(docs.Generate());
         }
     }
