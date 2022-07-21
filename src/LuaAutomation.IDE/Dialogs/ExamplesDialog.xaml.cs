@@ -80,6 +80,10 @@ namespace LuaAutomation.Dialogs
 
             page.Editor.Text = result;
             this.Close();
+
+            // Change the focus to the Lua editor after inserting the code.
+            var win = AppServices.GetRequiredService<MainWindow>();
+            win.RootNavigation.Navigate("LuaEditorPage");
         }
     }
 }
