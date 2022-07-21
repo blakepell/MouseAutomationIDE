@@ -10,6 +10,11 @@
 		<Version>2022.7.16.1</Version>
 		<AssemblyName>LuaAutomation.IDE</AssemblyName>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Company>Blake Pell</Company>
+		<Description>Application for recording, coding and running Lua scripts focusing on macro type creation.</Description>
+		<Copyright>2003-2022</Copyright>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>lua automation macro</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
